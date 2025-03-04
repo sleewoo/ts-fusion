@@ -1,26 +1,16 @@
-import { Project, TypeFormatFlags } from "ts-morph";
+import { type SourceFile, Project, TypeFormatFlags } from "ts-morph";
 import crc from "crc/crc32";
 import handlebars from "handlebars";
 
 import virtualSourceTpl from "./templates/virtual-source.hbs";
 
-type FileOpt = {
-  path: string;
-  types?: Array<string>;
-};
-
-type FileMap = Record<
-  string, // file path, as in files
-  string // file types, fusioned
->;
-
 export default async (
   tsConfigFilePathOrProject: string | Project,
-  files: Array<string | FileOpt>,
+  file: string | SourceFile,
   opts?: {
-    include?: Array<string>;
+    typesFilter?: (typeName: string) => boolean;
   },
-): Promise<FileMap> => {
+): Promise<string> => {
   const project =
     typeof tsConfigFilePathOrProject === "string"
       ? new Project({
@@ -29,26 +19,20 @@ export default async (
         })
       : tsConfigFilePathOrProject;
 
-  for (const file of opts?.include || []) {
-    project.addSourceFileAtPath(file);
-  }
-
-  const createVirtualSourceFile = async (file: FileOpt) => {
-    let sourceFile = project.getSourceFile(file.path);
-
-    if (sourceFile) {
-      // this is an absolutelly must, even if it is adding considerable overhead
-      await sourceFile.refreshFromFileSystem();
-    } else {
-      sourceFile = project.addSourceFileAtPath(file.path);
-    }
+  const createVirtualSourceFile = async () => {
+    const sourceFile =
+      typeof file === "string"
+        ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
+        : file;
 
     const sourceTypes = sourceFile.getTypeAliases().flatMap((e) => {
       if (!e.isExported()) {
         return [];
       }
       const name = e.getName();
-      return !file.types || file.types.includes?.(name) ? [{ name }] : [];
+      return !opts?.typesFilter || opts.typesFilter(name) //
+        ? [{ name }]
+        : [];
     });
 
     const virtualSourceCode = render<{
@@ -56,61 +40,57 @@ export default async (
       discriminationKey: string;
       sourceTypes: Array<{ name: string }>;
     }>(virtualSourceTpl, {
-      sourceFile: file.path.replace(/\.ts$/, ""),
-      discriminationKey: `@[${crc(JSON.stringify(file))}]`,
+      sourceFile: sourceFile.getFilePath().replace(/\.ts$/, ""),
+      discriminationKey: `@[${crc(JSON.stringify(sourceTypes))}]`,
       sourceTypes,
     });
 
-    return project.createSourceFile(
-      `./__${crc(file.path + virtualSourceCode)}__.ts`,
-      virtualSourceCode,
-    );
+    const fileBase = [
+      crc(sourceFile.getFilePath()),
+      crc(JSON.stringify(sourceTypes)),
+      new Date().getTime(),
+    ].join("_");
+
+    return project.createSourceFile(`./__${fileBase}.ts`, virtualSourceCode);
   };
 
-  const fileMap: FileMap = {};
+  const sourceFile = await createVirtualSourceFile();
 
-  for (const file of files.map((e) => {
-    return typeof e === "string" ? { path: e } : e;
-  })) {
-    const sourceFile = await createVirtualSourceFile(file);
+  const sourceTypes = sourceFile.getTypeAliases().filter((e) => e.isExported());
 
-    const sourceTypes = sourceFile
-      .getTypeAliases()
-      .filter((e) => e.isExported());
+  const fileBase = [
+    crc(sourceFile.getFilePath()),
+    crc(JSON.stringify(sourceTypes.map((e) => e.getName()))),
+    new Date().getTime(),
+  ].join("_");
 
-    const outFile = project.createSourceFile(
-      `./__${crc(file.path + sourceTypes.map((e) => e.getName()).join(":"))}__.ts`,
+  const outFile = project.createSourceFile(`./__${fileBase}.ts`);
+
+  for (const sourceType of sourceTypes) {
+    const type = sourceType.getType().getText(
+      undefined,
+      TypeFormatFlags.NoTruncation |
+        TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
+        // needed to correctly handle unions
+        TypeFormatFlags.NodeBuilderFlagsMask,
     );
-
-    for (const sourceType of sourceTypes) {
-      const compiledType = sourceType.getType().getText(
-        undefined,
-        TypeFormatFlags.NoTruncation |
-          TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
-          // needed to correctly handle unions
-          TypeFormatFlags.NodeBuilderFlagsMask,
-      );
-
-      outFile.addTypeAlias({
-        name: sourceType.getName(),
-        isExported: sourceType.isExported(),
-        isDefaultExport: sourceType.isDefaultExport(),
-        hasDeclareKeyword: sourceType.hasDeclareKeyword(),
-        type: compiledType,
-      });
-    }
-
-    const compiledTypes = outFile.getText();
-
-    // cleanup
-    for (const file of [sourceFile, outFile]) {
-      project.removeSourceFile(file);
-    }
-
-    fileMap[file.path] = compiledTypes;
+    outFile.addTypeAlias({
+      name: sourceType.getName(),
+      isExported: sourceType.isExported(),
+      isDefaultExport: sourceType.isDefaultExport(),
+      hasDeclareKeyword: sourceType.hasDeclareKeyword(),
+      type,
+    });
   }
 
-  return fileMap;
+  const compiledTypes = outFile.getText();
+
+  // cleanup
+  for (const file of [sourceFile, outFile]) {
+    project.removeSourceFile(file);
+  }
+
+  return compiledTypes;
 };
 
 const render = <Context = object>(
