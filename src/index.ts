@@ -37,6 +37,7 @@ export default async (
     let sourceFile = project.getSourceFile(file.path);
 
     if (sourceFile) {
+      // this is an absolutelly must, even if it is adding considerable overhead
       await sourceFile.refreshFromFileSystem();
     } else {
       sourceFile = project.addSourceFileAtPath(file.path);
@@ -82,14 +83,13 @@ export default async (
     );
 
     for (const sourceType of sourceTypes) {
-      //
-      const compiledType = sourceType
-        .getType()
-        .getText(
-          undefined,
-          TypeFormatFlags.NoTruncation |
-            TypeFormatFlags.UseAliasDefinedOutsideCurrentScope,
-        );
+      const compiledType = sourceType.getType().getText(
+        undefined,
+        TypeFormatFlags.NoTruncation |
+          TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
+          // needed to correctly handle unions
+          TypeFormatFlags.NodeBuilderFlagsMask,
+      );
 
       outFile.addTypeAlias({
         name: sourceType.getName(),
