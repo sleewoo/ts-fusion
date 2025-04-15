@@ -1,103 +1,836 @@
-import { type SourceFile, Project, TypeFormatFlags } from "ts-morph";
-import crc from "crc/crc32";
-import handlebars from "handlebars";
+import { format } from "node:util";
 
-import virtualSourceTpl from "./templates/virtual-source.hbs";
+import {
+  type Type,
+  type SourceFile,
+  type TypeNode,
+  type ArrayTypeNode,
+  type Signature,
+  Project,
+  SyntaxKind,
+  TypeFlags,
+} from "ts-morph";
 
-export default async (
+import builtins from "./builtins";
+
+type ManagedSignatures =
+  | "symbol"
+  | "void"
+  | "object"
+  | "conditionalType"
+  | "optionalType"
+  | "parenthesizedType"
+  | "indexedAccessType"
+  | "mappedType"
+  | "typeOperator"
+  | "typeReference"
+  | "typeLiteral"
+  | "union"
+  | "intersection"
+  | "tuple"
+  | "array"
+  | "functionSignature";
+
+type TraverseData = {
+  typeNode: TypeNode;
+  type: Type;
+  typeParameters?: Record<string, string> | undefined;
+};
+
+type Traverse = (factorySettings: TraverseData, indentLevel?: number) => string;
+
+type Next = (t: Type) => string;
+
+type HandlerStack = Record<
+  `${ManagedSignatures}Handler`,
+  (
+    traverseData: TraverseData,
+    indentLevel: number,
+  ) => undefined | (() => string)
+>;
+
+type UserOptions = {
+  /**
+   * by default all exported types will be processed.
+   * use this filter to only process specific types.
+   */
+  typesFilter?: (typeName: string) => boolean;
+  /**
+   * a map of types to override default name for.
+   *
+   * eg. you have a CustomPromise type that should be rendered as native Promise:
+   *    import { CustomPromise } from "@/lib";
+   *    export type ResponseHandler = () => CustomPromise<...>
+   *
+   * then add CustomPromise to `overrides`:
+   *    overrides: {
+   *      CustomPromise: "Promise",
+   *    }
+   *
+   * and the flattened result will be:
+   *    export type ResponseHandler = () => Promise<...>
+   * */
+  overrides?: Record<string, string>;
+  /**
+   * limit recursion to this level depth.
+   * default: 9 */
+  maxDepth?: number;
+};
+
+export default (
+  // either a project or path to tsconfig.json
   tsConfigFilePathOrProject: string | Project,
+  // either sourceFile or path to file
   file: string | SourceFile,
-  opts?: {
-    typesFilter?: (typeName: string) => boolean;
-  },
-): Promise<string> => {
+  opts?: UserOptions,
+) => {
   const project =
     typeof tsConfigFilePathOrProject === "string"
       ? new Project({
           tsConfigFilePath: tsConfigFilePathOrProject,
           skipAddingFilesFromTsConfig: true,
+          compilerOptions: { skipLibCheck: true },
         })
       : tsConfigFilePathOrProject;
 
-  const createVirtualSourceFile = async () => {
-    const sourceFile =
-      typeof file === "string"
-        ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
-        : file;
+  const sourceFile =
+    typeof file === "string"
+      ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
+      : file;
 
-    const sourceTypes = sourceFile.getTypeAliases().flatMap((e) => {
-      if (!e.isExported()) {
+  const traverse = traverseFactory(opts);
+
+  return sourceFile
+    .getTypeAliases()
+    .flatMap((typeAlias) => {
+      if (!typeAlias.isExported()) {
         return [];
       }
-      const name = e.getName();
-      return !opts?.typesFilter || opts.typesFilter(name) //
-        ? [{ name }]
-        : [];
-    });
 
-    const virtualSourceCode = render<{
-      sourceFile: string;
-      discriminationKey: string;
-      sourceTypes: Array<{ name: string }>;
-    }>(virtualSourceTpl, {
-      sourceFile: sourceFile.getFilePath().replace(/\.ts$/, ""),
-      discriminationKey: `@[${crc(JSON.stringify(sourceTypes))}]`,
-      sourceTypes,
-    });
+      const typeNode = typeAlias.getTypeNode();
 
-    const fileBase = [
-      crc(sourceFile.getFilePath()),
-      crc(JSON.stringify(sourceTypes)),
-      new Date().getTime(),
-    ].join("_");
+      if (!typeNode) {
+        return [];
+      }
 
-    return project.createSourceFile(`./__${fileBase}.ts`, virtualSourceCode);
+      const typeName = typeAlias.getName();
+
+      const type = typeAlias.getType();
+
+      const typeParameters = typeAlias.getTypeParameters().map((param) => {
+        return param
+          .getChildren() // forEachChild is not suitable here
+          .map((e) =>
+            e.isKind(SyntaxKind.TypeReference)
+              ? traverse({ typeNode: e, type: e.getType() })
+              : e.getText(),
+          )
+          .join(" ");
+      });
+
+      if (!opts?.typesFilter || opts.typesFilter(typeName)) {
+        return typeParameters.length
+          ? [
+              format(
+                "export type %s<%s> = %s;\n",
+                typeName,
+                typeParameters.join(", "),
+                traverse({
+                  typeNode,
+                  type,
+                  typeParameters: typeParameters.reduce(
+                    (map: Record<string, string>, name) => {
+                      map[name] = name;
+                      return map;
+                    },
+                    {},
+                  ),
+                }),
+              ),
+            ]
+          : [
+              format(
+                "export type %s = %s;\n",
+                typeName,
+                traverse({ typeNode, type }),
+              ),
+            ];
+      }
+
+      return [];
+    })
+    .join("\n");
+};
+
+const traverseFactory = (opts: UserOptions | undefined): Traverse => {
+  const overrides: Record<string, string> = {
+    ...builtins,
+    ...opts?.overrides,
   };
 
-  const sourceFile = await createVirtualSourceFile();
+  const { maxDepth = 9 } = { ...opts };
 
-  const sourceTypes = sourceFile.getTypeAliases().filter((e) => e.isExported());
+  const traverse: Traverse = (factorySettings, factoryIndentLevel = 1) => {
+    if (factoryIndentLevel > maxDepth) {
+      return `"..."`;
+    }
 
-  const fileBase = [
-    crc(sourceFile.getFilePath()),
-    crc(JSON.stringify(sourceTypes.map((e) => e.getName()))),
-    new Date().getTime(),
-  ].join("_");
+    /**
+     * render next type using same typeNode, without typeParameters.
+     * use traverse to render with typeParameters.
+     */
+    const next: Next = (type) => {
+      return traverse(
+        {
+          typeNode: factorySettings.typeNode,
+          type,
+        },
+        factoryIndentLevel + 1,
+      );
+    };
 
-  const outFile = project.createSourceFile(`./__${fileBase}.ts`);
+    const renderCallSignature = (
+      signature: Signature,
+      traverse: Traverse,
+    ): [Array<string>, string] => {
+      const declaration = signature.getDeclaration();
 
-  for (const sourceType of sourceTypes) {
-    const type = sourceType.getType().getText(
-      undefined,
-      TypeFormatFlags.NoTruncation |
-        TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
-        // needed to correctly handle unions
-        TypeFormatFlags.NodeBuilderFlagsMask,
-    );
-    outFile.addTypeAlias({
-      name: sourceType.getName(),
-      isExported: sourceType.isExported(),
-      isDefaultExport: sourceType.isDefaultExport(),
-      hasDeclareKeyword: sourceType.hasDeclareKeyword(),
-      type,
-    });
-  }
+      const parameters = declaration
+        .getChildrenOfKind(SyntaxKind.Parameter)
+        .map((param) => {
+          const paramTypeNode = param.getTypeNode();
 
-  const compiledTypes = outFile.getText();
+          const value = paramTypeNode
+            ? traverse({
+                typeNode: paramTypeNode,
+                type: paramTypeNode.getType(),
+              })
+            : "unknown /** unknown param node */";
 
-  // cleanup
-  for (const file of [sourceFile, outFile]) {
-    project.removeSourceFile(file);
-  }
+          return param.isRestParameter()
+            ? format("...%s: %s", param.getName(), value)
+            : format(
+                "%s%s: %s",
+                param.getName(),
+                param.hasQuestionToken() ? "?" : "",
+                value,
+              );
+        });
 
-  return compiledTypes;
+      const returnTypeNode = declaration.getReturnTypeNode();
+
+      const returnType = returnTypeNode
+        ? traverse({
+            typeNode: returnTypeNode,
+            type: returnTypeNode.getType(),
+          })
+        : "unknown /** unknown return type */";
+
+      return [parameters, returnType];
+    };
+
+    const handlerStack: HandlerStack = {
+      symbolHandler({ type }) {
+        return type.getFlags() & (TypeFlags.ESSymbol | TypeFlags.UniqueESSymbol)
+          ? () => "symbol"
+          : undefined;
+      },
+
+      voidHandler({ typeNode }) {
+        return typeNode.isKind(SyntaxKind.VoidKeyword)
+          ? () => "void"
+          : undefined;
+      },
+
+      objectHandler({ typeNode }) {
+        return typeNode.isKind(SyntaxKind.ObjectKeyword)
+          ? () => "object"
+          : undefined;
+      },
+
+      conditionalTypeHandler({ typeNode }) {
+        return typeNode.isKind(SyntaxKind.ConditionalType)
+          ? () => typeNode.getText()
+          : undefined;
+      },
+
+      optionalTypeHandler({ typeNode, typeParameters }, indentLevel) {
+        return typeNode.isKind(SyntaxKind.OptionalType)
+          ? () => {
+              const [innerType] = typeNode.forEachChildAsArray();
+              return traverse(
+                {
+                  typeNode: innerType as TypeNode,
+                  type: innerType.getType(),
+                  typeParameters,
+                },
+                indentLevel,
+              );
+            }
+          : undefined;
+      },
+
+      parenthesizedTypeHandler({ typeNode, typeParameters }, indentLevel) {
+        return typeNode.isKind(SyntaxKind.ParenthesizedType)
+          ? () => {
+              const [innerType] = typeNode.forEachChildAsArray();
+              return traverse(
+                {
+                  typeNode: innerType as TypeNode,
+                  type: innerType.getType(),
+                  typeParameters,
+                },
+                indentLevel,
+              );
+            }
+          : undefined;
+      },
+
+      indexedAccessTypeHandler({ typeNode, typeParameters }) {
+        return typeNode.isKind(SyntaxKind.IndexedAccessType)
+          ? () => {
+              const objectTypeNode = typeNode.getObjectTypeNode();
+              const indexTypeNode = typeNode.getIndexTypeNode();
+              return format(
+                "%s[%s]",
+                traverse({
+                  typeNode: objectTypeNode,
+                  type: objectTypeNode.getType(),
+                  typeParameters,
+                }),
+                traverse({
+                  typeNode: indexTypeNode,
+                  type: indexTypeNode.getType(),
+                  typeParameters,
+                }),
+              );
+            }
+          : undefined;
+      },
+
+      mappedTypeHandler({ typeNode }) {
+        return typeNode.isKind(SyntaxKind.MappedType)
+          ? () => {
+              const mappedTypeParameter = typeNode.getTypeParameter();
+
+              const mappedTypeConstraint = mappedTypeParameter.getConstraint();
+
+              const mappedTypeNode = typeNode.getTypeNode();
+
+              return format(
+                "{ [%s in %s]: %s }",
+                mappedTypeParameter.getNameNode().getText(),
+                mappedTypeConstraint
+                  ? traverse({
+                      typeNode: mappedTypeConstraint,
+                      type: mappedTypeConstraint.getType(),
+                    })
+                  : "unknown /** unresolved mapped type constraint */",
+                mappedTypeNode
+                  ? traverse({
+                      typeNode: mappedTypeNode,
+                      type: mappedTypeNode?.getType(),
+                    })
+                  : "unknown /** unresolved mapped type node */",
+              );
+            }
+          : undefined;
+      },
+
+      typeOperatorHandler({ typeNode, typeParameters }, indentLevel) {
+        return typeNode.isKind(SyntaxKind.TypeOperator)
+          ? () => {
+              let template = "%s";
+
+              if (typeNode.getFirstChildByKind(SyntaxKind.KeyOfKeyword)) {
+                template = "keyof %s";
+              }
+
+              if (typeNode.getFirstChildByKind(SyntaxKind.ReadonlyKeyword)) {
+                template = "readonly %s";
+              }
+
+              const innertTypeNode = typeNode.getTypeNode();
+
+              return format(
+                template,
+                traverse(
+                  {
+                    typeNode: innertTypeNode as TypeNode,
+                    type: innertTypeNode.getType(),
+                    typeParameters,
+                  },
+                  indentLevel,
+                ),
+              );
+            }
+          : undefined;
+      },
+
+      typeReferenceHandler({ typeNode, type, typeParameters }) {
+        return typeNode.isKind(SyntaxKind.TypeReference)
+          ? () => {
+              const aliasSymbol =
+                type.getAliasSymbol() ??
+                type.getSymbol() ??
+                type.getTargetType()?.getSymbol();
+
+              const aliasName = aliasSymbol?.getName();
+
+              if (aliasName && typeParameters?.[aliasName]) {
+                return typeParameters[aliasName];
+              }
+
+              const typeArguments = typeNode.getTypeArguments().map((param) => {
+                return traverse({ typeNode: param, type: param.getType() });
+              });
+
+              if (aliasName && overrides[aliasName]) {
+                return typeArguments.length
+                  ? format(
+                      "%s<%s>",
+                      overrides[aliasName],
+                      typeArguments.join(", "),
+                    )
+                  : overrides[aliasName];
+              }
+
+              const aliasDeclaration = aliasSymbol
+                ?.getDeclarations()
+                ?.find((e) => e.isKind(SyntaxKind.TypeAliasDeclaration));
+
+              const aliasNode = aliasDeclaration
+                ? aliasDeclaration.getTypeNode()
+                : undefined;
+
+              if (aliasNode) {
+                return traverse({
+                  typeNode: aliasNode,
+                  type: aliasNode.getType(),
+                  typeParameters: aliasDeclaration
+                    ?.getTypeParameters()
+                    .reduce((map: Record<string, string>, param, i) => {
+                      map[param.getName()] = typeArguments[i];
+                      return map;
+                    }, {}),
+                });
+              }
+
+              /**
+               * if no alias, most likely the target type got "hard" flattened by TypeScript.
+               *
+               * some "complex" types are flattened and losing symbol, eg:
+               * type Re16 = readonly [number, ...(readonly boolean[])];
+               * type RT05 = [header: string, ...rows: Array<string[]>];
+               *
+               * TypeScript treats these types as a synthetic structural type (not a direct alias).
+               * These types loses alias symbol because considered a "compound" type.
+               *
+               * The only way, for now, to render these types is to rely on getText.
+               * With one caveat: if they have references to another types,
+               * they wont be resolved, rather rendered as is.
+               * */
+
+              return format("/** unresolved */ %s", typeNode.getText());
+            }
+          : undefined;
+      },
+
+      typeLiteralHandler({ typeNode, type, typeParameters }, indentLevel) {
+        return typeNode.isKind(SyntaxKind.TypeLiteral)
+          ? () => {
+              /**
+               * including string/number index signatures, without comments:
+               *    Record<string, ...>
+               *    { [key: string]: ... }
+               *    Record<number, ...>
+               *    { [key: number]: ... }
+               *
+               * ignoring template index signatures:
+               *     Record<`some_${string}`, ...>
+               *     { [key: `some_${string}`]: ... }
+               */
+              const numberIndexSignature = type.getNumberIndexType();
+              const stringIndexSignature = type.getStringIndexType();
+
+              /**
+               * including construct signatures, without comments:
+               *    export type Constructable = {
+               *      new (...): ...;
+               *    }
+               * */
+              const constructSignatures = type.getConstructSignatures();
+
+              /**
+               * including method signatures, with comments (jsDoc format only):
+               *    export type ObjectWithMethods = {
+               *      calculate(...): ...;
+               *    }
+               * */
+              const methodSignatures = typeNode
+                .getChildrenOfKind(SyntaxKind.MethodSignature)
+                .map((methodSignature) => {
+                  return {
+                    name: methodSignature.getName(),
+                    signatures: methodSignature.getType().getCallSignatures(),
+                    comments: methodSignature
+                      .getJsDocs()
+                      .map((e) => e.getText().trim()),
+                  };
+                });
+
+              /**
+               * including regular properties, with comments (jsDoc format only)
+               * */
+              const propertySignatures = typeNode
+                .getChildrenOfKind(SyntaxKind.PropertySignature)
+                .map((propertySignature) => {
+                  const propertySymbol = propertySignature.getSymbol();
+                  const propertyTypeNode = propertySignature.getTypeNode();
+                  return {
+                    name: propNameWrapper(propertySignature.getName(), {
+                      isOptional: propertySymbol?.isOptional() || false,
+                    }),
+                    value: propertyTypeNode
+                      ? traverse(
+                          {
+                            typeNode: propertyTypeNode,
+                            type: propertyTypeNode.getType(),
+                            typeParameters,
+                          },
+                          indentLevel,
+                        )
+                      : "unknown /** unknown property signature */",
+                    comments: propertySignature
+                      .getJsDocs()
+                      .map((e) => e.getText().trim()),
+                  };
+                });
+
+              const hunks: Array<string> = [
+                ...(numberIndexSignature
+                  ? [format("[k: number]: %s", next(numberIndexSignature))]
+                  : []),
+                ...(stringIndexSignature
+                  ? [format("[k: string]: %s", next(stringIndexSignature))]
+                  : []),
+              ];
+
+              for (const signature of constructSignatures) {
+                const [parameters, returnType] = renderCallSignature(
+                  signature,
+                  (data) => traverse({ ...data, typeParameters }),
+                );
+                hunks.push(
+                  format(
+                    "new (%s): %s", //
+                    parameters.join(", "),
+                    returnType,
+                  ),
+                );
+              }
+
+              for (const { name, signatures, comments } of methodSignatures) {
+                for (const signature of signatures) {
+                  const [parameters, returnType] = renderCallSignature(
+                    signature,
+                    (data) => traverse({ ...data, typeParameters }),
+                  );
+                  hunks.push(
+                    [
+                      ...comments,
+                      format(
+                        `${name}(%s): %s`,
+                        parameters.join(", "),
+                        returnType,
+                      ),
+                    ].join("\n"),
+                  );
+                }
+              }
+
+              for (const { name, value, comments } of propertySignatures) {
+                hunks.push(
+                  [
+                    //
+                    ...comments,
+                    format("%s: %s", name, value),
+                  ].join("\n"),
+                );
+              }
+
+              return format(
+                hunks.length ? "{\n%s\n}" : "{%s}",
+                hunks.map((e) => indent(e)).join(";\n"),
+              );
+            }
+          : undefined;
+      },
+
+      unionHandler({ typeNode, typeParameters }, indentLevel) {
+        return typeNode.isKind(SyntaxKind.UnionType)
+          ? () => {
+              /**
+               * type.getUnionTypes() is dropping undefined elements.
+               * using typeNode.forEachChildAsArray() to get original user input.
+               * */
+              return typeNode
+                .forEachChildAsArray()
+                .map((typeNode) => {
+                  return traverse(
+                    {
+                      typeNode: typeNode as TypeNode,
+                      type: typeNode.getType(),
+                      typeParameters,
+                    },
+                    indentLevel,
+                  );
+                })
+                .join(" | ");
+            }
+          : undefined;
+      },
+
+      intersectionHandler({ typeNode, typeParameters }, indentLevel) {
+        return typeNode.isKind(SyntaxKind.IntersectionType)
+          ? () => {
+              /** type.getIntersectionTypes() is converting whole type to undefined
+               * if it contains an undefined element.
+               * using typeNode.forEachChildAsArray() to get original user input.
+               * */
+              return typeNode
+                .forEachChildAsArray()
+                .map((intersectionTypeNode) => {
+                  return traverse(
+                    {
+                      typeNode: intersectionTypeNode as TypeNode,
+                      type: intersectionTypeNode.getType(),
+                      typeParameters,
+                    },
+                    indentLevel,
+                  );
+                })
+                .join(" & ");
+            }
+          : undefined;
+      },
+
+      tupleHandler({ typeNode, typeParameters }, indentLevel) {
+        return typeNode.isKind(SyntaxKind.TupleType)
+          ? () => {
+              const elements = typeNode.getElements().map((element) => {
+                const isOptional = element.isKind(SyntaxKind.OptionalType);
+                let isRest = element.isKind(SyntaxKind.RestType);
+
+                let name: string | undefined;
+                let value = "unknown /** unknown tuple element signature */";
+
+                if (element.isKind(SyntaxKind.NamedTupleMember)) {
+                  name = element.hasQuestionToken()
+                    ? format("%s?", element.getName())
+                    : element.getName();
+
+                  const elementTypeNode = element.getTypeNode();
+
+                  value = traverse({
+                    typeNode: elementTypeNode,
+                    type: elementTypeNode.getType(),
+                    typeParameters,
+                  });
+
+                  if (element.getFirstChildByKind(SyntaxKind.DotDotDotToken)) {
+                    isRest = true;
+                  }
+                } else if (element.isKind(SyntaxKind.RestType)) {
+                  const parenthesizedType = element.getFirstChildByKind(
+                    SyntaxKind.ParenthesizedType,
+                  );
+                  if (parenthesizedType) {
+                    const innertTypeNode = parenthesizedType.getTypeNode();
+                    value = format(
+                      "(%s)",
+                      traverse({
+                        typeNode: innertTypeNode,
+                        type: innertTypeNode.getType(),
+                        typeParameters,
+                      }),
+                    );
+                  } else {
+                    const elementTypeNode = element.getTypeNode();
+                    value = traverse({
+                      typeNode: elementTypeNode,
+                      type: elementTypeNode.getType(),
+                      typeParameters,
+                    });
+                  }
+                } else {
+                  value = traverse(
+                    {
+                      typeNode: element,
+                      type: element.getType(),
+                      typeParameters,
+                    },
+                    indentLevel,
+                  );
+                }
+
+                if (isRest) {
+                  return indent(
+                    name
+                      ? format("...%s: %s", name, value)
+                      : format("...%s", value),
+                  );
+                }
+
+                return indent(
+                  name
+                    ? format("%s: %s", name, value)
+                    : isOptional
+                      ? format("(%s)?", value)
+                      : value,
+                );
+              });
+
+              return format(
+                elements.length ? "[\n%s\n]" : "[%s]",
+                elements.join(",\n"),
+              );
+            }
+          : undefined;
+      },
+
+      arrayHandler({ typeNode, typeParameters }, indentLevel) {
+        return typeNode.isKind(SyntaxKind.ArrayType)
+          ? () => {
+              /**
+               * getTypeNode() does not seem to work here.
+               * getFirstChild() may return artefacts.
+               * */
+              let [arrayTypeNode] = typeNode.forEachChildAsArray() as [
+                ArrayTypeNode,
+                ...unknown[],
+              ];
+
+              let isParenthesized = false;
+
+              if (arrayTypeNode?.isKind(SyntaxKind.ParenthesizedType)) {
+                /**
+                 * getFirstChild() returns OpenParenToken, so using forEachChildAsArray()
+                 * (ParenthesizedType can not have multiple elements anyway)
+                 * not sure about getTypeNode() in this context.
+                 * */
+                arrayTypeNode = (
+                  arrayTypeNode.forEachChildAsArray() as [
+                    ArrayTypeNode,
+                    ...unknown[],
+                  ]
+                )[0];
+
+                isParenthesized = true;
+              }
+
+              if (!arrayTypeNode) {
+                return "unknown /** unknown array signature */";
+              }
+
+              return format(
+                isParenthesized //
+                  ? "(%s)[]"
+                  : "%s[]",
+                traverse(
+                  {
+                    typeNode: arrayTypeNode as TypeNode,
+                    type: arrayTypeNode.getType(),
+                    typeParameters,
+                  },
+                  indentLevel,
+                ),
+              );
+            }
+          : undefined;
+      },
+
+      functionSignatureHandler({ type, typeParameters }) {
+        const callSignatures = type.getCallSignatures();
+
+        // if type has call signatures, it is definitelly a function, is not it?
+        return callSignatures.length
+          ? () => {
+              const signatures = callSignatures.map((signature) => {
+                const [parameters, returnType] = renderCallSignature(
+                  signature,
+                  (data) => traverse({ ...data, typeParameters }),
+                );
+                return format(
+                  callSignatures.length > 1 //
+                    ? "(%s): %s"
+                    : "(%s) => %s",
+                  parameters.join(", "),
+                  returnType,
+                );
+              });
+
+              return format(
+                callSignatures.length > 1 //
+                  ? "{\n%s\n}"
+                  : "(%s)",
+                signatures.join("\n"),
+              );
+            }
+          : undefined;
+      },
+    };
+
+    for (const key of Object.keys(handlerStack) as Array<keyof HandlerStack>) {
+      const handler = handlerStack[key](factorySettings, factoryIndentLevel);
+      if (handler) {
+        return handler();
+      }
+    }
+
+    // if no handler matched so far, perhaps it's a primitive value
+    if (isPrimitive(factorySettings.type)) {
+      return factorySettings.type.getText(factorySettings.typeNode);
+    }
+
+    return "unknown";
+  };
+
+  return traverse;
 };
 
-const render = <Context = object>(
-  template: string,
-  context: Context,
-  options?: { noEscape?: boolean },
-): string => {
-  const { noEscape = true } = { ...options };
-  return handlebars.compile(template, { noEscape })(context);
+const isPrimitive = (type: Type) => {
+  return [
+    type.isBoolean,
+    type.isBooleanLiteral,
+    type.isNumber,
+    type.isNumberLiteral,
+    type.isBigInt,
+    type.isString,
+    type.isStringLiteral,
+    type.isUndefined,
+    type.isNull,
+    type.isUnknown,
+    type.isAny,
+    type.isNever,
+  ].some((e) => e.call(type));
 };
+
+const propNameWrapper = (
+  propName: string,
+  flags?: { isOptional?: boolean },
+) => {
+  let name = propName;
+
+  if (/[^\w]/.test(name) || /^\d/.test(name) || name === "") {
+    name = `"${name}"`;
+  }
+
+  if (flags?.isOptional) {
+    name = `${name}?`;
+  }
+
+  return name;
+};
+
+const indent = (text: string, l = 1) => text.replace(/^/gm, " ".repeat(l * 2));
