@@ -823,7 +823,7 @@ const propNameWrapper = (
   let name = propName;
 
   if (/[^\w]/.test(name) || /^\d/.test(name) || name === "") {
-    name = `"${name}"`;
+    name = /^"|^'/.test(name) ? name : `"${name}"`;
   }
 
   if (flags?.isOptional) {
