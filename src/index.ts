@@ -508,14 +508,33 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                   };
                 });
 
-              const hunks: Array<string> = [
-                ...(numberIndexSignature
-                  ? [format("[k: number]: %s", next(numberIndexSignature))]
-                  : []),
-                ...(stringIndexSignature
-                  ? [format("[k: string]: %s", next(stringIndexSignature))]
-                  : []),
-              ];
+              const hunks: Array<string> = [];
+
+              for (const [indexSignature, template] of [
+                [numberIndexSignature, "[k: number]: %s"],
+                [stringIndexSignature, "[k: string]: %s"],
+              ] as Array<[Type, string]>) {
+                if (indexSignature) {
+                  const declaration = indexSignature
+                    .getSymbol()
+                    ?.getDeclarations()
+                    .find((e) => e.isKind(SyntaxKind.TypeLiteral));
+                  hunks.push(
+                    format(
+                      template,
+                      declaration
+                        ? traverse(
+                            {
+                              typeNode: declaration,
+                              type: declaration.getType(),
+                            },
+                            indentLevel,
+                          )
+                        : "unknown /** unresolved index signature */",
+                    ),
+                  );
+                }
+              }
 
               for (const signature of constructSignatures) {
                 const [parameters, returnType] = renderCallSignature(
