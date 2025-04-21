@@ -1,0 +1,6 @@
+{
+  "include": ["./fixtures"],
+  "compilerOptions": {
+    "skipLibCheck": true
+  }
+}

@@ -1,6 +1,24 @@
 {
   "extends": ["@libconfig/biome"],
   "files": {
-    "include": ["*.json", "src/**"]
-  }
+    "include": [
+      "./*.json",
+      "./*.config.ts",
+      "./test/*.test.ts",
+      "./test/fixtures/**/*.ts",
+      "./src/**/*.ts"
+    ]
+  },
+  "overrides": [
+    {
+      "include": ["./**/*.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    }
+  ]
 }
