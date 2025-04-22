@@ -189,9 +189,21 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
           : undefined;
       },
 
-      conditionalTypeHandler({ typeNode }) {
+      conditionalTypeHandler({ typeNode, typeParameters }) {
         return typeNode.isKind(SyntaxKind.ConditionalType)
-          ? () => typeNode.getText()
+          ? () => {
+              return format(
+                "%s extends %s ? %s : %s",
+                ...[
+                  typeNode.getCheckType(),
+                  typeNode.getExtendsType(),
+                  typeNode.getTrueType(),
+                  typeNode.getFalseType(),
+                ].map((e) =>
+                  traverse({ typeNode: e, type: e.getType(), typeParameters }),
+                ),
+              );
+            }
           : undefined;
       },
 
