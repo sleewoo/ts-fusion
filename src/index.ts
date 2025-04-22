@@ -381,21 +381,43 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
         return typeNode.isKind(SyntaxKind.TypeLiteral)
           ? () => {
               /**
-               * including string/number index signatures, without comments:
+               * collecting string/number index signatures, without comments:
                *    Record<string, ...>
                *    { [key: string]: ... }
                *    Record<number, ...>
                *    { [key: number]: ... }
-               *
-               * ignoring template index signatures:
-               *     Record<`some_${string}`, ...>
-               *     { [key: `some_${string}`]: ... }
                */
               const numberIndexSignature = type.getNumberIndexType();
               const stringIndexSignature = type.getStringIndexType();
 
               /**
-               * including construct signatures, without comments:
+               * collecting template index signatures, without comments:
+               *     Record<`some_${string}`, ...>
+               *     { [key: `some_${string}`]: ... }
+               */
+              const templateIndexSignatures = typeNode
+                .getIndexSignatures()
+                .flatMap((signature) => {
+                  const keyTypeNode = signature.getKeyTypeNode();
+                  if (!keyTypeNode.isKind(SyntaxKind.TemplateLiteralType)) {
+                    return [];
+                  }
+                  const returnTypeNode = signature.getReturnTypeNode();
+                  return [
+                    {
+                      key: keyTypeNode.getText(),
+                      val: returnTypeNode
+                        ? traverse({
+                            typeNode: returnTypeNode,
+                            type: returnTypeNode.getType(),
+                          })
+                        : "unknown /** unresolved */",
+                    },
+                  ];
+                });
+
+              /**
+               * collecting construct signatures, without comments:
                *    export type Constructable = {
                *      new (...): ...;
                *    }
@@ -403,7 +425,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
               const constructSignatures = type.getConstructSignatures();
 
               /**
-               * including method signatures, with comments (jsDoc format only):
+               * collecting method signatures, with comments (jsDoc format only):
                *    export type ObjectWithMethods = {
                *      calculate(...): ...;
                *    }
@@ -421,7 +443,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                 });
 
               /**
-               * including regular properties, with comments (jsDoc format only)
+               * collecting regular properties, with comments (jsDoc format only)
                * */
               const propertySignatures = typeNode
                 .getChildrenOfKind(SyntaxKind.PropertySignature)
@@ -474,6 +496,10 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                     ),
                   );
                 }
+              }
+
+              for (const { key, val } of templateIndexSignatures) {
+                hunks.push(format("[k: %s]: %s", key, val));
               }
 
               for (const signature of constructSignatures) {
