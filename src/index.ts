@@ -24,6 +24,7 @@ type ManagedSignatures =
   | "optionalType"
   | "parenthesizedType"
   | "indexedAccessType"
+  | "templateLiteralType"
   | "mappedType"
   | "typeOperator"
   | "typeReference"
@@ -244,6 +245,31 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                   typeParameters,
                 }),
               );
+            }
+          : undefined;
+      },
+
+      templateLiteralTypeHandler({ typeNode }) {
+        return typeNode.isKind(SyntaxKind.TemplateLiteralType)
+          ? () => {
+              const head = typeNode.getHead().getText();
+              const tail = typeNode.getTemplateSpans().map((span) => {
+                return span
+                  .getChildren()
+                  .map((e) => {
+                    return [
+                      SyntaxKind.TemplateMiddle,
+                      SyntaxKind.TemplateTail,
+                    ].includes(e.getKind())
+                      ? e.getText()
+                      : traverse({
+                          typeNode: e as TypeNode,
+                          type: e.getType(),
+                        });
+                  })
+                  .join("");
+              });
+              return format("%s%s", head, tail.join(""));
             }
           : undefined;
       },
