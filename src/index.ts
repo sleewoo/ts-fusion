@@ -26,6 +26,7 @@ type ManagedSignatures =
   | "indexedAccessType"
   | "templateLiteralType"
   | "mappedType"
+  | "inferType"
   | "typeOperator"
   | "typeReference"
   | "typeLiteral"
@@ -324,6 +325,12 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                   : "unknown /** unresolved mapped type node */",
               );
             }
+          : undefined;
+      },
+
+      inferTypeHandler({ typeNode }) {
+        return typeNode.isKind(SyntaxKind.InferType)
+          ? () => typeNode.getText()
           : undefined;
       },
 
