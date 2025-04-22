@@ -257,8 +257,10 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
 
               const mappedTypeNode = typeNode.getTypeNode();
 
+              const nameTypeNode = typeNode.getNameTypeNode();
+
               return format(
-                "{ [%s in %s]%s: %s }",
+                "{ [%s in %s%s]%s: %s }",
                 mappedTypeParameter.getNameNode().getText(),
                 mappedTypeConstraint
                   ? traverse({
@@ -266,6 +268,15 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                       type: mappedTypeConstraint.getType(),
                     })
                   : "unknown /** unresolved mapped type constraint */",
+                nameTypeNode
+                  ? format(
+                      " as %s",
+                      traverse({
+                        typeNode: nameTypeNode,
+                        type: nameTypeNode.getType(),
+                      }),
+                    )
+                  : "",
                 typeNode.getQuestionToken() ? "?" : "",
                 mappedTypeNode
                   ? traverse({
