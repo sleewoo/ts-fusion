@@ -345,9 +345,10 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                 : undefined;
 
               if (aliasNode) {
+                const aliasType = aliasNode.getType();
                 return traverse({
                   typeNode: aliasNode,
-                  type: aliasNode.getType(),
+                  type: aliasType.getTargetType() || aliasType,
                   typeParameters: aliasDeclaration
                     ?.getTypeParameters()
                     .reduce((map: Record<string, string>, param, i) => {
