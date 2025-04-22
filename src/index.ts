@@ -37,9 +37,7 @@ type TraverseData = {
   typeParameters?: Record<string, string> | undefined;
 };
 
-type Traverse = (factorySettings: TraverseData, indentLevel?: number) => string;
-
-type Next = (t: Type) => string;
+type Traverse = (traverseData: TraverseData, indentLevel?: number) => string;
 
 type HandlerStack = Record<
   `${ManagedSignatures}Handler`,
@@ -174,20 +172,6 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
     if (factoryIndentLevel > maxDepth) {
       return `"..."`;
     }
-
-    /**
-     * render next type using same typeNode, without typeParameters.
-     * use traverse to render with typeParameters.
-     */
-    const next: Next = (type) => {
-      return traverse(
-        {
-          typeNode: factorySettings.typeNode,
-          type,
-        },
-        factoryIndentLevel + 1,
-      );
-    };
 
     const renderCallSignature = (
       signature: Signature,
