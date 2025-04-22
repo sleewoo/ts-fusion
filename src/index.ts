@@ -6,6 +6,7 @@ import {
   type TypeNode,
   type ArrayTypeNode,
   type Signature,
+  type TypeParameterDeclaration,
   type CallSignatureDeclaration,
   type MethodDeclaration,
   Project,
@@ -118,14 +119,7 @@ export default (
       const type = typeAlias.getType();
 
       const typeParameters = typeAlias.getTypeParameters().map((param) => {
-        return param
-          .getChildren() // forEachChild is not suitable here
-          .map((e) =>
-            e.isKind(SyntaxKind.TypeReference)
-              ? traverse({ typeNode: e, type: e.getType() })
-              : e.getText(),
-          )
-          .join(" ");
+        return renderTypeParameter(param, traverse);
       });
 
       if (!opts?.typesFilter || opts.typesFilter(typeName)) {
@@ -134,12 +128,12 @@ export default (
               format(
                 "export type %s<%s> = %s;\n",
                 typeName,
-                typeParameters.join(", "),
+                typeParameters.map(({ text }) => text).join(", "),
                 traverse({
                   typeNode,
                   type,
                   typeParameters: typeParameters.reduce(
-                    (map: Record<string, string>, name) => {
+                    (map: Record<string, string>, { name }) => {
                       map[name] = name;
                       return map;
                     },
@@ -174,61 +168,6 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
     if (factoryIndentLevel > maxDepth) {
       return `"..."`;
     }
-
-    const renderCallSignatureAssets = (
-      signature: Signature,
-      traverse: Traverse,
-    ) => {
-      const declaration = signature.getDeclaration() as
-        | CallSignatureDeclaration
-        | MethodDeclaration;
-
-      const generics = declaration.getTypeParameters().map((param) => {
-        const constraint = param.getConstraint();
-        return constraint
-          ? format(
-              "%s extends %s",
-              param.getName(),
-              traverse({ typeNode: constraint, type: constraint.getType() }),
-            )
-          : param.getName();
-      });
-
-      const parameters = declaration
-        .getChildrenOfKind(SyntaxKind.Parameter)
-        .map((param) => {
-          const paramTypeNode = param.getTypeNode();
-
-          const value = paramTypeNode
-            ? traverse({
-                typeNode: paramTypeNode,
-                type: paramTypeNode.getType(),
-              })
-            : "unknown /** unknown param node */";
-
-          return param.isRestParameter()
-            ? format("...%s: %s", param.getName(), value)
-            : format(
-                "%s%s: %s",
-                param.getName(),
-                param.hasQuestionToken() ? "?" : "",
-                value,
-              );
-        });
-
-      const returnTypeNode = declaration.getReturnTypeNode();
-
-      return {
-        generics,
-        parameters,
-        returnType: returnTypeNode
-          ? traverse({
-              typeNode: returnTypeNode,
-              type: returnTypeNode.getType(),
-            })
-          : "unknown /** unknown return type */",
-      };
-    };
 
     const handlerStack: HandlerStack = {
       symbolHandler({ type }) {
@@ -822,6 +761,72 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
   };
 
   return traverse;
+};
+
+const renderTypeParameter = (
+  param: TypeParameterDeclaration,
+  traverse: Traverse,
+) => {
+  const name = param.getName();
+  const constraint = param.getConstraint();
+  return {
+    name,
+    text: constraint
+      ? format(
+          "%s extends %s",
+          name,
+          traverse({ typeNode: constraint, type: constraint.getType() }),
+        )
+      : name,
+  };
+};
+
+const renderCallSignatureAssets = (
+  signature: Signature,
+  traverse: Traverse,
+) => {
+  const declaration = signature.getDeclaration() as
+    | CallSignatureDeclaration
+    | MethodDeclaration;
+
+  const generics = declaration.getTypeParameters().map((param) => {
+    return renderTypeParameter(param, traverse).text;
+  });
+
+  const parameters = declaration
+    .getChildrenOfKind(SyntaxKind.Parameter)
+    .map((param) => {
+      const paramTypeNode = param.getTypeNode();
+
+      const value = paramTypeNode
+        ? traverse({
+            typeNode: paramTypeNode,
+            type: paramTypeNode.getType(),
+          })
+        : "unknown /** unknown param node */";
+
+      return param.isRestParameter()
+        ? format("...%s: %s", param.getName(), value)
+        : format(
+            "%s%s: %s",
+            param.getName(),
+            param.hasQuestionToken() ? "?" : "",
+            value,
+          );
+    });
+
+  const returnTypeNode = declaration.getReturnTypeNode();
+
+  return {
+    generics,
+    parameters,
+    returnType: returnTypeNode
+      ? traverse({
+          typeNode: returnTypeNode,
+          type: returnTypeNode.getType(),
+        })
+      : "unknown /** unknown return type */",
+  };
 };
 
 const isPrimitive = (type: Type) => {
