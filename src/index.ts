@@ -6,6 +6,8 @@ import {
   type TypeNode,
   type ArrayTypeNode,
   type Signature,
+  type CallSignatureDeclaration,
+  type MethodDeclaration,
   Project,
   SyntaxKind,
   TypeFlags,
@@ -173,11 +175,24 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
       return `"..."`;
     }
 
-    const renderCallSignature = (
+    const renderCallSignatureAssets = (
       signature: Signature,
       traverse: Traverse,
-    ): [Array<string>, string] => {
-      const declaration = signature.getDeclaration();
+    ) => {
+      const declaration = signature.getDeclaration() as
+        | CallSignatureDeclaration
+        | MethodDeclaration;
+
+      const generics = declaration.getTypeParameters().map((param) => {
+        const constraint = param.getConstraint();
+        return constraint
+          ? format(
+              "%s extends %s",
+              param.getName(),
+              traverse({ typeNode: constraint, type: constraint.getType() }),
+            )
+          : param.getName();
+      });
 
       const parameters = declaration
         .getChildrenOfKind(SyntaxKind.Parameter)
@@ -203,14 +218,16 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
 
       const returnTypeNode = declaration.getReturnTypeNode();
 
-      const returnType = returnTypeNode
-        ? traverse({
-            typeNode: returnTypeNode,
-            type: returnTypeNode.getType(),
-          })
-        : "unknown /** unknown return type */";
-
-      return [parameters, returnType];
+      return {
+        generics,
+        parameters,
+        returnType: returnTypeNode
+          ? traverse({
+              typeNode: returnTypeNode,
+              type: returnTypeNode.getType(),
+            })
+          : "unknown /** unknown return type */",
+      };
     };
 
     const handlerStack: HandlerStack = {
@@ -521,7 +538,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
               }
 
               for (const signature of constructSignatures) {
-                const [parameters, returnType] = renderCallSignature(
+                const { parameters, returnType } = renderCallSignatureAssets(
                   signature,
                   (data) => traverse({ ...data, typeParameters }),
                 );
@@ -536,7 +553,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
 
               for (const { name, signatures, comments } of methodSignatures) {
                 for (const signature of signatures) {
-                  const [parameters, returnType] = renderCallSignature(
+                  const { parameters, returnType } = renderCallSignatureAssets(
                     signature,
                     (data) => traverse({ ...data, typeParameters }),
                   );
@@ -757,23 +774,27 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
       functionSignatureHandler({ type, typeParameters }) {
         const callSignatures = type.getCallSignatures();
 
-        // if type has call signatures, it is definitelly a function, is not it?
+        // if a type has call signatures, it is definitelly a function, is not it?
         return callSignatures.length
           ? () => {
               const signatures = callSignatures.map((signature) => {
-                const [parameters, returnType] = renderCallSignature(
-                  signature,
-                  (data) => traverse({ ...data, typeParameters }),
-                );
+                const {
+                  //
+                  generics,
+                  parameters,
+                  returnType,
+                } = renderCallSignatureAssets(signature, (data) => {
+                  return traverse({ ...data, typeParameters });
+                });
                 return format(
                   callSignatures.length > 1 //
-                    ? "(%s): %s"
-                    : "(%s) => %s",
+                    ? "%s(%s): %s"
+                    : "%s(%s) => %s",
+                  generics.length ? format("<%s>", generics.join(", ")) : "",
                   parameters.join(", "),
                   returnType,
                 );
               });
-
               return format(
                 callSignatures.length > 1 //
                   ? "{\n%s\n}"
