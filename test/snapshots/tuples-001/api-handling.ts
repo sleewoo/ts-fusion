@@ -91,7 +91,7 @@ export type ApiHandlingTest11 = [
 
 export type ApiHandlingTest12<T> = [
   bodyParser: ((raw: string) => T),
-  ...validators: ((input: unknown) => /** unresolved */ T)[]
+  ...validators: ((input: unknown) => T /** unresolved */)[]
 ];
 
 export type ApiHandlingTest13 = [

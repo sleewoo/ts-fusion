@@ -51,7 +51,7 @@ export type TypeSystemTortureTest6<T, U> = [
 
 export type TypeSystemTortureTest7<T> = [
   keyof T,
-  { [K in keyof /** unresolved */ T]: /** unresolved */ T[/** unresolved */ K] }
+  { [K in keyof T /** unresolved */]: T /** unresolved */[K /** unresolved */] }
 ];
 
 export type TypeSystemTortureTest8<T> = [
@@ -76,8 +76,8 @@ export type TypeSystemTortureTest10 = [
 ];
 
 export type TypeSystemTortureTest11<T extends string> = [
-  /** unresolved */ T,
-  .../** unresolved */ T[]
+  T,
+  ...T[]
 ];
 
 export type TypeSystemTortureTest12<T, U> = [...T[], U[]] extends [...infer R]
@@ -101,7 +101,7 @@ export type TypeSystemTortureTest14<T> = [
 
 export type TypeSystemTortureTest15<T> = [
   T,
-  ...{ [K in keyof /** unresolved */ T]: /** unresolved */ T[/** unresolved */ K] }[]
+  ...{ [K in keyof T /** unresolved */]: T /** unresolved */[K /** unresolved */] }[]
 ];
 
 export type TypeSystemTortureTest16<T> = [

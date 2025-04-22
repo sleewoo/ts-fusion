@@ -98,11 +98,11 @@ export type OptionalElementsTest15<T> = [
   combined?: T & {
     timestamp: Date
   },
-  partial?: Partial</** unresolved */ T>
+  partial?: Partial<T /** unresolved */>
 ];
 
 export type OptionalElementsTest16<T extends Array<unknown>> = [
-  .../** unresolved */ T,
+  ...T,
   ...{
     id: string;
     name: string
@@ -132,7 +132,7 @@ export type OptionalElementsTest19 = [
 ];
 
 export type OptionalElementsTest20<T> = [
-  initial?: Promise</** unresolved */ T>,
+  initial?: Promise<T /** unresolved */>,
   fallback?: T
 ];
 

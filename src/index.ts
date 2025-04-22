@@ -372,7 +372,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                * they wont be resolved, rather rendered as is.
                * */
 
-              return format("/** unresolved */ %s", typeNode.getText());
+              return format("%s /** unresolved */", typeNode.getText());
             }
           : undefined;
       },

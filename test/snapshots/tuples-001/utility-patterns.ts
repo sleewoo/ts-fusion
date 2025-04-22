@@ -39,7 +39,7 @@ export type UtilityPatternsTest8 = [
 ];
 
 export type UtilityPatternsTest9<T> = [
-  Promise</** unresolved */ T>,
+  Promise<T /** unresolved */>,
   AbortController
 ];
 
@@ -63,7 +63,7 @@ export type UtilityPatternsTest12<T> = [
 
 export type UtilityPatternsTest13<T> = [
   T,
-  ...Partial</** unresolved */ T>[]
+  ...Partial<T /** unresolved */>[]
 ];
 
 export type UtilityPatternsTest14<T> = [
