@@ -63,6 +63,20 @@ describe("tuples-001", () => {
 });
 
 describe("type-literals-001", () => {
+  it("api-responses", async ({ expect }) => {
+    const file = resolve(import.meta.dirname, "fixtures/type-literals-001/api-responses.ts");
+    await expect(
+      flattener(project, file)
+    ).toMatchFileSnapshot("./snapshots/type-literals-001/api-responses.ts");
+  })
+
+  it("configuration", async ({ expect }) => {
+    const file = resolve(import.meta.dirname, "fixtures/type-literals-001/configuration.ts");
+    await expect(
+      flattener(project, file)
+    ).toMatchFileSnapshot("./snapshots/type-literals-001/configuration.ts");
+  })
+
   it("data-modeling", async ({ expect }) => {
     const file = resolve(import.meta.dirname, "fixtures/type-literals-001/data-modeling.ts");
     await expect(
@@ -75,6 +89,20 @@ describe("type-literals-001", () => {
     await expect(
       flattener(project, file)
     ).toMatchFileSnapshot("./snapshots/type-literals-001/object-types.ts");
+  })
+
+  it("ui-components", async ({ expect }) => {
+    const file = resolve(import.meta.dirname, "fixtures/type-literals-001/ui-components.ts");
+    await expect(
+      flattener(project, file)
+    ).toMatchFileSnapshot("./snapshots/type-literals-001/ui-components.ts");
+  })
+
+  it("validation-schemas", async ({ expect }) => {
+    const file = resolve(import.meta.dirname, "fixtures/type-literals-001/validation-schemas.ts");
+    await expect(
+      flattener(project, file)
+    ).toMatchFileSnapshot("./snapshots/type-literals-001/validation-schemas.ts");
   })
 
 });

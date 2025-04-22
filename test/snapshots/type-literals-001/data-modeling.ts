@@ -14,9 +14,9 @@ export type DataModelingTest2<T extends {
   }[];
   relations: never[]
 }> = {
-  metadata: /** unresolved */ T;
-  find: ((criteria: Partial<{ [K in /** unresolved */ T["columns"][number]["name"]]: never } & { [K in /** unresolved */ T["relations"][number]["target"]]?: never }>) => Promise<{ [K in /** unresolved */ T["columns"][number]["name"]]: never } & { [K in /** unresolved */ T["relations"][number]["target"]]?: never }[]>);
-  save: ((entity: { [K in /** unresolved */ T["columns"][number]["name"]]: never } & { [K in /** unresolved */ T["relations"][number]["target"]]?: never }) => Promise<void>)
+  metadata: T;
+  find: ((criteria: Partial<{ [K in T /** unresolved */["columns"][number]["name"]]: never } & { [K in T /** unresolved */["relations"][number]["target"]]?: never }>) => Promise<{ [K in T /** unresolved */["columns"][number]["name"]]: never } & { [K in T /** unresolved */["relations"][number]["target"]]?: never }[]>);
+  save: ((entity: { [K in T /** unresolved */["columns"][number]["name"]]: never } & { [K in T /** unresolved */["relations"][number]["target"]]?: never }) => Promise<void>)
 };
 
 export type DataModelingTest3 = {
@@ -63,9 +63,9 @@ export type DataModelingTest5<T> = {
 };
 
 export type DataModelingTest6<T> = {
-  where: Partial</** unresolved */ T>;
-  include?: { [K in keyof /** unresolved */ T]?: boolean };
-  orderBy?: { [K in keyof /** unresolved */ T]?: "asc" | "desc" }
+  where: Partial<T /** unresolved */>;
+  include?: { [K in keyof T /** unresolved */]?: boolean };
+  orderBy?: { [K in keyof T /** unresolved */]?: "asc" | "desc" }
 };
 
 export type DataModelingTest7<T> = T & {
@@ -207,15 +207,15 @@ export type DataModelingTest18<T> = {
       primaryKey?: boolean
     }
   }) => {
-    new (): /** unresolved */ T;
-    findAll: ((options?: never) => Promise</** unresolved */ T[]>)
+    new (): T /** unresolved */;
+    findAll: ((options?: never) => Promise<T /** unresolved */[]>)
   });
   associations: {
     [k: string]: {
       associationType: "BelongsTo" | "HasMany" | "BelongsToMany";
       target: {
         new (): never;
-        findAll: ((options?: never) => Promise</** unresolved */ T[]>)
+        findAll: ((options?: never) => Promise<T /** unresolved */[]>)
       }
     }
   }
@@ -239,7 +239,7 @@ export type DataModelingTest20 = {
   action: string[];
   object: string[];
   conditions: {
-    [k: string]: unknown /** unresolved index signature */
+    [k: string]: never
   }
 };
 
@@ -263,12 +263,12 @@ export type DataModelingTest23 = {
     bool: {
       must?: Array<{
         match?: {
-          [k: string]: unknown /** unresolved index signature */
+          [k: string]: never
         }
       }>;
       filter?: Array<{
         range?: {
-          [k: string]: unknown /** unresolved index signature */
+          [k: string]: never
         }
       }>
     }
