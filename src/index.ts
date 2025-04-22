@@ -382,27 +382,19 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
         return typeNode.isKind(SyntaxKind.TypeLiteral)
           ? () => {
               /**
-               * collecting string/number index signatures, without comments:
+               * collecting regular index signatures, without comments:
                *    Record<string, ...>
                *    { [key: string]: ... }
                *    Record<number, ...>
                *    { [key: number]: ... }
-               */
-              const numberIndexSignature = type.getNumberIndexType();
-              const stringIndexSignature = type.getStringIndexType();
-
-              /**
-               * collecting template index signatures, without comments:
+               * and template index signatures, also without comments:
                *     Record<`some_${string}`, ...>
                *     { [key: `some_${string}`]: ... }
                */
-              const templateIndexSignatures = typeNode
+              const indexSignatures = typeNode
                 .getIndexSignatures()
                 .flatMap((signature) => {
                   const keyTypeNode = signature.getKeyTypeNode();
-                  if (!keyTypeNode.isKind(SyntaxKind.TemplateLiteralType)) {
-                    return [];
-                  }
                   const returnTypeNode = signature.getReturnTypeNode();
                   return [
                     {
@@ -473,33 +465,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
 
               const hunks: Array<string> = [];
 
-              for (const [indexSignature, template] of [
-                [numberIndexSignature, "[k: number]: %s"],
-                [stringIndexSignature, "[k: string]: %s"],
-              ] as Array<[Type, string]>) {
-                if (indexSignature) {
-                  const declaration = indexSignature
-                    .getSymbol()
-                    ?.getDeclarations()
-                    .find((e) => e.isKind(SyntaxKind.TypeLiteral));
-                  hunks.push(
-                    format(
-                      template,
-                      declaration
-                        ? traverse(
-                            {
-                              typeNode: declaration,
-                              type: declaration.getType(),
-                            },
-                            indentLevel,
-                          )
-                        : "unknown /** unresolved index signature */",
-                    ),
-                  );
-                }
-              }
-
-              for (const { key, val } of templateIndexSignatures) {
+              for (const { key, val } of indexSignatures) {
                 hunks.push(format("[k: %s]: %s", key, val));
               }
 
