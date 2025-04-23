@@ -1,9 +1,13 @@
-export type TypeSystemTortureTest1<T> = [T, ...T[]] extends [
+export type TypeSystemTortureTest1<T> = [
+  T,
+  ...T[]
+] extends [
   infer First,
-  ...infer Rest,
-]
-  ? [First, Rest]
-  : never;
+  ...infer Rest
+] ? [
+  First /** unresolved */,
+  Rest /** unresolved */
+] : never;
 
 export type TypeSystemTortureTest2 = [
   readonly [
@@ -51,20 +55,25 @@ export type TypeSystemTortureTest6<T, U> = [
 
 export type TypeSystemTortureTest7<T> = [
   keyof T,
-  { [K in keyof T /** unresolved */]: T /** unresolved */[K /** unresolved */] }
+  { [K in keyof T]: T[K /** unresolved */] }
 ];
 
 export type TypeSystemTortureTest8<T> = [
   T,
-  T extends (infer U)[] ? U : never
+  T extends (infer U)[] ? U /** unresolved */ : never
 ];
 
 export type TypeSystemTortureTest9<T extends Array<string | number>> = [
-  [...T],
-  T,
-] extends [[...infer U], unknown]
-  ? U
-  : never;
+  [
+    ...T
+  ],
+  T
+] extends [
+  [
+    ...infer U
+  ],
+  unknown
+] ? U /** unresolved */ : never;
 
 export type TypeSystemTortureTest10 = [
   readonly [
@@ -80,9 +89,12 @@ export type TypeSystemTortureTest11<T extends string> = [
   ...T[]
 ];
 
-export type TypeSystemTortureTest12<T, U> = [...T[], U[]] extends [...infer R]
-  ? R
-  : never;
+export type TypeSystemTortureTest12<T, U> = [
+  ...T[],
+  U[]
+] extends [
+  ...infer R
+] ? R /** unresolved */ : never;
 
 export type TypeSystemTortureTest13<T> = [
   T,
@@ -101,7 +113,7 @@ export type TypeSystemTortureTest14<T> = [
 
 export type TypeSystemTortureTest15<T> = [
   T,
-  ...{ [K in keyof T /** unresolved */]: T /** unresolved */[K /** unresolved */] }[]
+  ...{ [K in keyof T]: T[K /** unresolved */] }[]
 ];
 
 export type TypeSystemTortureTest16<T> = [
@@ -116,40 +128,56 @@ export type TypeSystemTortureTest17<T> = [
 
 export type TypeSystemTortureTest18<T> = [
   T,
-  ...(T extends { length: number } ? [T["length"]] : never)
+  ...(T extends {
+    length: number
+  } ? [
+    T["length"]
+  ] : never)
 ];
 
 export type TypeSystemTortureTest19<T> = [
   T,
-  ...(T extends Record<string, infer V> ? V[] : never)
+  ...(T extends Record<string, infer V> ? V /** unresolved */[] : never)
 ];
 
 export type TypeSystemTortureTest20<T> = [
   T,
-  ...(T extends unknown[] ? { [K in keyof T]: T[K] } : never)
+  ...(T extends unknown[] ? { [K in keyof T]: T[K /** unresolved */] } : never)
 ];
 
 export type TypeSystemTortureTest21<T> = [
   T,
-  ...(T extends (...args: never) => infer R ? [R] : never)
+  ...(T extends ((...args: never) => infer R) ? [
+    R /** unresolved */
+  ] : never)
 ];
 
 export type TypeSystemTortureTest22<T> = [
   T,
-  ...(T extends new (...args: never) => infer I ? [I] : never)
+  ...(T extends new (...args: never) => infer I ? [
+    I /** unresolved */
+  ] : never)
 ];
 
 export type TypeSystemTortureTest23<T> = [
   T,
-  ...(T extends Promise<infer V> ? [V] : never)
+  ...(T extends Promise<infer V> ? [
+    V /** unresolved */
+  ] : never)
 ];
 
 export type TypeSystemTortureTest24<T> = [
   T,
-  ...(T extends `/${string}` ? [T] : never)
+  ...(T extends `/${string}` ? [
+    T
+  ] : never)
 ];
 
 export type TypeSystemTortureTest25<T> = [
   T,
-  ...(T extends Date ? [number] : [string])
+  ...(T extends Date ? [
+    number
+  ] : [
+    string
+  ])
 ];

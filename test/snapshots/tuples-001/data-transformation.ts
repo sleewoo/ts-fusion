@@ -1,12 +1,12 @@
 export type DataTransformationTest1<T, U> = [
   input: unknown,
-  ...validators: ((input: unknown) => T /** unresolved */)[],
+  ...validators: ((input: unknown) => T)[],
   output: U
 ];
 
 export type DataTransformationTest2<T, U> = [
   source: T,
-  ...pipes: ((input: T /** unresolved */) => U /** unresolved */)[],
+  ...pipes: ((input: T) => U)[],
   destination: U
 ];
 
@@ -77,13 +77,13 @@ export type DataTransformationTest11<T, U> = [
   ...mappers: [
     ((item: T) => U)
   ][],
-  comparator: ((a: U /** unresolved */, b: U /** unresolved */) => number)
+  comparator: ((a: U, b: U) => number)
 ];
 
 export type DataTransformationTest12<T, U> = [
   rawData: unknown,
   ...transformations: [
-    ((input: T /** unresolved */) => U /** unresolved */),
+    ((input: T) => U),
     ...never[]
   ]
 ];
@@ -121,14 +121,14 @@ export type DataTransformationTest18<T, U> = [
   sourceFormat: string,
   targetFormat: string,
   ...converters: [
-    ((input: T /** unresolved */) => U /** unresolved */)
+    ((input: T) => U)
   ][]
 ];
 
 export type DataTransformationTest19<T> = [
   input: T,
   ...validationSteps: [
-    ((input: unknown) => T /** unresolved */),
+    ((input: unknown) => T),
     ...never[]
   ]
 ];

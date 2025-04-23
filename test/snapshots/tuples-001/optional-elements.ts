@@ -98,7 +98,7 @@ export type OptionalElementsTest15<T> = [
   combined?: T & {
     timestamp: Date
   },
-  partial?: Partial<T /** unresolved */>
+  partial?: Partial<T>
 ];
 
 export type OptionalElementsTest16<T extends Array<unknown>> = [
@@ -132,7 +132,7 @@ export type OptionalElementsTest19 = [
 ];
 
 export type OptionalElementsTest20<T> = [
-  initial?: Promise<T /** unresolved */>,
+  initial?: Promise<T>,
   fallback?: T
 ];
 
@@ -147,7 +147,9 @@ export type OptionalElementsTest22<T> = [
 ];
 
 export type OptionalElementsTest23<T> = [
-  ...(T extends never[] ? [first?: T[0]] : never)
+  ...(T extends never[] ? [
+    first?: T[0]
+  ] : never)
 ];
 
 export type OptionalElementsTest24 = [

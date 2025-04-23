@@ -31,7 +31,7 @@ export type StateManagementTest3 = [
 
 export type StateManagementTest4<T> = [
   initialState: T,
-  reducers: Record<string, T /** unresolved */>,
+  reducers: Record<string, T>,
   middlewares?: ((next: (() => void)) => (() => void))[]
 ];
 
@@ -43,7 +43,7 @@ export type StateManagementTest5<T> = [
 
 export type StateManagementTest6<T> = [
   T,
-  ...(T extends infer U ? U[] : never)
+  ...(T extends infer U ? U /** unresolved */[] : never)
 ];
 
 export type StateManagementTest7 = [
@@ -102,7 +102,7 @@ export type StateManagementTest12<T> = [
 
 export type StateManagementTest13<T> = [
   initial: T,
-  ...patches: Partial<T /** unresolved */>[]
+  ...patches: Partial<T>[]
 ];
 
 export type StateManagementTest14<T, U> = [
@@ -120,7 +120,7 @@ export type StateManagementTest15<T> = [
 export type StateManagementTest16<T> = [
   key: string,
   defaultValue: T,
-  validator?: ((input: unknown) => T /** unresolved */)
+  validator?: ((input: unknown) => T)
 ];
 
 export type StateManagementTest17<T> = [
@@ -138,7 +138,7 @@ export type StateManagementTest18<T> = [
 
 export type StateManagementTest19<T> = [
   baseState: T,
-  ...overrides: Partial<T /** unresolved */>[]
+  ...overrides: Partial<T>[]
 ];
 
 export type StateManagementTest20<T> = [

@@ -39,7 +39,7 @@ export type UtilityPatternsTest8 = [
 ];
 
 export type UtilityPatternsTest9<T> = [
-  Promise<T /** unresolved */>,
+  Promise<T>,
   AbortController
 ];
 
@@ -63,7 +63,7 @@ export type UtilityPatternsTest12<T> = [
 
 export type UtilityPatternsTest13<T> = [
   T,
-  ...Partial<T /** unresolved */>[]
+  ...Partial<T>[]
 ];
 
 export type UtilityPatternsTest14<T> = [
@@ -78,54 +78,71 @@ export type UtilityPatternsTest15<T> = [
 
 export type UtilityPatternsTest16<T> = [
   T,
-  ...(T extends object ? [keyof T] : never)
+  ...(T extends object ? [
+    keyof T
+  ] : never)
 ];
 
 export type UtilityPatternsTest17<T> = [
   T,
-  ...(T extends Date ? [number] : [string])
+  ...(T extends Date ? [
+    number
+  ] : [
+    string
+  ])
 ];
 
 export type UtilityPatternsTest18<T> = [
   T,
-  ...(T extends Error ? [string] : [number])
+  ...(T extends Error ? [
+    string
+  ] : [
+    number
+  ])
 ];
 
 export type UtilityPatternsTest19<T> = [
   T,
-  ...(T extends Map<infer K, infer V> ? [K, V] : never)
+  ...(T extends Map<infer K, infer V> ? [
+    K /** unresolved */,
+    V /** unresolved */
+  ] : never)
 ];
 
 export type UtilityPatternsTest20<T> = [
   T,
-  ...(T extends Set<infer V> ? [V] : never)
+  ...(T extends Set<infer V> ? [
+    V /** unresolved */
+  ] : never)
 ];
 
 export type UtilityPatternsTest21<T> = [
   T,
-  ...(T extends Promise<infer V> ? [V] : never)
+  ...(T extends Promise<infer V> ? [
+    V /** unresolved */
+  ] : never)
 ];
 
 export type UtilityPatternsTest22<T> = [
   T,
-  ...(T extends (...args: never) => never ? Parameters<T> : never)
+  ...(T extends ((...args: never) => never) ? Parameters<T> : never)
 ];
 
 export type UtilityPatternsTest23<T> = [
   T,
-  ...(T extends new (
-      ...args: never
-    ) => never
-      ? ConstructorParameters<T>
-      : never)
+  ...(T extends new (...args: never) => never ? ConstructorParameters<T> : never)
 ];
 
 export type UtilityPatternsTest24<T> = [
   T,
-  ...(T extends Array<infer U> ? [U] : never)
+  ...(T extends Array<infer U> ? [
+    U /** unresolved */
+  ] : never)
 ];
 
 export type UtilityPatternsTest25<T> = [
   T,
-  ...(T extends Record<string, infer V> ? [V] : never)
+  ...(T extends Record<string, infer V> ? [
+    V /** unresolved */
+  ] : never)
 ];
