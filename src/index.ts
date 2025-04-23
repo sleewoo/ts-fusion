@@ -36,10 +36,12 @@ type ManagedSignatures =
   | "array"
   | "functionSignature";
 
+type TraverseDataParameters = Record<string, string | undefined>;
+
 type TraverseData = {
   typeNode: TypeNode;
   type: Type;
-  typeParameters?: Record<string, string> | undefined;
+  typeParameters?: TraverseDataParameters | undefined;
 };
 
 type Traverse = (traverseData: TraverseData, indentLevel?: number) => string;
@@ -419,8 +421,10 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                   type: aliasType.getTargetType() || aliasType,
                   typeParameters: aliasDeclaration
                     ?.getTypeParameters()
-                    .reduce((map: Record<string, string>, param, i) => {
-                      map[param.getName()] = typeArguments[i];
+                    .reduce((map: TraverseDataParameters, param, i) => {
+                      map[param.getName()] =
+                        typeArguments[i] ?? // empty string is a valid value
+                        param.getDefault()?.getText();
                       return map;
                     }, {}),
                 });
