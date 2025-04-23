@@ -15,8 +15,8 @@ export type DataModelingTest2<T extends {
   relations: never[]
 }> = {
   metadata: T;
-  find: ((criteria: Partial<{ [K in T /** unresolved */["columns"][number]["name"]]: never } & { [K in T /** unresolved */["relations"][number]["target"]]?: never }>) => Promise<{ [K in T /** unresolved */["columns"][number]["name"]]: never } & { [K in T /** unresolved */["relations"][number]["target"]]?: never }[]>);
-  save: ((entity: { [K in T /** unresolved */["columns"][number]["name"]]: never } & { [K in T /** unresolved */["relations"][number]["target"]]?: never }) => Promise<void>)
+  find: ((criteria: Partial<{ [K in T["columns"][number]["name"]]: never } & { [K in T["relations"][number]["target"]]?: never }>) => Promise<{ [K in T["columns"][number]["name"]]: never } & { [K in T["relations"][number]["target"]]?: never }[]>);
+  save: ((entity: { [K in T["columns"][number]["name"]]: never } & { [K in T["relations"][number]["target"]]?: never }) => Promise<void>)
 };
 
 export type DataModelingTest3 = {
@@ -63,9 +63,9 @@ export type DataModelingTest5<T> = {
 };
 
 export type DataModelingTest6<T> = {
-  where: Partial<T /** unresolved */>;
-  include?: { [K in keyof T /** unresolved */]?: boolean };
-  orderBy?: { [K in keyof T /** unresolved */]?: "asc" | "desc" }
+  where: Partial<T>;
+  include?: { [K in keyof T]?: boolean };
+  orderBy?: { [K in keyof T]?: "asc" | "desc" }
 };
 
 export type DataModelingTest7<T> = T & {
@@ -207,15 +207,15 @@ export type DataModelingTest18<T> = {
       primaryKey?: boolean
     }
   }) => {
-    new (): T /** unresolved */;
-    findAll: ((options?: never) => Promise<T /** unresolved */[]>)
+    new (): T;
+    findAll: ((options?: never) => Promise<T[]>)
   });
   associations: {
     [k: string]: {
       associationType: "BelongsTo" | "HasMany" | "BelongsToMany";
       target: {
         new (): never;
-        findAll: ((options?: never) => Promise<T /** unresolved */[]>)
+        findAll: ((options?: never) => Promise<never[]>)
       }
     }
   }

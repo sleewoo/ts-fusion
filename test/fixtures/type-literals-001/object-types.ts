@@ -130,3 +130,22 @@ export type PluginDefinition = {
   options?: Record<string, unknown>;
   enabled?: boolean;
 };
+
+export type TreeNode = {
+  value: unknown;
+  children: [];
+};
+
+export type NumericRange<Start extends number, End extends number> = Exclude<
+  Enumerate<End>,
+  Enumerate<Start>
+> extends number
+  ? Exclude<Enumerate<End>, Enumerate<Start>>
+  : never;
+
+type Enumerate<
+  N extends number,
+  Acc extends number[] = [],
+> = Acc["length"] extends N //
+  ? Acc[number]
+  : [N, [...Acc, Acc["length"]]];

@@ -10,7 +10,7 @@ export type ValidationSchemaTest2<T> = {
   validateSync: ((value: unknown) => T);
   describe: (() => {
     type: string;
-    fields: { [K in keyof T /** unresolved */]?: {
+    fields: { [K in keyof T]?: {
       type: string;
       required: boolean;
       tests: string[]
@@ -37,7 +37,7 @@ export type ValidationSchemaTest3 = {
 
 export type ValidationSchemaTest4<T> = {
   target: {
-    new: ((...args: unknown[]) => T /** unresolved */)
+    new: ((...args: unknown[]) => T)
   };
   constraints: {
     type: "min" | "max" | "matches";
@@ -52,7 +52,7 @@ export type ValidationSchemaTest4<T> = {
 };
 
 export type ValidationSchemaTest5<T> = {
-  validateAsync: ((value: unknown) => Promise<T /** unresolved */>);
+  validateAsync: ((value: unknown) => Promise<T>);
   options: {
     abortEarly: boolean;
     stripUnknown: boolean;
@@ -72,7 +72,7 @@ export type ValidationSchemaTest6<T, U> = {
       fatal?: boolean
     }[]
   } | {
-    right: T /** unresolved */
+    right: T
   });
   encode: ((value: T) => U);
   name: string;
@@ -103,7 +103,7 @@ export type ValidationSchemaTest7<T> = {
 export type ValidationSchemaTest8<T> = {
   pipe: Array<{
     type: "transform" | "check";
-    fn: ((value: T /** unresolved */) => unknown)
+    fn: ((value: T) => unknown)
   }>;
   transform: ((value: T) => unknown);
   fallback: (() => T)
@@ -111,9 +111,9 @@ export type ValidationSchemaTest8<T> = {
 
 export type ValidationSchemaTest9<T> = {
   test: ((fieldName: keyof T, assertions: (() => void)) => void);
-  enforce: ((values: Partial<T /** unresolved */>) => {
+  enforce: ((values: Partial<T>) => {
     valid: boolean;
-    errors: { [K in keyof T /** unresolved */]?: {
+    errors: { [K in keyof T]?: {
       [k: string]: unknown;
       path: (string | number)[];
       message: string;
@@ -147,7 +147,7 @@ export type ValidationSchemaTest10 = {
 };
 
 export type ValidationSchemaTest11<T> = {
-  if: ((value: Partial<T /** unresolved */>, context: {
+  if: ((value: Partial<T>, context: {
     path: (string | number)[];
     parent: unknown;
     schema: unknown
@@ -185,28 +185,28 @@ export type ValidationSchemaTest13<T> = {
 export type ValidationSchemaTest14<T, B extends string> = T & {
   __brand: B;
   __validator: {
-    _type: T /** unresolved */;
-    parse: ((input: unknown) => T /** unresolved */);
-    safeParse: ((input: unknown) => T /** unresolved */);
-    refine: (<U extends T /** unresolved */>(fn: ((val: T /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+    _type: T;
+    parse: ((input: unknown) => T);
+    safeParse: ((input: unknown) => T);
+    refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
   }
 };
 
 export type ValidationSchemaTest15<T> = {
-  _type: T /** unresolved */;
-  parse: ((input: unknown) => T /** unresolved */);
-  safeParse: ((input: unknown) => T /** unresolved */);
-  refine: (<U extends T /** unresolved */>(fn: ((val: T /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+  _type: T;
+  parse: ((input: unknown) => T);
+  safeParse: ((input: unknown) => T);
+  refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
 } & {
   default: T | (() => T);
   optional: (() => T | undefined)
 };
 
 export type ValidationSchemaTest16<T> = {
-  _type: T /** unresolved */;
-  parse: ((input: unknown) => T /** unresolved */);
-  safeParse: ((input: unknown) => T /** unresolved */);
-  refine: (<U extends T /** unresolved */>(fn: ((val: T /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+  _type: T;
+  parse: ((input: unknown) => T);
+  safeParse: ((input: unknown) => T);
+  refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
 } & {
   message: string | ((ctx: {
     path: (string | number)[];
@@ -218,10 +218,10 @@ export type ValidationSchemaTest16<T> = {
 };
 
 export type ValidationSchemaTest17<T> = {
-  _type: T /** unresolved */;
-  parse: ((input: unknown) => T /** unresolved */);
-  safeParse: ((input: unknown) => T /** unresolved */);
-  refine: (<U extends T /** unresolved */>(fn: ((val: T /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+  _type: T;
+  parse: ((input: unknown) => T);
+  safeParse: ((input: unknown) => T);
+  refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
 } & {
   meta: {
     [k: string]: unknown;
@@ -232,25 +232,25 @@ export type ValidationSchemaTest17<T> = {
 };
 
 export type ValidationSchemaTest18<T> = {
-  partial: (() => Partial<T /** unresolved */>);
-  required: (() => Required<T /** unresolved */>)
+  partial: (() => Partial<T>);
+  required: (() => Required<T>)
 };
 
 export type ValidationSchemaTest19<T, U> = {
   merge: ((schema: {
-    _type: T /** unresolved */;
-    parse: ((input: unknown) => T /** unresolved */);
-    safeParse: ((input: unknown) => T /** unresolved */);
-    refine: (<U extends T /** unresolved */>(fn: ((val: T /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+    _type: T;
+    parse: ((input: unknown) => T);
+    safeParse: ((input: unknown) => T);
+    refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
   }) => U);
-  omit: (<K extends keyof T & U>(keys: K /** unresolved */[]) => Omit<U /** unresolved */, K /** unresolved */>)
+  omit: (<K extends keyof T & U>(keys: K /** unresolved */[]) => Omit<U, K /** unresolved */>)
 };
 
 export type ValidationSchemaTest20<T> = {
-  _type: T /** unresolved */[];
-  parse: ((input: unknown) => T /** unresolved */[]);
-  safeParse: ((input: unknown) => T /** unresolved */[]);
-  refine: (<U extends T /** unresolved */[]>(fn: ((val: T /** unresolved */[]) => U /** unresolved */)) => U /** unresolved */)
+  _type: T[];
+  parse: ((input: unknown) => T[]);
+  safeParse: ((input: unknown) => T[]);
+  refine: (<U extends T[]>(fn: ((val: T[]) => U /** unresolved */)) => U /** unresolved */)
 } & {
   min: ((length: number) => T);
   max: ((length: number) => T);
@@ -259,16 +259,16 @@ export type ValidationSchemaTest20<T> = {
 
 export type ValidationSchemaTest21<K extends string | number | symbol, V> = {
   keySchema: {
-    _type: K /** unresolved */;
-    parse: ((input: unknown) => K /** unresolved */);
-    safeParse: ((input: unknown) => K /** unresolved */);
-    refine: (<U extends K /** unresolved */>(fn: ((val: K /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+    _type: K;
+    parse: ((input: unknown) => K);
+    safeParse: ((input: unknown) => K);
+    refine: (<U extends K>(fn: ((val: K) => U /** unresolved */)) => U /** unresolved */)
   };
   valueSchema: {
-    _type: V /** unresolved */;
-    parse: ((input: unknown) => V /** unresolved */);
-    safeParse: ((input: unknown) => V /** unresolved */);
-    refine: (<U extends V /** unresolved */>(fn: ((val: V /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+    _type: V;
+    parse: ((input: unknown) => V);
+    safeParse: ((input: unknown) => V);
+    refine: (<U extends V>(fn: ((val: V) => U /** unresolved */)) => U /** unresolved */)
   };
   catchall: {
     _type: never;
@@ -280,26 +280,26 @@ export type ValidationSchemaTest21<K extends string | number | symbol, V> = {
 
 export type ValidationSchemaTest22<T> = {
   lazy: ((fn: (() => {
-    _type: T /** unresolved */;
-    parse: ((input: unknown) => T /** unresolved */);
-    safeParse: ((input: unknown) => T /** unresolved */);
-    refine: (<U extends T /** unresolved */>(fn: ((val: T /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+    _type: T;
+    parse: ((input: unknown) => T);
+    safeParse: ((input: unknown) => T);
+    refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
   })) => {
-    _type: T /** unresolved */;
-    parse: ((input: unknown) => T /** unresolved */);
-    safeParse: ((input: unknown) => T /** unresolved */);
-    refine: (<U extends T /** unresolved */>(fn: ((val: T /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+    _type: T;
+    parse: ((input: unknown) => T);
+    safeParse: ((input: unknown) => T);
+    refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
   })
 };
 
 export type ValidationSchemaTest23<T> = {
-  _type: T /** unresolved */;
-  parse: ((input: unknown) => T /** unresolved */);
-  safeParse: ((input: unknown) => T /** unresolved */);
-  refine: (<U extends T /** unresolved */>(fn: ((val: T /** unresolved */) => U /** unresolved */)) => U /** unresolved */)
+  _type: T;
+  parse: ((input: unknown) => T);
+  safeParse: ((input: unknown) => T);
+  refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
 } & {
   checkAsync: ((value: T) => Promise<boolean>);
-  transformAsync: ((value: T) => Promise<T /** unresolved */>)
+  transformAsync: ((value: T) => Promise<T>)
 };
 
 export type ValidationSchemaTest24 = {

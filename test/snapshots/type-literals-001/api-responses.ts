@@ -53,7 +53,7 @@ export type ApiResponseTest5<T> = {
   data: Array<{
     type: string;
     id: string;
-    attributes: T /** unresolved */;
+    attributes: T;
     relationships?: Record<string, {
       data: {
         type: string;
@@ -86,11 +86,11 @@ export type ApiResponseTest7<T> = {
 
 export type ApiResponseTest8<T> = {
   succeeded: Array<{
-    item: T /** unresolved */;
+    item: T;
     id: string
   }>;
   failed: Array<{
-    item: T /** unresolved */;
+    item: T;
     error: {
       code: string;
       message: string;

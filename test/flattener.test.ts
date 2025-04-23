@@ -91,6 +91,13 @@ describe("type-literals-001", () => {
     ).toMatchFileSnapshot("./snapshots/type-literals-001/object-types.ts");
   })
 
+  it("type-system-torture", async ({ expect }) => {
+    const file = resolve(import.meta.dirname, "fixtures/type-literals-001/type-system-torture.ts");
+    await expect(
+      flattener(project, file)
+    ).toMatchFileSnapshot("./snapshots/type-literals-001/type-system-torture.ts");
+  })
+
   it("ui-components", async ({ expect }) => {
     const file = resolve(import.meta.dirname, "fixtures/type-literals-001/ui-components.ts");
     await expect(

@@ -108,7 +108,7 @@ export type ConfigurationTest7 = {
   }>
 };
 
-export type ConfigurationTest8<T extends string> = Record<T /** unresolved */, {
+export type ConfigurationTest8<T extends string> = Record<T, {
   description: string;
   enabled: boolean;
   rollout?: number;

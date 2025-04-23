@@ -256,8 +256,8 @@ export type UIComponentTest14 = {
 export type UIComponentTest15<T> = {
   columns: Array<{
     header: string;
-    accessor: keyof T /** unresolved */;
-    render?: ((value: T /** unresolved */[keyof T /** unresolved */], row: T /** unresolved */) => string | {
+    accessor: keyof T;
+    render?: ((value: T[keyof T], row: T) => string | {
       type: string;
       props: Record<string, unknown>
     } | Array<{
@@ -405,7 +405,7 @@ export type UIComponentTest24 = {
 };
 
 export type UIComponentTest25<TOuter, TInner> = {
-  component: ((props: TInner /** unresolved */) => string | {
+  component: ((props: TInner) => string | {
     type: string;
     props: Record<string, unknown>
   } | Array<{

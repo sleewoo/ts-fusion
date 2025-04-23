@@ -132,3 +132,34 @@ export type PluginDefinition = {
   options?: Record<string, unknown>;
   enabled?: boolean
 };
+
+export type TreeNode = {
+  value: unknown;
+  children: []
+};
+
+export type NumericRange<Start extends number, End extends number> = Exclude<[]["length"] extends End ? [][number] : [
+  End,
+  [
+    ...[],
+    []["length"]
+  ]
+], []["length"] extends Start ? [][number] : [
+  Start,
+  [
+    ...[],
+    []["length"]
+  ]
+]> extends number ? Exclude<[]["length"] extends End ? [][number] : [
+  End,
+  [
+    ...[],
+    []["length"]
+  ]
+], []["length"] extends Start ? [][number] : [
+  Start,
+  [
+    ...[],
+    []["length"]
+  ]
+]> : never;
