@@ -46,14 +46,15 @@ type TraverseData = {
   typeParameters?: TraverseDataParameters | undefined;
 };
 
-type Traverse = (traverseData: TraverseData, indentLevel?: number) => string;
+type Traverse = (traverseData: TraverseData, depthLevel: number) => string;
+type Next = (data: TraverseData) => string;
 
 type HandlerStack = Record<
   `${ManagedSignatures}Handler`,
   (
-    traverseData: TraverseData,
-    indentLevel: number,
-  ) => undefined | (() => string)
+    data: TraverseData,
+    opts: UserOptions | undefined,
+  ) => ((next: Next, indent: (hunk: string) => string) => string) | undefined
 >;
 
 type UserOptions = {
@@ -105,7 +106,34 @@ export default (
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
       : file;
 
-  const traverse = traverseFactory(opts);
+  const { maxDepth = 9 } = { ...opts };
+
+  const indent = (hunk: string, l = 1) => {
+    return hunk.replace(/^/gm, " ".repeat(l * 2));
+  };
+
+  const traverse: Traverse = (data, depthLevel) => {
+    if (depthLevel > maxDepth) {
+      return "never /** max depth level exceeded */";
+    }
+
+    for (const key of Object.keys(handlerStack) as Array<keyof HandlerStack>) {
+      const handler = handlerStack[key](data, opts);
+      if (handler) {
+        return handler(
+          (data) => traverse(data, depthLevel + 1),
+          (hunk) => indent(hunk, depthLevel + 1),
+        );
+      }
+    }
+
+    // if no handler matched so far, perhaps it's a primitive value
+    if (isPrimitive(data.type)) {
+      return data.type.getText(data.typeNode);
+    }
+
+    return "unknown /** unresolved */";
+  };
 
   return sourceFile
     .getTypeAliases()
@@ -125,7 +153,7 @@ export default (
       const type = typeAlias.getType();
 
       const typeParameters = typeAlias.getTypeParameters().map((param) => {
-        return renderTypeParameter(param, traverse);
+        return renderTypeParameter(param, (data) => traverse(data, 1));
       });
 
       if (!opts?.typesFilter || opts.typesFilter(typeName)) {
@@ -135,24 +163,27 @@ export default (
                 "export type %s<%s> = %s;\n",
                 typeName,
                 typeParameters.map(({ text }) => text).join(", "),
-                traverse({
-                  typeNode,
-                  type,
-                  typeParameters: typeParameters.reduce(
-                    (map: Record<string, string>, { name }) => {
-                      map[name] = name;
-                      return map;
-                    },
-                    {},
-                  ),
-                }),
+                traverse(
+                  {
+                    typeNode,
+                    type,
+                    typeParameters: typeParameters.reduce(
+                      (map: Record<string, string>, { name }) => {
+                        map[name] = name;
+                        return map;
+                      },
+                      {},
+                    ),
+                  },
+                  1,
+                ),
               ),
             ]
           : [
               format(
                 "export type %s = %s;\n",
                 typeName,
-                traverse({ typeNode, type }),
+                traverse({ typeNode, type }, 1),
               ),
             ];
       }
@@ -162,687 +193,624 @@ export default (
     .join("\n");
 };
 
-const traverseFactory = (opts: UserOptions | undefined): Traverse => {
-  const overrides: Record<string, string> = {
-    ...builtins,
-    ...opts?.overrides,
-  };
+const handlerStack: HandlerStack = {
+  symbolHandler({ type }) {
+    return type.getFlags() & (TypeFlags.ESSymbol | TypeFlags.UniqueESSymbol)
+      ? () => "symbol"
+      : undefined;
+  },
 
-  const { maxDepth = 9 } = { ...opts };
+  voidHandler({ typeNode }) {
+    return typeNode.isKind(SyntaxKind.VoidKeyword) ? () => "void" : undefined;
+  },
 
-  const traverse: Traverse = (factorySettings, factoryIndentLevel = 1) => {
-    if (factoryIndentLevel > maxDepth) {
-      return `"..."`;
-    }
+  objectHandler({ typeNode }) {
+    return typeNode.isKind(SyntaxKind.ObjectKeyword)
+      ? () => "object"
+      : undefined;
+  },
 
-    const handlerStack: HandlerStack = {
-      symbolHandler({ type }) {
-        return type.getFlags() & (TypeFlags.ESSymbol | TypeFlags.UniqueESSymbol)
-          ? () => "symbol"
-          : undefined;
-      },
+  constructorTypeHandler({ typeNode }) {
+    return typeNode.isKind(SyntaxKind.ConstructorType)
+      ? (next) => {
+          const parameters = typeNode
+            .getChildrenOfKind(SyntaxKind.Parameter)
+            .map((param) => renderCallSignatureParameter(param, next));
 
-      voidHandler({ typeNode }) {
-        return typeNode.isKind(SyntaxKind.VoidKeyword)
-          ? () => "void"
-          : undefined;
-      },
+          const returnTypeNode = typeNode.getReturnTypeNode();
 
-      objectHandler({ typeNode }) {
-        return typeNode.isKind(SyntaxKind.ObjectKeyword)
-          ? () => "object"
-          : undefined;
-      },
+          return format(
+            "new (%s) => %s",
+            parameters.join(", "),
+            returnTypeNode
+              ? next({
+                  typeNode: returnTypeNode,
+                  type: returnTypeNode.getType(),
+                })
+              : "unknown /** unknown return type */",
+          );
+        }
+      : undefined;
+  },
 
-      constructorTypeHandler({ typeNode }) {
-        return typeNode.isKind(SyntaxKind.ConstructorType)
-          ? () => {
-              const parameters = typeNode
-                .getChildrenOfKind(SyntaxKind.Parameter)
-                .map((param) => renderCallSignatureParameter(param, traverse));
+  conditionalTypeHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.ConditionalType)
+      ? (next) => {
+          return format(
+            "%s extends %s ? %s : %s",
+            ...[
+              typeNode.getCheckType(),
+              typeNode.getExtendsType(),
+              typeNode.getTrueType(),
+              typeNode.getFalseType(),
+            ].map((e) =>
+              next({ typeNode: e, type: e.getType(), typeParameters }),
+            ),
+          );
+        }
+      : undefined;
+  },
 
-              const returnTypeNode = typeNode.getReturnTypeNode();
+  optionalTypeHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.OptionalType)
+      ? (next) => {
+          const [innerType] = typeNode.forEachChildAsArray();
+          return next({
+            typeNode: innerType as TypeNode,
+            type: innerType.getType(),
+            typeParameters,
+          });
+        }
+      : undefined;
+  },
 
-              return format(
-                "new (%s) => %s",
-                parameters.join(", "),
-                returnTypeNode
-                  ? traverse({
-                      typeNode: returnTypeNode,
-                      type: returnTypeNode.getType(),
-                    })
-                  : "unknown /** unknown return type */",
-              );
-            }
-          : undefined;
-      },
+  parenthesizedTypeHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.ParenthesizedType)
+      ? (next) => {
+          const [innerType] = typeNode.forEachChildAsArray();
+          return next({
+            typeNode: innerType as TypeNode,
+            type: innerType.getType(),
+            typeParameters,
+          });
+        }
+      : undefined;
+  },
 
-      conditionalTypeHandler({ typeNode, typeParameters }) {
-        return typeNode.isKind(SyntaxKind.ConditionalType)
-          ? () => {
-              return format(
-                "%s extends %s ? %s : %s",
-                ...[
-                  typeNode.getCheckType(),
-                  typeNode.getExtendsType(),
-                  typeNode.getTrueType(),
-                  typeNode.getFalseType(),
-                ].map((e) =>
-                  traverse({ typeNode: e, type: e.getType(), typeParameters }),
-                ),
-              );
-            }
-          : undefined;
-      },
+  indexedAccessTypeHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.IndexedAccessType)
+      ? (next) => {
+          const objectTypeNode = typeNode.getObjectTypeNode();
+          const indexTypeNode = typeNode.getIndexTypeNode();
+          return format(
+            "%s[%s]",
+            next({
+              typeNode: objectTypeNode,
+              type: objectTypeNode.getType(),
+              typeParameters,
+            }),
+            next({
+              typeNode: indexTypeNode,
+              type: indexTypeNode.getType(),
+              typeParameters,
+            }),
+          );
+        }
+      : undefined;
+  },
 
-      optionalTypeHandler({ typeNode, typeParameters }, indentLevel) {
-        return typeNode.isKind(SyntaxKind.OptionalType)
-          ? () => {
-              const [innerType] = typeNode.forEachChildAsArray();
-              return traverse(
+  templateLiteralTypeHandler({ typeNode }) {
+    return typeNode.isKind(SyntaxKind.TemplateLiteralType)
+      ? (next) => {
+          const head = typeNode.getHead().getText();
+          const tail = typeNode.getTemplateSpans().map((span) => {
+            return span
+              .getChildren()
+              .map((e) => {
+                return [
+                  SyntaxKind.TemplateMiddle,
+                  SyntaxKind.TemplateTail,
+                ].includes(e.getKind())
+                  ? e.getText()
+                  : next({
+                      typeNode: e as TypeNode,
+                      type: e.getType(),
+                    });
+              })
+              .join("");
+          });
+          return format("%s%s", head, tail.join(""));
+        }
+      : undefined;
+  },
+
+  mappedTypeHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.MappedType)
+      ? (next) => {
+          const mappedTypeParameter = typeNode.getTypeParameter();
+
+          const mappedTypeConstraint = mappedTypeParameter.getConstraint();
+
+          const mappedTypeNode = typeNode.getTypeNode();
+
+          const nameTypeNode = typeNode.getNameTypeNode();
+
+          return format(
+            "{ [%s in %s%s]%s: %s }",
+            mappedTypeParameter.getNameNode().getText(),
+            mappedTypeConstraint
+              ? next({
+                  typeNode: mappedTypeConstraint,
+                  type: mappedTypeConstraint.getType(),
+                  typeParameters,
+                })
+              : "unknown /** unresolved mapped type constraint */",
+            nameTypeNode
+              ? format(
+                  " as %s",
+                  next({
+                    typeNode: nameTypeNode,
+                    type: nameTypeNode.getType(),
+                    typeParameters,
+                  }),
+                )
+              : "",
+            typeNode.getQuestionToken() ? "?" : "",
+            mappedTypeNode
+              ? next({
+                  typeNode: mappedTypeNode,
+                  type: mappedTypeNode?.getType(),
+                  typeParameters,
+                })
+              : "unknown /** unresolved mapped type node */",
+          );
+        }
+      : undefined;
+  },
+
+  inferTypeHandler({ typeNode }) {
+    return typeNode.isKind(SyntaxKind.InferType)
+      ? () => typeNode.getText()
+      : undefined;
+  },
+
+  typeOperatorHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.TypeOperator)
+      ? (next) => {
+          let template = "%s";
+
+          if (typeNode.getFirstChildByKind(SyntaxKind.KeyOfKeyword)) {
+            template = "keyof %s";
+          }
+
+          if (typeNode.getFirstChildByKind(SyntaxKind.ReadonlyKeyword)) {
+            template = "readonly %s";
+          }
+
+          const innertTypeNode = typeNode.getTypeNode();
+
+          return format(
+            template,
+            next({
+              typeNode: innertTypeNode as TypeNode,
+              type: innertTypeNode.getType(),
+              typeParameters,
+            }),
+          );
+        }
+      : undefined;
+  },
+
+  typeReferenceHandler({ typeNode, type, typeParameters }, opts) {
+    return typeNode.isKind(SyntaxKind.TypeReference)
+      ? (next) => {
+          const nameNode = typeNode.getTypeName();
+          const typeName = nameNode.getText();
+
+          if (typeParameters?.[typeName]) {
+            return typeParameters[typeName];
+          }
+
+          const typeArguments = typeNode.getTypeArguments().map((param) => {
+            return next({
+              typeNode: param,
+              type: param.getType(),
+              typeParameters,
+            });
+          });
+
+          const overrides: Record<string, string> = {
+            ...builtins,
+            ...opts?.overrides,
+          };
+
+          if (overrides[typeName]) {
+            return typeArguments.length
+              ? format("%s<%s>", overrides[typeName], typeArguments.join(", "))
+              : overrides[typeName];
+          }
+
+          const aliasDeclaration = (
+            type.getAliasSymbol() ??
+            type.getSymbol() ??
+            type.getTargetType()?.getSymbol() ??
+            // seems type symbol was dropped, trying nameNode symbol
+            nameNode
+              .getSymbol()
+              ?.getAliasedSymbol() ??
+            nameNode.getSymbol()
+          )
+            ?.getDeclarations()
+            ?.find((e) => e.isKind(SyntaxKind.TypeAliasDeclaration));
+
+          const aliasNode = aliasDeclaration
+            ? aliasDeclaration.getTypeNode()
+            : undefined;
+
+          if (aliasNode) {
+            const aliasType = aliasNode.getType();
+            return next({
+              typeNode: aliasNode,
+              type: aliasType.getTargetType() || aliasType,
+              typeParameters: aliasDeclaration
+                ?.getTypeParameters()
+                .reduce((map: TraverseDataParameters, param, i) => {
+                  map[param.getName()] =
+                    typeArguments[i] ?? // empty string is a valid value
+                    param.getDefault()?.getText();
+                  return map;
+                }, {}),
+            });
+          }
+
+          return format("%s /** unresolved */", typeNode.getText());
+        }
+      : undefined;
+  },
+
+  typeLiteralHandler({ typeNode, type, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.TypeLiteral)
+      ? (next, indent) => {
+          /**
+           * collecting regular index signatures, without comments:
+           *    Record<string, ...>
+           *    { [key: string]: ... }
+           *    Record<number, ...>
+           *    { [key: number]: ... }
+           * and template index signatures, also without comments:
+           *     Record<`some_${string}`, ...>
+           *     { [key: `some_${string}`]: ... }
+           */
+          const indexSignatures = typeNode
+            .getIndexSignatures()
+            .flatMap((signature) => {
+              const keyTypeNode = signature.getKeyTypeNode();
+              const returnTypeNode = signature.getReturnTypeNode();
+              return [
                 {
-                  typeNode: innerType as TypeNode,
-                  type: innerType.getType(),
-                  typeParameters,
-                },
-                indentLevel,
-              );
-            }
-          : undefined;
-      },
-
-      parenthesizedTypeHandler({ typeNode, typeParameters }, indentLevel) {
-        return typeNode.isKind(SyntaxKind.ParenthesizedType)
-          ? () => {
-              const [innerType] = typeNode.forEachChildAsArray();
-              return traverse(
-                {
-                  typeNode: innerType as TypeNode,
-                  type: innerType.getType(),
-                  typeParameters,
-                },
-                indentLevel,
-              );
-            }
-          : undefined;
-      },
-
-      indexedAccessTypeHandler({ typeNode, typeParameters }) {
-        return typeNode.isKind(SyntaxKind.IndexedAccessType)
-          ? () => {
-              const objectTypeNode = typeNode.getObjectTypeNode();
-              const indexTypeNode = typeNode.getIndexTypeNode();
-              return format(
-                "%s[%s]",
-                traverse({
-                  typeNode: objectTypeNode,
-                  type: objectTypeNode.getType(),
-                  typeParameters,
-                }),
-                traverse({
-                  typeNode: indexTypeNode,
-                  type: indexTypeNode.getType(),
-                  typeParameters,
-                }),
-              );
-            }
-          : undefined;
-      },
-
-      templateLiteralTypeHandler({ typeNode }) {
-        return typeNode.isKind(SyntaxKind.TemplateLiteralType)
-          ? () => {
-              const head = typeNode.getHead().getText();
-              const tail = typeNode.getTemplateSpans().map((span) => {
-                return span
-                  .getChildren()
-                  .map((e) => {
-                    return [
-                      SyntaxKind.TemplateMiddle,
-                      SyntaxKind.TemplateTail,
-                    ].includes(e.getKind())
-                      ? e.getText()
-                      : traverse({
-                          typeNode: e as TypeNode,
-                          type: e.getType(),
-                        });
-                  })
-                  .join("");
-              });
-              return format("%s%s", head, tail.join(""));
-            }
-          : undefined;
-      },
-
-      mappedTypeHandler({ typeNode, typeParameters }) {
-        return typeNode.isKind(SyntaxKind.MappedType)
-          ? () => {
-              const mappedTypeParameter = typeNode.getTypeParameter();
-
-              const mappedTypeConstraint = mappedTypeParameter.getConstraint();
-
-              const mappedTypeNode = typeNode.getTypeNode();
-
-              const nameTypeNode = typeNode.getNameTypeNode();
-
-              return format(
-                "{ [%s in %s%s]%s: %s }",
-                mappedTypeParameter.getNameNode().getText(),
-                mappedTypeConstraint
-                  ? traverse({
-                      typeNode: mappedTypeConstraint,
-                      type: mappedTypeConstraint.getType(),
-                      typeParameters,
-                    })
-                  : "unknown /** unresolved mapped type constraint */",
-                nameTypeNode
-                  ? format(
-                      " as %s",
-                      traverse({
-                        typeNode: nameTypeNode,
-                        type: nameTypeNode.getType(),
+                  key: keyTypeNode.getText(),
+                  val: returnTypeNode
+                    ? next({
+                        typeNode: returnTypeNode,
+                        type: returnTypeNode.getType(),
                         typeParameters,
-                      }),
-                    )
-                  : "",
-                typeNode.getQuestionToken() ? "?" : "",
-                mappedTypeNode
-                  ? traverse({
-                      typeNode: mappedTypeNode,
-                      type: mappedTypeNode?.getType(),
+                      })
+                    : "unknown /** unresolved */",
+                },
+              ];
+            });
+
+          /**
+           * collecting construct signatures, without comments:
+           *    export type Constructable = {
+           *      new (...): ...;
+           *    }
+           * */
+          const constructSignatures = type.getConstructSignatures();
+
+          /**
+           * collecting method signatures, with comments (jsDoc format only):
+           *    export type ObjectWithMethods = {
+           *      calculate(...): ...;
+           *    }
+           * */
+          const methodSignatures = typeNode
+            .getChildrenOfKind(SyntaxKind.MethodSignature)
+            .map((methodSignature) => {
+              return {
+                name: methodSignature.getName(),
+                signatures: methodSignature.getType().getCallSignatures(),
+                comments: methodSignature
+                  .getJsDocs()
+                  .map((e) => e.getText().trim()),
+              };
+            });
+
+          /**
+           * collecting regular properties, with comments (jsDoc format only)
+           * */
+          const propertySignatures = typeNode
+            .getChildrenOfKind(SyntaxKind.PropertySignature)
+            .map((propertySignature) => {
+              const propertySymbol = propertySignature.getSymbol();
+              const propertyTypeNode = propertySignature.getTypeNode();
+              return {
+                name: propNameWrapper(propertySignature.getName(), {
+                  isOptional: propertySymbol?.isOptional() || false,
+                }),
+                value: propertyTypeNode
+                  ? next({
+                      typeNode: propertyTypeNode,
+                      type: propertyTypeNode.getType(),
                       typeParameters,
                     })
-                  : "unknown /** unresolved mapped type node */",
+                  : "unknown /** unknown property signature */",
+                comments: propertySignature
+                  .getJsDocs()
+                  .map((e) => e.getText().trim()),
+              };
+            });
+
+          const hunks: Array<string> = [];
+
+          for (const { key, val } of indexSignatures) {
+            hunks.push(format("[k: %s]: %s", key, val));
+          }
+
+          for (const signature of constructSignatures) {
+            const { parameters, returnType } = renderCallSignatureAssets(
+              signature,
+              (data) => next({ ...data, typeParameters }),
+            );
+            hunks.push(
+              format(
+                "new (%s): %s", //
+                parameters.join(", "),
+                returnType,
+              ),
+            );
+          }
+
+          for (const { name, signatures, comments } of methodSignatures) {
+            for (const signature of signatures) {
+              const { parameters, returnType } = renderCallSignatureAssets(
+                signature,
+                (data) => next({ ...data, typeParameters }),
+              );
+              hunks.push(
+                [
+                  ...comments,
+                  format(`${name}(%s): %s`, parameters.join(", "), returnType),
+                ].join("\n"),
               );
             }
-          : undefined;
-      },
+          }
 
-      inferTypeHandler({ typeNode }) {
-        return typeNode.isKind(SyntaxKind.InferType)
-          ? () => typeNode.getText()
-          : undefined;
-      },
+          for (const { name, value, comments } of propertySignatures) {
+            hunks.push(
+              [
+                //
+                ...comments,
+                format("%s: %s", name, value),
+              ].join("\n"),
+            );
+          }
 
-      typeOperatorHandler({ typeNode, typeParameters }, indentLevel) {
-        return typeNode.isKind(SyntaxKind.TypeOperator)
-          ? () => {
-              let template = "%s";
+          return format(
+            hunks.length ? "{\n%s\n}" : "{%s}",
+            hunks.map((e) => indent(e)).join(";\n"),
+          );
+        }
+      : undefined;
+  },
 
-              if (typeNode.getFirstChildByKind(SyntaxKind.KeyOfKeyword)) {
-                template = "keyof %s";
+  unionHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.UnionType)
+      ? (next) => {
+          /**
+           * type.getUnionTypes() is dropping undefined elements.
+           * using typeNode.forEachChildAsArray() to get original user input.
+           * */
+          return typeNode
+            .forEachChildAsArray()
+            .map((typeNode) => {
+              return next({
+                typeNode: typeNode as TypeNode,
+                type: typeNode.getType(),
+                typeParameters,
+              });
+            })
+            .join(" | ");
+        }
+      : undefined;
+  },
+
+  intersectionHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.IntersectionType)
+      ? (next) => {
+          /** type.getIntersectionTypes() is converting whole type to undefined
+           * if it contains an undefined element.
+           * using typeNode.forEachChildAsArray() to get original user input.
+           * */
+          return typeNode
+            .forEachChildAsArray()
+            .map((intersectionTypeNode) => {
+              return next({
+                typeNode: intersectionTypeNode as TypeNode,
+                type: intersectionTypeNode.getType(),
+                typeParameters,
+              });
+            })
+            .join(" & ");
+        }
+      : undefined;
+  },
+
+  tupleHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.TupleType)
+      ? (next, indent) => {
+          const elements = typeNode.getElements().map((element) => {
+            const isOptional = element.isKind(SyntaxKind.OptionalType);
+            let isRest = element.isKind(SyntaxKind.RestType);
+
+            let name: string | undefined;
+            let value = "unknown /** unknown tuple element signature */";
+
+            if (element.isKind(SyntaxKind.NamedTupleMember)) {
+              name = element.hasQuestionToken()
+                ? format("%s?", element.getName())
+                : element.getName();
+
+              const elementTypeNode = element.getTypeNode();
+
+              value = next({
+                typeNode: elementTypeNode,
+                type: elementTypeNode.getType(),
+                typeParameters,
+              });
+
+              if (element.getFirstChildByKind(SyntaxKind.DotDotDotToken)) {
+                isRest = true;
               }
-
-              if (typeNode.getFirstChildByKind(SyntaxKind.ReadonlyKeyword)) {
-                template = "readonly %s";
-              }
-
-              const innertTypeNode = typeNode.getTypeNode();
-
-              return format(
-                template,
-                traverse(
-                  {
-                    typeNode: innertTypeNode as TypeNode,
+            } else if (element.isKind(SyntaxKind.RestType)) {
+              const parenthesizedType = element.getFirstChildByKind(
+                SyntaxKind.ParenthesizedType,
+              );
+              if (parenthesizedType) {
+                const innertTypeNode = parenthesizedType.getTypeNode();
+                value = format(
+                  "(%s)",
+                  next({
+                    typeNode: innertTypeNode,
                     type: innertTypeNode.getType(),
                     typeParameters,
-                  },
-                  indentLevel,
-                ),
-              );
-            }
-          : undefined;
-      },
-
-      typeReferenceHandler({ typeNode, type, typeParameters }) {
-        return typeNode.isKind(SyntaxKind.TypeReference)
-          ? () => {
-              const nameNode = typeNode.getTypeName();
-              const typeName = nameNode.getText();
-
-              if (typeParameters?.[typeName]) {
-                return typeParameters[typeName];
-              }
-
-              const typeArguments = typeNode.getTypeArguments().map((param) => {
-                return traverse({
-                  typeNode: param,
-                  type: param.getType(),
+                  }),
+                );
+              } else {
+                const elementTypeNode = element.getTypeNode();
+                value = next({
+                  typeNode: elementTypeNode,
+                  type: elementTypeNode.getType(),
                   typeParameters,
                 });
+              }
+            } else {
+              value = next({
+                typeNode: element,
+                type: element.getType(),
+                typeParameters,
               });
-
-              if (overrides[typeName]) {
-                return typeArguments.length
-                  ? format(
-                      "%s<%s>",
-                      overrides[typeName],
-                      typeArguments.join(", "),
-                    )
-                  : overrides[typeName];
-              }
-
-              const aliasDeclaration = (
-                type.getAliasSymbol() ??
-                type.getSymbol() ??
-                type.getTargetType()?.getSymbol() ??
-                // seems type symbol was dropped, trying nameNode symbol
-                nameNode
-                  .getSymbol()
-                  ?.getAliasedSymbol() ??
-                nameNode.getSymbol()
-              )
-                ?.getDeclarations()
-                ?.find((e) => e.isKind(SyntaxKind.TypeAliasDeclaration));
-
-              const aliasNode = aliasDeclaration
-                ? aliasDeclaration.getTypeNode()
-                : undefined;
-
-              if (aliasNode) {
-                const aliasType = aliasNode.getType();
-                return traverse({
-                  typeNode: aliasNode,
-                  type: aliasType.getTargetType() || aliasType,
-                  typeParameters: aliasDeclaration
-                    ?.getTypeParameters()
-                    .reduce((map: TraverseDataParameters, param, i) => {
-                      map[param.getName()] =
-                        typeArguments[i] ?? // empty string is a valid value
-                        param.getDefault()?.getText();
-                      return map;
-                    }, {}),
-                });
-              }
-
-              return format("%s /** unresolved */", typeNode.getText());
             }
-          : undefined;
-      },
 
-      typeLiteralHandler({ typeNode, type, typeParameters }, indentLevel) {
-        return typeNode.isKind(SyntaxKind.TypeLiteral)
-          ? () => {
-              /**
-               * collecting regular index signatures, without comments:
-               *    Record<string, ...>
-               *    { [key: string]: ... }
-               *    Record<number, ...>
-               *    { [key: number]: ... }
-               * and template index signatures, also without comments:
-               *     Record<`some_${string}`, ...>
-               *     { [key: `some_${string}`]: ... }
-               */
-              const indexSignatures = typeNode
-                .getIndexSignatures()
-                .flatMap((signature) => {
-                  const keyTypeNode = signature.getKeyTypeNode();
-                  const returnTypeNode = signature.getReturnTypeNode();
-                  return [
-                    {
-                      key: keyTypeNode.getText(),
-                      val: returnTypeNode
-                        ? traverse({
-                            typeNode: returnTypeNode,
-                            type: returnTypeNode.getType(),
-                            typeParameters,
-                          })
-                        : "unknown /** unresolved */",
-                    },
-                  ];
-                });
-
-              /**
-               * collecting construct signatures, without comments:
-               *    export type Constructable = {
-               *      new (...): ...;
-               *    }
-               * */
-              const constructSignatures = type.getConstructSignatures();
-
-              /**
-               * collecting method signatures, with comments (jsDoc format only):
-               *    export type ObjectWithMethods = {
-               *      calculate(...): ...;
-               *    }
-               * */
-              const methodSignatures = typeNode
-                .getChildrenOfKind(SyntaxKind.MethodSignature)
-                .map((methodSignature) => {
-                  return {
-                    name: methodSignature.getName(),
-                    signatures: methodSignature.getType().getCallSignatures(),
-                    comments: methodSignature
-                      .getJsDocs()
-                      .map((e) => e.getText().trim()),
-                  };
-                });
-
-              /**
-               * collecting regular properties, with comments (jsDoc format only)
-               * */
-              const propertySignatures = typeNode
-                .getChildrenOfKind(SyntaxKind.PropertySignature)
-                .map((propertySignature) => {
-                  const propertySymbol = propertySignature.getSymbol();
-                  const propertyTypeNode = propertySignature.getTypeNode();
-                  return {
-                    name: propNameWrapper(propertySignature.getName(), {
-                      isOptional: propertySymbol?.isOptional() || false,
-                    }),
-                    value: propertyTypeNode
-                      ? traverse(
-                          {
-                            typeNode: propertyTypeNode,
-                            type: propertyTypeNode.getType(),
-                            typeParameters,
-                          },
-                          indentLevel,
-                        )
-                      : "unknown /** unknown property signature */",
-                    comments: propertySignature
-                      .getJsDocs()
-                      .map((e) => e.getText().trim()),
-                  };
-                });
-
-              const hunks: Array<string> = [];
-
-              for (const { key, val } of indexSignatures) {
-                hunks.push(format("[k: %s]: %s", key, val));
-              }
-
-              for (const signature of constructSignatures) {
-                const { parameters, returnType } = renderCallSignatureAssets(
-                  signature,
-                  (data) => traverse({ ...data, typeParameters }),
-                );
-                hunks.push(
-                  format(
-                    "new (%s): %s", //
-                    parameters.join(", "),
-                    returnType,
-                  ),
-                );
-              }
-
-              for (const { name, signatures, comments } of methodSignatures) {
-                for (const signature of signatures) {
-                  const { parameters, returnType } = renderCallSignatureAssets(
-                    signature,
-                    (data) => traverse({ ...data, typeParameters }),
-                  );
-                  hunks.push(
-                    [
-                      ...comments,
-                      format(
-                        `${name}(%s): %s`,
-                        parameters.join(", "),
-                        returnType,
-                      ),
-                    ].join("\n"),
-                  );
-                }
-              }
-
-              for (const { name, value, comments } of propertySignatures) {
-                hunks.push(
-                  [
-                    //
-                    ...comments,
-                    format("%s: %s", name, value),
-                  ].join("\n"),
-                );
-              }
-
-              return format(
-                hunks.length ? "{\n%s\n}" : "{%s}",
-                hunks.map((e) => indent(e)).join(";\n"),
+            if (isRest) {
+              return indent(
+                name
+                  ? format("...%s: %s", name, value)
+                  : format("...%s", value),
               );
             }
-          : undefined;
-      },
 
-      unionHandler({ typeNode, typeParameters }, indentLevel) {
-        return typeNode.isKind(SyntaxKind.UnionType)
-          ? () => {
-              /**
-               * type.getUnionTypes() is dropping undefined elements.
-               * using typeNode.forEachChildAsArray() to get original user input.
-               * */
-              return typeNode
-                .forEachChildAsArray()
-                .map((typeNode) => {
-                  return traverse(
-                    {
-                      typeNode: typeNode as TypeNode,
-                      type: typeNode.getType(),
-                      typeParameters,
-                    },
-                    indentLevel,
-                  );
-                })
-                .join(" | ");
-            }
-          : undefined;
-      },
+            return indent(
+              name
+                ? format("%s: %s", name, value)
+                : isOptional
+                  ? format("(%s)?", value)
+                  : value,
+            );
+          });
 
-      intersectionHandler({ typeNode, typeParameters }, indentLevel) {
-        return typeNode.isKind(SyntaxKind.IntersectionType)
-          ? () => {
-              /** type.getIntersectionTypes() is converting whole type to undefined
-               * if it contains an undefined element.
-               * using typeNode.forEachChildAsArray() to get original user input.
-               * */
-              return typeNode
-                .forEachChildAsArray()
-                .map((intersectionTypeNode) => {
-                  return traverse(
-                    {
-                      typeNode: intersectionTypeNode as TypeNode,
-                      type: intersectionTypeNode.getType(),
-                      typeParameters,
-                    },
-                    indentLevel,
-                  );
-                })
-                .join(" & ");
-            }
-          : undefined;
-      },
+          return format(
+            elements.length ? "[\n%s\n]" : "[%s]",
+            elements.join(",\n"),
+          );
+        }
+      : undefined;
+  },
 
-      tupleHandler({ typeNode, typeParameters }, indentLevel) {
-        return typeNode.isKind(SyntaxKind.TupleType)
-          ? () => {
-              const elements = typeNode.getElements().map((element) => {
-                const isOptional = element.isKind(SyntaxKind.OptionalType);
-                let isRest = element.isKind(SyntaxKind.RestType);
+  arrayHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.ArrayType)
+      ? (next) => {
+          /**
+           * getTypeNode() does not seem to work here.
+           * getFirstChild() may return artefacts.
+           * */
+          let [arrayTypeNode] = typeNode.forEachChildAsArray() as [
+            ArrayTypeNode,
+            ...unknown[],
+          ];
 
-                let name: string | undefined;
-                let value = "unknown /** unknown tuple element signature */";
+          let isParenthesized = false;
 
-                if (element.isKind(SyntaxKind.NamedTupleMember)) {
-                  name = element.hasQuestionToken()
-                    ? format("%s?", element.getName())
-                    : element.getName();
-
-                  const elementTypeNode = element.getTypeNode();
-
-                  value = traverse({
-                    typeNode: elementTypeNode,
-                    type: elementTypeNode.getType(),
-                    typeParameters,
-                  });
-
-                  if (element.getFirstChildByKind(SyntaxKind.DotDotDotToken)) {
-                    isRest = true;
-                  }
-                } else if (element.isKind(SyntaxKind.RestType)) {
-                  const parenthesizedType = element.getFirstChildByKind(
-                    SyntaxKind.ParenthesizedType,
-                  );
-                  if (parenthesizedType) {
-                    const innertTypeNode = parenthesizedType.getTypeNode();
-                    value = format(
-                      "(%s)",
-                      traverse({
-                        typeNode: innertTypeNode,
-                        type: innertTypeNode.getType(),
-                        typeParameters,
-                      }),
-                    );
-                  } else {
-                    const elementTypeNode = element.getTypeNode();
-                    value = traverse({
-                      typeNode: elementTypeNode,
-                      type: elementTypeNode.getType(),
-                      typeParameters,
-                    });
-                  }
-                } else {
-                  value = traverse(
-                    {
-                      typeNode: element,
-                      type: element.getType(),
-                      typeParameters,
-                    },
-                    indentLevel,
-                  );
-                }
-
-                if (isRest) {
-                  return indent(
-                    name
-                      ? format("...%s: %s", name, value)
-                      : format("...%s", value),
-                  );
-                }
-
-                return indent(
-                  name
-                    ? format("%s: %s", name, value)
-                    : isOptional
-                      ? format("(%s)?", value)
-                      : value,
-                );
-              });
-
-              return format(
-                elements.length ? "[\n%s\n]" : "[%s]",
-                elements.join(",\n"),
-              );
-            }
-          : undefined;
-      },
-
-      arrayHandler({ typeNode, typeParameters }, indentLevel) {
-        return typeNode.isKind(SyntaxKind.ArrayType)
-          ? () => {
-              /**
-               * getTypeNode() does not seem to work here.
-               * getFirstChild() may return artefacts.
-               * */
-              let [arrayTypeNode] = typeNode.forEachChildAsArray() as [
+          if (arrayTypeNode?.isKind(SyntaxKind.ParenthesizedType)) {
+            /**
+             * getFirstChild() returns OpenParenToken, so using forEachChildAsArray()
+             * (ParenthesizedType can not have multiple elements anyway)
+             * not sure about getTypeNode() in this context.
+             * */
+            arrayTypeNode = (
+              arrayTypeNode.forEachChildAsArray() as [
                 ArrayTypeNode,
                 ...unknown[],
-              ];
+              ]
+            )[0];
 
-              let isParenthesized = false;
+            isParenthesized = true;
+          }
 
-              if (arrayTypeNode?.isKind(SyntaxKind.ParenthesizedType)) {
-                /**
-                 * getFirstChild() returns OpenParenToken, so using forEachChildAsArray()
-                 * (ParenthesizedType can not have multiple elements anyway)
-                 * not sure about getTypeNode() in this context.
-                 * */
-                arrayTypeNode = (
-                  arrayTypeNode.forEachChildAsArray() as [
-                    ArrayTypeNode,
-                    ...unknown[],
-                  ]
-                )[0];
+          if (!arrayTypeNode) {
+            return "unknown /** unknown array signature */";
+          }
 
-                isParenthesized = true;
-              }
+          return format(
+            isParenthesized //
+              ? "(%s)[]"
+              : "%s[]",
+            next({
+              typeNode: arrayTypeNode as TypeNode,
+              type: arrayTypeNode.getType(),
+              typeParameters,
+            }),
+          );
+        }
+      : undefined;
+  },
 
-              if (!arrayTypeNode) {
-                return "unknown /** unknown array signature */";
-              }
+  functionSignatureHandler({ type, typeParameters }) {
+    const callSignatures = type.getCallSignatures();
 
-              return format(
-                isParenthesized //
-                  ? "(%s)[]"
-                  : "%s[]",
-                traverse(
-                  {
-                    typeNode: arrayTypeNode as TypeNode,
-                    type: arrayTypeNode.getType(),
-                    typeParameters,
-                  },
-                  indentLevel,
-                ),
-              );
-            }
-          : undefined;
-      },
-
-      functionSignatureHandler({ type, typeParameters }) {
-        const callSignatures = type.getCallSignatures();
-
-        // if a type has call signatures, it is definitelly a function, is not it?
-        return callSignatures.length
-          ? () => {
-              const signatures = callSignatures.map((signature) => {
-                const {
-                  //
-                  generics,
-                  parameters,
-                  returnType,
-                } = renderCallSignatureAssets(signature, (data) => {
-                  return traverse({ ...data, typeParameters });
-                });
-                return format(
-                  callSignatures.length > 1 //
-                    ? "%s(%s): %s"
-                    : "%s(%s) => %s",
-                  generics.length ? format("<%s>", generics.join(", ")) : "",
-                  parameters.join(", "),
-                  returnType,
-                );
-              });
-              return format(
-                callSignatures.length > 1 //
-                  ? "{\n%s\n}"
-                  : "(%s)",
-                signatures.join("\n"),
-              );
-            }
-          : undefined;
-      },
-    };
-
-    for (const key of Object.keys(handlerStack) as Array<keyof HandlerStack>) {
-      const handler = handlerStack[key](factorySettings, factoryIndentLevel);
-      if (handler) {
-        return handler();
-      }
-    }
-
-    // if no handler matched so far, perhaps it's a primitive value
-    if (isPrimitive(factorySettings.type)) {
-      return factorySettings.type.getText(factorySettings.typeNode);
-    }
-
-    return "unknown";
-  };
-
-  return traverse;
+    // if a type has call signatures, it is definitelly a function, is not it?
+    return callSignatures.length
+      ? (next) => {
+          const signatures = callSignatures.map((signature) => {
+            const {
+              //
+              generics,
+              parameters,
+              returnType,
+            } = renderCallSignatureAssets(signature, (data) => {
+              return next({ ...data, typeParameters });
+            });
+            return format(
+              callSignatures.length > 1 //
+                ? "%s(%s): %s"
+                : "%s(%s) => %s",
+              generics.length ? format("<%s>", generics.join(", ")) : "",
+              parameters.join(", "),
+              returnType,
+            );
+          });
+          return format(
+            callSignatures.length > 1 //
+              ? "{\n%s\n}"
+              : "(%s)",
+            signatures.join("\n"),
+          );
+        }
+      : undefined;
+  },
 };
 
-const renderTypeParameter = (
-  param: TypeParameterDeclaration,
-  traverse: Traverse,
-) => {
+const renderTypeParameter = (param: TypeParameterDeclaration, next: Next) => {
   const name = param.getName();
   const constraint = param.getConstraint();
   return {
@@ -851,27 +819,24 @@ const renderTypeParameter = (
       ? format(
           "%s extends %s",
           name,
-          traverse({ typeNode: constraint, type: constraint.getType() }),
+          next({ typeNode: constraint, type: constraint.getType() }),
         )
       : name,
   };
 };
 
-const renderCallSignatureAssets = (
-  signature: Signature,
-  traverse: Traverse,
-) => {
+const renderCallSignatureAssets = (signature: Signature, next: Next) => {
   const declaration = signature.getDeclaration() as
     | CallSignatureDeclaration
     | MethodDeclaration;
 
   const generics = declaration
     .getTypeParameters()
-    .map((param) => renderTypeParameter(param, traverse).text);
+    .map((param) => renderTypeParameter(param, next).text);
 
   const parameters = declaration
     .getChildrenOfKind(SyntaxKind.Parameter)
-    .map((param) => renderCallSignatureParameter(param, traverse));
+    .map((param) => renderCallSignatureParameter(param, next));
 
   const returnTypeNode = declaration.getReturnTypeNode();
 
@@ -879,7 +844,7 @@ const renderCallSignatureAssets = (
     generics,
     parameters,
     returnType: returnTypeNode
-      ? traverse({
+      ? next({
           typeNode: returnTypeNode,
           type: returnTypeNode.getType(),
         })
@@ -889,12 +854,12 @@ const renderCallSignatureAssets = (
 
 const renderCallSignatureParameter = (
   param: ParameterDeclaration,
-  traverse: Traverse,
+  next: Next,
 ) => {
   const paramTypeNode = param.getTypeNode();
 
   const value = paramTypeNode
-    ? traverse({
+    ? next({
         typeNode: paramTypeNode,
         type: paramTypeNode.getType(),
       })
@@ -943,5 +908,3 @@ const propNameWrapper = (
 
   return name;
 };
-
-const indent = (text: string, l = 1) => text.replace(/^/gm, " ".repeat(l * 2));
