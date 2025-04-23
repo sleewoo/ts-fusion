@@ -46,7 +46,8 @@ type TraverseData = {
   typeParameters?: TraverseDataParameters | undefined;
 };
 
-type Traverse = (traverseData: TraverseData, depthLevel: number) => string;
+type Traverse = (data: TraverseData, depthLevel?: number) => string;
+
 type Next = (data: TraverseData) => string;
 
 type HandlerStack = Record<
@@ -54,7 +55,7 @@ type HandlerStack = Record<
   (
     data: TraverseData,
     opts: UserOptions | undefined,
-  ) => ((next: Next, indent: (hunk: string) => string) => string) | undefined
+  ) => ((next: Next) => string) | undefined
 >;
 
 type UserOptions = {
@@ -81,7 +82,7 @@ type UserOptions = {
   overrides?: Record<string, string>;
   /**
    * limit recursion to this level depth.
-   * default: 9 */
+   * default: 20 */
   maxDepth?: number;
 };
 
@@ -106,13 +107,9 @@ export default (
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
       : file;
 
-  const { maxDepth = 9 } = { ...opts };
+  const { maxDepth = 20 } = { ...opts };
 
-  const indent = (hunk: string, l = 1) => {
-    return hunk.replace(/^/gm, " ".repeat(l * 2));
-  };
-
-  const traverse: Traverse = (data, depthLevel) => {
+  const traverse: Traverse = (data, depthLevel = 1) => {
     if (depthLevel > maxDepth) {
       return "never /** max depth level exceeded */";
     }
@@ -120,10 +117,7 @@ export default (
     for (const key of Object.keys(handlerStack) as Array<keyof HandlerStack>) {
       const handler = handlerStack[key](data, opts);
       if (handler) {
-        return handler(
-          (data) => traverse(data, depthLevel + 1),
-          (hunk) => indent(hunk, depthLevel + 1),
-        );
+        return handler((next) => traverse(next, depthLevel + 1));
       }
     }
 
@@ -153,7 +147,7 @@ export default (
       const type = typeAlias.getType();
 
       const typeParameters = typeAlias.getTypeParameters().map((param) => {
-        return renderTypeParameter(param, (data) => traverse(data, 1));
+        return renderTypeParameter(param, traverse);
       });
 
       if (!opts?.typesFilter || opts.typesFilter(typeName)) {
@@ -163,27 +157,24 @@ export default (
                 "export type %s<%s> = %s;\n",
                 typeName,
                 typeParameters.map(({ text }) => text).join(", "),
-                traverse(
-                  {
-                    typeNode,
-                    type,
-                    typeParameters: typeParameters.reduce(
-                      (map: Record<string, string>, { name }) => {
-                        map[name] = name;
-                        return map;
-                      },
-                      {},
-                    ),
-                  },
-                  1,
-                ),
+                traverse({
+                  typeNode,
+                  type,
+                  typeParameters: typeParameters.reduce(
+                    (map: Record<string, string>, { name }) => {
+                      map[name] = name;
+                      return map;
+                    },
+                    {},
+                  ),
+                }),
               ),
             ]
           : [
               format(
                 "export type %s = %s;\n",
                 typeName,
-                traverse({ typeNode, type }, 1),
+                traverse({ typeNode, type }),
               ),
             ];
       }
@@ -470,7 +461,7 @@ const handlerStack: HandlerStack = {
 
   typeLiteralHandler({ typeNode, type, typeParameters }) {
     return typeNode.isKind(SyntaxKind.TypeLiteral)
-      ? (next, indent) => {
+      ? (next) => {
           /**
            * collecting regular index signatures, without comments:
            *    Record<string, ...>
@@ -648,7 +639,7 @@ const handlerStack: HandlerStack = {
 
   tupleHandler({ typeNode, typeParameters }) {
     return typeNode.isKind(SyntaxKind.TupleType)
-      ? (next, indent) => {
+      ? (next) => {
           const elements = typeNode.getElements().map((element) => {
             const isOptional = element.isKind(SyntaxKind.OptionalType);
             let isRest = element.isKind(SyntaxKind.RestType);
@@ -703,25 +694,21 @@ const handlerStack: HandlerStack = {
             }
 
             if (isRest) {
-              return indent(
-                name
-                  ? format("...%s: %s", name, value)
-                  : format("...%s", value),
-              );
+              return name
+                ? format("...%s: %s", name, value)
+                : format("...%s", value);
             }
 
-            return indent(
-              name
-                ? format("%s: %s", name, value)
-                : isOptional
-                  ? format("(%s)?", value)
-                  : value,
-            );
+            return name
+              ? format("%s: %s", name, value)
+              : isOptional
+                ? format("(%s)?", value)
+                : value;
           });
 
           return format(
             elements.length ? "[\n%s\n]" : "[%s]",
-            elements.join(",\n"),
+            elements.map((e) => indent(e)).join(",\n"),
           );
         }
       : undefined;
@@ -907,4 +894,8 @@ const propNameWrapper = (
   }
 
   return name;
+};
+
+const indent = (hunk: string, level = 1) => {
+  return hunk.replace(/^/gm, " ".repeat(level * 2));
 };
