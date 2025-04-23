@@ -287,7 +287,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
           : undefined;
       },
 
-      mappedTypeHandler({ typeNode }) {
+      mappedTypeHandler({ typeNode, typeParameters }) {
         return typeNode.isKind(SyntaxKind.MappedType)
           ? () => {
               const mappedTypeParameter = typeNode.getTypeParameter();
@@ -305,6 +305,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                   ? traverse({
                       typeNode: mappedTypeConstraint,
                       type: mappedTypeConstraint.getType(),
+                      typeParameters,
                     })
                   : "unknown /** unresolved mapped type constraint */",
                 nameTypeNode
@@ -313,6 +314,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                       traverse({
                         typeNode: nameTypeNode,
                         type: nameTypeNode.getType(),
+                        typeParameters,
                       }),
                     )
                   : "",
@@ -321,6 +323,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                   ? traverse({
                       typeNode: mappedTypeNode,
                       type: mappedTypeNode?.getType(),
+                      typeParameters,
                     })
                   : "unknown /** unresolved mapped type node */",
               );
@@ -367,32 +370,41 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
       typeReferenceHandler({ typeNode, type, typeParameters }) {
         return typeNode.isKind(SyntaxKind.TypeReference)
           ? () => {
-              const aliasSymbol =
-                type.getAliasSymbol() ??
-                type.getSymbol() ??
-                type.getTargetType()?.getSymbol();
+              const nameNode = typeNode.getTypeName();
+              const typeName = nameNode.getText();
 
-              const aliasName = aliasSymbol?.getName();
-
-              if (aliasName && typeParameters?.[aliasName]) {
-                return typeParameters[aliasName];
+              if (typeParameters?.[typeName]) {
+                return typeParameters[typeName];
               }
 
               const typeArguments = typeNode.getTypeArguments().map((param) => {
-                return traverse({ typeNode: param, type: param.getType() });
+                return traverse({
+                  typeNode: param,
+                  type: param.getType(),
+                  typeParameters,
+                });
               });
 
-              if (aliasName && overrides[aliasName]) {
+              if (overrides[typeName]) {
                 return typeArguments.length
                   ? format(
                       "%s<%s>",
-                      overrides[aliasName],
+                      overrides[typeName],
                       typeArguments.join(", "),
                     )
-                  : overrides[aliasName];
+                  : overrides[typeName];
               }
 
-              const aliasDeclaration = aliasSymbol
+              const aliasDeclaration = (
+                type.getAliasSymbol() ??
+                type.getSymbol() ??
+                type.getTargetType()?.getSymbol() ??
+                // seems type symbol was dropped, trying nameNode symbol
+                nameNode
+                  .getSymbol()
+                  ?.getAliasedSymbol() ??
+                nameNode.getSymbol()
+              )
                 ?.getDeclarations()
                 ?.find((e) => e.isKind(SyntaxKind.TypeAliasDeclaration));
 
@@ -413,21 +425,6 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                     }, {}),
                 });
               }
-
-              /**
-               * if no alias, most likely the target type got "hard" flattened by TypeScript.
-               *
-               * some "complex" types are flattened and losing symbol, eg:
-               * type Re16 = readonly [number, ...(readonly boolean[])];
-               * type RT05 = [header: string, ...rows: Array<string[]>];
-               *
-               * TypeScript treats these types as a synthetic structural type (not a direct alias).
-               * These types loses alias symbol because considered a "compound" type.
-               *
-               * The only way, for now, to render these types is to rely on getText.
-               * With one caveat: if they have references to another types,
-               * they wont be resolved, rather rendered as is.
-               * */
 
               return format("%s /** unresolved */", typeNode.getText());
             }
@@ -459,6 +456,7 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
                         ? traverse({
                             typeNode: returnTypeNode,
                             type: returnTypeNode.getType(),
+                            typeParameters,
                           })
                         : "unknown /** unresolved */",
                     },
