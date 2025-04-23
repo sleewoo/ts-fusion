@@ -9,6 +9,7 @@ import {
   type TypeParameterDeclaration,
   type CallSignatureDeclaration,
   type MethodDeclaration,
+  type ParameterDeclaration,
   Project,
   SyntaxKind,
   TypeFlags,
@@ -20,6 +21,7 @@ type ManagedSignatures =
   | "symbol"
   | "void"
   | "object"
+  | "constructorType"
   | "conditionalType"
   | "optionalType"
   | "parenthesizedType"
@@ -189,6 +191,29 @@ const traverseFactory = (opts: UserOptions | undefined): Traverse => {
       objectHandler({ typeNode }) {
         return typeNode.isKind(SyntaxKind.ObjectKeyword)
           ? () => "object"
+          : undefined;
+      },
+
+      constructorTypeHandler({ typeNode }) {
+        return typeNode.isKind(SyntaxKind.ConstructorType)
+          ? () => {
+              const parameters = typeNode
+                .getChildrenOfKind(SyntaxKind.Parameter)
+                .map((param) => renderCallSignatureParameter(param, traverse));
+
+              const returnTypeNode = typeNode.getReturnTypeNode();
+
+              return format(
+                "new (%s) => %s",
+                parameters.join(", "),
+                returnTypeNode
+                  ? traverse({
+                      typeNode: returnTypeNode,
+                      type: returnTypeNode.getType(),
+                    })
+                  : "unknown /** unknown return type */",
+              );
+            }
           : undefined;
       },
 
@@ -840,31 +865,13 @@ const renderCallSignatureAssets = (
     | CallSignatureDeclaration
     | MethodDeclaration;
 
-  const generics = declaration.getTypeParameters().map((param) => {
-    return renderTypeParameter(param, traverse).text;
-  });
+  const generics = declaration
+    .getTypeParameters()
+    .map((param) => renderTypeParameter(param, traverse).text);
 
   const parameters = declaration
     .getChildrenOfKind(SyntaxKind.Parameter)
-    .map((param) => {
-      const paramTypeNode = param.getTypeNode();
-
-      const value = paramTypeNode
-        ? traverse({
-            typeNode: paramTypeNode,
-            type: paramTypeNode.getType(),
-          })
-        : "unknown /** unknown param node */";
-
-      return param.isRestParameter()
-        ? format("...%s: %s", param.getName(), value)
-        : format(
-            "%s%s: %s",
-            param.getName(),
-            param.hasQuestionToken() ? "?" : "",
-            value,
-          );
-    });
+    .map((param) => renderCallSignatureParameter(param, traverse));
 
   const returnTypeNode = declaration.getReturnTypeNode();
 
@@ -878,6 +885,29 @@ const renderCallSignatureAssets = (
         })
       : "unknown /** unknown return type */",
   };
+};
+
+const renderCallSignatureParameter = (
+  param: ParameterDeclaration,
+  traverse: Traverse,
+) => {
+  const paramTypeNode = param.getTypeNode();
+
+  const value = paramTypeNode
+    ? traverse({
+        typeNode: paramTypeNode,
+        type: paramTypeNode.getType(),
+      })
+    : "unknown /** unknown param node */";
+
+  return param.isRestParameter()
+    ? format("...%s: %s", param.getName(), value)
+    : format(
+        "%s%s: %s",
+        param.getName(),
+        param.hasQuestionToken() ? "?" : "",
+        value,
+      );
 };
 
 const isPrimitive = (type: Type) => {
