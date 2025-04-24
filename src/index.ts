@@ -386,13 +386,13 @@ const handlerStack: HandlerStack = {
             template = "readonly %s";
           }
 
-          const innertTypeNode = typeNode.getTypeNode();
+          const innerTypeNode = typeNode.getTypeNode();
 
           return format(
             template,
             next({
-              typeNode: innertTypeNode as TypeNode,
-              type: innertTypeNode.getType(),
+              typeNode: innerTypeNode as TypeNode,
+              type: innerTypeNode.getType(),
               typeParameters,
             }),
           );
@@ -703,12 +703,12 @@ const handlerStack: HandlerStack = {
                 SyntaxKind.ParenthesizedType,
               );
               if (parenthesizedType) {
-                const innertTypeNode = parenthesizedType.getTypeNode();
+                const innerTypeNode = parenthesizedType.getTypeNode();
                 value = format(
                   "(%s)",
                   next({
-                    typeNode: innertTypeNode,
-                    type: innertTypeNode.getType(),
+                    typeNode: innerTypeNode,
+                    type: innerTypeNode.getType(),
                     typeParameters,
                   }),
                 );
