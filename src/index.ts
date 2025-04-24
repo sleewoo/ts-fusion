@@ -783,13 +783,17 @@ const handlerStack: HandlerStack = {
             return "unknown /** unknown array signature */";
           }
 
+          const arrayType = arrayTypeNode.getType();
+
           return format(
-            isParenthesized //
+            isParenthesized
               ? "(%s)[]"
-              : "%s[]",
+              : arrayType.isUnion() || arrayType.isIntersection()
+                ? "Array<%s>"
+                : "%s[]",
             next({
               typeNode: arrayTypeNode as TypeNode,
-              type: arrayTypeNode.getType(),
+              type: arrayType,
               typeParameters,
             }),
           );
