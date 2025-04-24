@@ -32,6 +32,7 @@ type ManagedSignatures =
   | "typeOperator"
   | "typeReference"
   | "typeLiteral"
+  | "typeQuery"
   | "union"
   | "intersection"
   | "tuple"
@@ -50,11 +51,13 @@ type Traverse = (data: TraverseData, depthLevel?: number) => string;
 
 type Next = (data: TraverseData) => string;
 
+type Overrides = Record<string, string>;
+
 type HandlerStack = Record<
   `${ManagedSignatures}Handler`,
   (
     data: TraverseData,
-    opts: UserOptions | undefined,
+    opts: { overrides: Overrides },
   ) => ((next: Next) => string) | undefined
 >;
 
@@ -113,13 +116,18 @@ export default (
 
   const { maxDepth = 16 } = { ...opts };
 
+  const overrides: Record<string, string> = {
+    ...builtins,
+    ...opts?.overrides,
+  };
+
   const traverse: Traverse = (data, depthLevel = 1) => {
     if (depthLevel > maxDepth) {
       return "never /** maxDepth exceeded */";
     }
 
     for (const key of Object.keys(handlerStack) as Array<keyof HandlerStack>) {
-      const handler = handlerStack[key](data, opts);
+      const handler = handlerStack[key](data, { overrides });
       if (handler) {
         return handler((next) => traverse(next, depthLevel + 1));
       }
@@ -392,7 +400,7 @@ const handlerStack: HandlerStack = {
       : undefined;
   },
 
-  typeReferenceHandler({ typeNode, typeParameters }, opts) {
+  typeReferenceHandler({ typeNode, typeParameters }, { overrides }) {
     return typeNode.isKind(SyntaxKind.TypeReference)
       ? (next) => {
           const nameNode = typeNode.getTypeName();
@@ -409,11 +417,6 @@ const handlerStack: HandlerStack = {
               typeParameters,
             });
           });
-
-          const overrides: Record<string, string> = {
-            ...builtins,
-            ...opts?.overrides,
-          };
 
           if (overrides[typeName]) {
             return typeArguments.length
@@ -600,6 +603,26 @@ const handlerStack: HandlerStack = {
             hunks.length ? "{\n%s\n}" : "{%s}",
             hunks.map((e) => indent(e)).join(";\n"),
           );
+        }
+      : undefined;
+  },
+
+  typeQueryHandler({ typeNode }, { overrides }) {
+    return typeNode.isKind(SyntaxKind.TypeQuery)
+      ? (next) => {
+          /**
+           * getExprName().getText() always returns only the name, without parameters.
+           * if exprName is a builtin/override, return it as is.
+           * otherwise get first child and pass it down the chain.
+           * */
+          if (overrides[typeNode.getExprName().getText()]) {
+            return typeNode.getText();
+          }
+          const [innerTypeNode] = typeNode.forEachChildAsArray();
+          return next({
+            typeNode: innerTypeNode as TypeNode,
+            type: innerTypeNode.getType(),
+          });
         }
       : undefined;
   },
