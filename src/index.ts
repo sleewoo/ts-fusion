@@ -866,15 +866,31 @@ const renderCallSignatureAssets = (signature: Signature, next: Next) => {
 
   const returnTypeNode = declaration.getReturnTypeNode();
 
+  let returnType = "unknown /** unknown return type */";
+
+  if (returnTypeNode?.isKind(SyntaxKind.TypePredicate)) {
+    const predicateTypeNode = returnTypeNode.getTypeNode();
+    returnType = format(
+      "%s is %s",
+      returnTypeNode.getParameterNameNode().getText(),
+      predicateTypeNode
+        ? next({
+            typeNode: predicateTypeNode,
+            type: predicateTypeNode.getType(),
+          })
+        : "unknown /** unresolved predicate type */",
+    );
+  } else if (returnTypeNode) {
+    returnType = next({
+      typeNode: returnTypeNode,
+      type: returnTypeNode.getType(),
+    });
+  }
+
   return {
     generics,
     parameters,
-    returnType: returnTypeNode
-      ? next({
-          typeNode: returnTypeNode,
-          type: returnTypeNode.getType(),
-        })
-      : "unknown /** unknown return type */",
+    returnType,
   };
 };
 
