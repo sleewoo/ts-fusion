@@ -92,7 +92,11 @@ export default (
   // either sourceFile or path to file
   file: string | SourceFile,
   opts?: UserOptions,
-) => {
+): Array<{
+  name: string;
+  parameters: Array<{ name: string; text: string }>;
+  text: string;
+}> => {
   const project =
     typeof tsConfigFilePathOrProject === "string"
       ? new Project({
@@ -129,59 +133,55 @@ export default (
     return "unknown /** unresolved */";
   };
 
-  return sourceFile
-    .getTypeAliases()
-    .flatMap((typeAlias) => {
-      if (!typeAlias.isExported()) {
-        return [];
-      }
-
-      const typeNode = typeAlias.getTypeNode();
-
-      if (!typeNode) {
-        return [];
-      }
-
-      const typeName = typeAlias.getName();
-
-      const type = typeAlias.getType();
-
-      const typeParameters = typeAlias.getTypeParameters().map((param) => {
-        return renderTypeParameter(param, traverse);
-      });
-
-      if (!opts?.typesFilter || opts.typesFilter(typeName)) {
-        return typeParameters.length
-          ? [
-              format(
-                "export type %s<%s> = %s;\n",
-                typeName,
-                typeParameters.map(({ text }) => text).join(", "),
-                traverse({
-                  typeNode,
-                  type,
-                  typeParameters: typeParameters.reduce(
-                    (map: Record<string, string>, { name }) => {
-                      map[name] = name;
-                      return map;
-                    },
-                    {},
-                  ),
-                }),
-              ),
-            ]
-          : [
-              format(
-                "export type %s = %s;\n",
-                typeName,
-                traverse({ typeNode, type }),
-              ),
-            ];
-      }
-
+  return sourceFile.getTypeAliases().flatMap((typeAlias) => {
+    if (!typeAlias.isExported()) {
       return [];
-    })
-    .join("\n");
+    }
+
+    const typeNode = typeAlias.getTypeNode();
+
+    if (!typeNode) {
+      return [];
+    }
+
+    const typeName = typeAlias.getName();
+
+    const type = typeAlias.getType();
+
+    const typeParameters = typeAlias.getTypeParameters().map((param) => {
+      return renderTypeParameter(param, traverse);
+    });
+
+    if (!opts?.typesFilter || opts.typesFilter(typeName)) {
+      return typeParameters.length
+        ? [
+            {
+              name: typeName,
+              parameters: typeParameters,
+              text: traverse({
+                typeNode,
+                type,
+                typeParameters: typeParameters.reduce(
+                  (map: Record<string, string>, { name }) => {
+                    map[name] = name;
+                    return map;
+                  },
+                  {},
+                ),
+              }),
+            },
+          ]
+        : [
+            {
+              name: typeName,
+              parameters: [],
+              text: traverse({ typeNode, type }),
+            },
+          ];
+    }
+
+    return [];
+  });
 };
 
 const handlerStack: HandlerStack = {
@@ -392,7 +392,7 @@ const handlerStack: HandlerStack = {
       : undefined;
   },
 
-  typeReferenceHandler({ typeNode, type, typeParameters }, opts) {
+  typeReferenceHandler({ typeNode, typeParameters }, opts) {
     return typeNode.isKind(SyntaxKind.TypeReference)
       ? (next) => {
           const nameNode = typeNode.getTypeName();
