@@ -421,16 +421,25 @@ const handlerStack: HandlerStack = {
               : overrides[typeName];
           }
 
-          const aliasDeclaration = (
-            type.getAliasSymbol() ??
-            type.getSymbol() ??
-            type.getTargetType()?.getSymbol() ??
-            // seems type symbol was dropped, trying nameNode symbol
+          /**
+           * using name symbol cause type symbol/aliasedSymbol very unreliable here.
+           *
+           * - type symbol/aliasedSymbol is dropped on some "complex" types like:
+           *   type Re16 = readonly [number, ...(readonly boolean[])];
+           *   type RT05 = [header: string, ...rows: Array<string[]>];
+           *
+           * - type symbol/aliasedSymbol is flattening builtins, eg:
+           *   export type Test = Readonly<{}>
+           *   converted to:
+           *   type Readonly<T>={readonly[P in keyof T]:T[P];}
+           * */
+          const nameSymbol =
             nameNode
               .getSymbol()
-              ?.getAliasedSymbol() ??
-            nameNode.getSymbol()
-          )
+              ?.getAliasedSymbol() ?? //
+            nameNode.getSymbol();
+
+          const aliasDeclaration = nameSymbol
             ?.getDeclarations()
             ?.find((e) => e.isKind(SyntaxKind.TypeAliasDeclaration));
 
