@@ -99,6 +99,7 @@ export default (
   name: string;
   parameters: Array<{ name: string; text: string }>;
   text: string;
+  comments: Array<string>;
 }> => {
   const project =
     typeof tsConfigFilePathOrProject === "string"
@@ -152,6 +153,10 @@ export default (
       return [];
     }
 
+    const comments = typeAlias
+      .getLeadingCommentRanges()
+      .map((e) => e.getText());
+
     const typeName = typeAlias.getName();
 
     const type = typeAlias.getType();
@@ -177,6 +182,7 @@ export default (
                   {},
                 ),
               }),
+              comments,
             },
           ]
         : [
@@ -184,6 +190,7 @@ export default (
               name: typeName,
               parameters: [],
               text: traverse({ typeNode, type }),
+              comments,
             },
           ];
     }
