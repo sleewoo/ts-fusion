@@ -193,6 +193,44 @@ export default (
 };
 
 const handlerStack: HandlerStack = {
+  /**
+   * always run typeOperatorHandler first!
+   * */
+  typeOperatorHandler({ typeNode, typeParameters }) {
+    return typeNode.isKind(SyntaxKind.TypeOperator)
+      ? (next) => {
+          const innerTypeNode = typeNode.getTypeNode();
+          const innerType = innerTypeNode.getType();
+
+          let template =
+            innerType.isUnion() || innerType.isIntersection() //
+              ? "(%s)"
+              : "%s";
+
+          if (typeNode.getFirstChildByKind(SyntaxKind.KeyOfKeyword)) {
+            template = `keyof ${template}`;
+          }
+
+          if (typeNode.getFirstChildByKind(SyntaxKind.ReadonlyKeyword)) {
+            template = `readonly ${template}`;
+          }
+
+          if (typeNode.getFirstChildByKind(SyntaxKind.UniqueKeyword)) {
+            template = `unique ${template}`;
+          }
+
+          return format(
+            template,
+            next({
+              typeNode: innerTypeNode as TypeNode,
+              type: innerType,
+              typeParameters,
+            }),
+          );
+        }
+      : undefined;
+  },
+
   symbolHandler({ type }) {
     return type.getFlags() & (TypeFlags.ESSymbol | TypeFlags.UniqueESSymbol)
       ? () => "symbol"
@@ -370,37 +408,6 @@ const handlerStack: HandlerStack = {
   inferTypeHandler({ typeNode }) {
     return typeNode.isKind(SyntaxKind.InferType)
       ? () => typeNode.getText()
-      : undefined;
-  },
-
-  typeOperatorHandler({ typeNode, typeParameters }) {
-    return typeNode.isKind(SyntaxKind.TypeOperator)
-      ? (next) => {
-          const innerTypeNode = typeNode.getTypeNode();
-          const innerType = innerTypeNode.getType();
-
-          let template =
-            innerType.isUnion() || innerType.isIntersection() //
-              ? "(%s)"
-              : "%s";
-
-          if (typeNode.getFirstChildByKind(SyntaxKind.KeyOfKeyword)) {
-            template = `keyof ${template}`;
-          }
-
-          if (typeNode.getFirstChildByKind(SyntaxKind.ReadonlyKeyword)) {
-            template = `readonly ${template}`;
-          }
-
-          return format(
-            template,
-            next({
-              typeNode: innerTypeNode as TypeNode,
-              type: innerType,
-              typeParameters,
-            }),
-          );
-        }
       : undefined;
   },
 
