@@ -82,7 +82,7 @@ type UserOptions = {
   overrides?: Record<string, string>;
   /**
    * limit recursion to this level depth.
-   * default: 25 */
+   * default: 16 */
   maxDepth?: number;
 };
 
@@ -107,7 +107,7 @@ export default (
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
       : file;
 
-  const { maxDepth = 25 } = { ...opts };
+  const { maxDepth = 16 } = { ...opts };
 
   const traverse: Traverse = (data, depthLevel = 1) => {
     if (depthLevel > maxDepth) {
