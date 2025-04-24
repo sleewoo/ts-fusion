@@ -376,23 +376,27 @@ const handlerStack: HandlerStack = {
   typeOperatorHandler({ typeNode, typeParameters }) {
     return typeNode.isKind(SyntaxKind.TypeOperator)
       ? (next) => {
-          let template = "%s";
+          const innerTypeNode = typeNode.getTypeNode();
+          const innerType = innerTypeNode.getType();
+
+          let template =
+            innerType.isUnion() || innerType.isIntersection() //
+              ? "(%s)"
+              : "%s";
 
           if (typeNode.getFirstChildByKind(SyntaxKind.KeyOfKeyword)) {
-            template = "keyof %s";
+            template = `keyof ${template}`;
           }
 
           if (typeNode.getFirstChildByKind(SyntaxKind.ReadonlyKeyword)) {
-            template = "readonly %s";
+            template = `readonly ${template}`;
           }
-
-          const innerTypeNode = typeNode.getTypeNode();
 
           return format(
             template,
             next({
               typeNode: innerTypeNode as TypeNode,
-              type: innerTypeNode.getType(),
+              type: innerType,
               typeParameters,
             }),
           );
