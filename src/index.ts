@@ -535,11 +535,11 @@ const handlerStack: HandlerStack = {
           const propertySignatures = typeNode
             .getChildrenOfKind(SyntaxKind.PropertySignature)
             .map((propertySignature) => {
-              const propertySymbol = propertySignature.getSymbol();
               const propertyTypeNode = propertySignature.getTypeNode();
               return {
                 name: propNameWrapper(propertySignature.getName(), {
-                  isOptional: propertySymbol?.isOptional() || false,
+                  isOptional: propertySignature.hasQuestionToken(),
+                  isReadonly: propertySignature.isReadonly(),
                 }),
                 value: propertyTypeNode
                   ? next({
@@ -913,7 +913,7 @@ const isPrimitive = (type: Type) => {
 
 const propNameWrapper = (
   propName: string,
-  flags?: { isOptional?: boolean },
+  flags?: { isOptional?: boolean; isReadonly?: boolean },
 ) => {
   let name = propName;
 
@@ -925,7 +925,7 @@ const propNameWrapper = (
     name = `${name}?`;
   }
 
-  return name;
+  return flags?.isReadonly ? `readonly ${name}` : name;
 };
 
 const indent = (hunk: string, level = 1) => {
