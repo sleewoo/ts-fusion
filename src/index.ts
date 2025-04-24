@@ -536,11 +536,14 @@ const handlerStack: HandlerStack = {
             .getChildrenOfKind(SyntaxKind.PropertySignature)
             .map((propertySignature) => {
               const propertyTypeNode = propertySignature.getTypeNode();
+              const name = format(
+                "%s%s%s",
+                propertySignature.isReadonly() ? "readonly " : "",
+                propertySignature.getName(),
+                propertySignature.hasQuestionToken() ? "?" : "",
+              );
               return {
-                name: propNameWrapper(propertySignature.getName(), {
-                  isOptional: propertySignature.hasQuestionToken(),
-                  isReadonly: propertySignature.isReadonly(),
-                }),
+                name,
                 value: propertyTypeNode
                   ? next({
                       typeNode: propertyTypeNode,
@@ -909,23 +912,6 @@ const isPrimitive = (type: Type) => {
     type.isAny,
     type.isNever,
   ].some((e) => e.call(type));
-};
-
-const propNameWrapper = (
-  propName: string,
-  flags?: { isOptional?: boolean; isReadonly?: boolean },
-) => {
-  let name = propName;
-
-  if (/[^\w]/.test(name) || /^\d/.test(name) || name === "") {
-    name = /^"|^'/.test(name) ? name : `"${name}"`;
-  }
-
-  if (flags?.isOptional) {
-    name = `${name}?`;
-  }
-
-  return flags?.isReadonly ? `readonly ${name}` : name;
 };
 
 const indent = (hunk: string, level = 1) => {
