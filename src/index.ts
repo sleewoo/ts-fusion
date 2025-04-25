@@ -223,10 +223,7 @@ const handlerStack: HandlerStack = {
           const innerTypeNode = typeNode.getTypeNode();
           const innerType = innerTypeNode.getType();
 
-          let template =
-            innerType.isUnion() || innerType.isIntersection() //
-              ? "(%s)"
-              : "%s";
+          let template = "%s";
 
           if (typeNode.getFirstChildByKind(SyntaxKind.KeyOfKeyword)) {
             template = `keyof ${template}`;
@@ -723,16 +720,19 @@ const handlerStack: HandlerStack = {
            * type.getUnionTypes() is dropping undefined elements.
            * using typeNode.forEachChildAsArray() to get original user input.
            * */
-          return typeNode
-            .forEachChildAsArray()
-            .map((typeNode) => {
-              return next({
-                typeNode: typeNode as TypeNode,
-                type: typeNode.getType(),
-                typeParameters,
-              });
-            })
-            .join(" | ");
+          return format(
+            "(%s)",
+            typeNode
+              .forEachChildAsArray()
+              .map((typeNode) => {
+                return next({
+                  typeNode: typeNode as TypeNode,
+                  type: typeNode.getType(),
+                  typeParameters,
+                });
+              })
+              .join(" | "),
+          );
         }
       : undefined;
   },
@@ -744,16 +744,19 @@ const handlerStack: HandlerStack = {
            * if it contains an undefined element.
            * using typeNode.forEachChildAsArray() to get original user input.
            * */
-          return typeNode
-            .forEachChildAsArray()
-            .map((intersectionTypeNode) => {
-              return next({
-                typeNode: intersectionTypeNode as TypeNode,
-                type: intersectionTypeNode.getType(),
-                typeParameters,
-              });
-            })
-            .join(" & ");
+          return format(
+            "(%s)",
+            typeNode
+              .forEachChildAsArray()
+              .map((intersectionTypeNode) => {
+                return next({
+                  typeNode: intersectionTypeNode as TypeNode,
+                  type: intersectionTypeNode.getType(),
+                  typeParameters,
+                });
+              })
+              .join(" & "),
+          );
         }
       : undefined;
   },
@@ -872,11 +875,7 @@ const handlerStack: HandlerStack = {
           const arrayType = arrayTypeNode.getType();
 
           return format(
-            isParenthesized
-              ? "(%s)[]"
-              : arrayType.isUnion() || arrayType.isIntersection()
-                ? "Array<%s>"
-                : "%s[]",
+            isParenthesized ? "(%s)[]" : "%s[]",
             next({
               typeNode: arrayTypeNode as TypeNode,
               type: arrayType,
