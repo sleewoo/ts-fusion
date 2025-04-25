@@ -73,3 +73,19 @@ export type UserOptions = {
    * default: 16 */
   maxDepth?: number;
 };
+
+export type FlatDefinition = {
+  /** type name, same as exported alias in original file */
+  name: string;
+  /** type parameters, if any, eg:
+   * export type Entry<T, R = string> = { ... }
+   * will have following parameters:
+   * [ { name: "T", text: "T" }, { name: "R", text: "R = string" } ]
+   * */
+  parameters: Array<{ name: string; text: string }>;
+  /** type structure after flattening */
+  text: string;
+  /** any comments, multi/single line,
+   * that preceeds type declaration in original file */
+  comments: Array<string>;
+};

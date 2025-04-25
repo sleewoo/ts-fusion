@@ -1,6 +1,12 @@
 import { type SourceFile, Project } from "ts-morph";
 
-import type { HandlerStack, Traverse, UserOptions } from "./types";
+import type {
+  FlatDefinition,
+  HandlerStack,
+  Traverse,
+  UserOptions,
+} from "./types";
+
 import builtins from "./builtins";
 import { isPrimitive, renderTypeParameter } from "./utils";
 
@@ -35,12 +41,7 @@ export const flattener = (
   project: Project,
   file: string | SourceFile,
   opts?: UserOptions,
-): Array<{
-  name: string;
-  parameters: Array<{ name: string; text: string }>;
-  text: string;
-  comments: Array<string>;
-}> => {
+): Array<FlatDefinition> => {
   const sourceFile =
     typeof file === "string"
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
