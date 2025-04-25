@@ -271,6 +271,10 @@ const handlerStack: HandlerStack = {
   constructorTypeHandler({ typeNode }) {
     return typeNode.isKind(SyntaxKind.ConstructorType)
       ? (next) => {
+          const generics = typeNode
+            .getChildrenOfKind(SyntaxKind.TypeParameter)
+            .map((param) => renderTypeParameter(param, next).text);
+
           const parameters = typeNode
             .getChildrenOfKind(SyntaxKind.Parameter)
             .map((param) => renderCallSignatureParameter(param, next));
@@ -278,7 +282,8 @@ const handlerStack: HandlerStack = {
           const returnTypeNode = typeNode.getReturnTypeNode();
 
           return format(
-            "new (%s) => %s",
+            "new %s(%s) => %s",
+            generics.length ? format("<%s>", generics.join(", ")) : "",
             parameters.join(", "),
             returnTypeNode
               ? next({
@@ -638,13 +643,14 @@ const handlerStack: HandlerStack = {
           }
 
           for (const signature of constructSignatures) {
-            const { parameters, returnType } = renderCallSignatureAssets(
-              signature,
-              (data) => next({ ...data, typeParameters }),
-            );
+            const { generics, parameters, returnType } =
+              renderCallSignatureAssets(signature, (data) =>
+                next({ ...data, typeParameters }),
+              );
             hunks.push(
               format(
-                "new (%s): %s", //
+                "new %s(%s): %s",
+                generics.length ? format("<%s>", generics.join(", ")) : "",
                 parameters.join(", "),
                 returnType,
               ),
