@@ -47,18 +47,21 @@ type TraverseData = {
   typeParameters?: TraverseDataParameters | undefined;
 };
 
-type Traverse = (data: TraverseData, depthLevel?: number) => string;
+type TraverseOptions = { overrides: Record<string, string> };
+
+type Traverse = (
+  data: TraverseData,
+  opts: TraverseOptions,
+  depthLevel?: number,
+) => string;
 
 type Next = (data: TraverseData) => string;
-
-type Overrides = Record<string, string>;
 
 type HandlerStack = Record<
   `${ManagedSignatures}Handler`,
   (
     data: TraverseData,
-    opts: { overrides: Overrides },
-  ) => ((next: Next) => string) | undefined
+  ) => ((next: Next, opts: TraverseOptions) => string) | undefined
 >;
 
 type UserOptions = {
@@ -115,22 +118,22 @@ export default (
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
       : file;
 
-  const { maxDepth = 16 } = { ...opts };
+  const { typesFilter, maxDepth = 16 } = { ...opts };
 
   const overrides: Record<string, string> = {
     ...builtins,
     ...opts?.overrides,
   };
 
-  const traverse: Traverse = (data, depthLevel = 1) => {
+  const traverse: Traverse = (data, opts, depthLevel = 1) => {
     if (depthLevel > maxDepth) {
       return "never /** maxDepth exceeded */";
     }
 
     for (const key of Object.keys(handlerStack) as Array<keyof HandlerStack>) {
-      const handler = handlerStack[key](data, { overrides });
+      const handler = handlerStack[key](data);
       if (handler) {
-        return handler((next) => traverse(next, depthLevel + 1));
+        return handler((next) => traverse(next, opts, depthLevel + 1), opts);
       }
     }
 
@@ -161,27 +164,38 @@ export default (
 
     const type = typeAlias.getType();
 
+    const opts = {
+      overrides: {
+        ...overrides,
+        // overriding type to avoid recursing into itself
+        [typeName]: typeName,
+      },
+    };
+
     const typeParameters = typeAlias.getTypeParameters().map((param) => {
-      return renderTypeParameter(param, traverse);
+      return renderTypeParameter(param, (data) => traverse(data, opts));
     });
 
-    if (!opts?.typesFilter || opts.typesFilter(typeName)) {
+    if (!typesFilter || typesFilter(typeName)) {
       return typeParameters.length
         ? [
             {
               name: typeName,
               parameters: typeParameters,
-              text: traverse({
-                typeNode,
-                type,
-                typeParameters: typeParameters.reduce(
-                  (map: Record<string, string>, { name }) => {
-                    map[name] = name;
-                    return map;
-                  },
-                  {},
-                ),
-              }),
+              text: traverse(
+                {
+                  typeNode,
+                  type,
+                  typeParameters: typeParameters.reduce(
+                    (map: Record<string, string>, { name }) => {
+                      map[name] = name;
+                      return map;
+                    },
+                    {},
+                  ),
+                },
+                opts,
+              ),
               comments,
             },
           ]
@@ -189,7 +203,7 @@ export default (
             {
               name: typeName,
               parameters: [],
-              text: traverse({ typeNode, type }),
+              text: traverse({ typeNode, type }, opts),
               comments,
             },
           ];
@@ -460,9 +474,9 @@ const handlerStack: HandlerStack = {
       : undefined;
   },
 
-  typeReferenceHandler({ typeNode, typeParameters }, { overrides }) {
+  typeReferenceHandler({ typeNode, typeParameters }) {
     return typeNode.isKind(SyntaxKind.TypeReference)
-      ? (next) => {
+      ? (next, { overrides }) => {
           const nameNode = typeNode.getTypeName();
           const typeName = nameNode.getText();
 
@@ -670,9 +684,9 @@ const handlerStack: HandlerStack = {
       : undefined;
   },
 
-  typeQueryHandler({ typeNode }, { overrides }) {
+  typeQueryHandler({ typeNode }) {
     return typeNode.isKind(SyntaxKind.TypeQuery)
-      ? (next) => {
+      ? (next, { overrides }) => {
           /**
            * getExprName().getText() always returns only the name, without parameters.
            * if exprName is a builtin/override, return it as is.
