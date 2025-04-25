@@ -956,7 +956,9 @@ const renderCallSignatureAssets = (signature: Signature, next: Next) => {
   if (returnTypeNode?.isKind(SyntaxKind.TypePredicate)) {
     const predicateTypeNode = returnTypeNode.getTypeNode();
     returnType = format(
-      "%s is %s",
+      returnTypeNode.getAssertsModifier() //
+        ? "asserts %s is %s"
+        : "%s is %s",
       returnTypeNode.getParameterNameNode().getText(),
       predicateTypeNode
         ? next({
