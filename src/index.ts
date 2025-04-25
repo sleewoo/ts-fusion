@@ -653,14 +653,20 @@ const handlerStack: HandlerStack = {
 
           for (const { name, signatures, comments } of methodSignatures) {
             for (const signature of signatures) {
-              const { parameters, returnType } = renderCallSignatureAssets(
-                signature,
-                (data) => next({ ...data, typeParameters }),
-              );
+              const { generics, parameters, returnType } =
+                renderCallSignatureAssets(signature, (data) =>
+                  next({ ...data, typeParameters }),
+                );
               hunks.push(
                 [
                   ...comments,
-                  format(`${name}(%s): %s`, parameters.join(", "), returnType),
+                  format(
+                    "%s%s(%s): %s",
+                    name,
+                    generics.length ? format("<%s>", generics.join(", ")) : "",
+                    parameters.join(", "),
+                    returnType,
+                  ),
                 ].join("\n"),
               );
             }
