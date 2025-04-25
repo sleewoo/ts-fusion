@@ -1,5 +1,0 @@
-[["fixtures"]]
-pattern = "**/*.ts"
-template = "templates/flattener.tpl"
-outfile = "test/flattener.test.ts"
-folders = ["tuples-001", "type-literals-001"]

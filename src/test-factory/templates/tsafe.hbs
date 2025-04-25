@@ -1,0 +1,25 @@
+import { assert, type Equals } from "tsafe";
+
+import type {
+{{#each types}}
+  {{name}},
+{{/each}}
+} from "@/fixtures/{{file}}";
+
+{{#each types}}
+{{#each comments}}{{.}}
+{{/each}}
+type {{name}}Flat{{parameters}} = {{text}};
+
+{{/each}}
+
+{{#each types}}
+{{#unless skipTest}}
+assert<
+  Equals<
+    {{name}}{{arguments}},
+    {{name}}Flat{{arguments}}
+  >
+>;
+{{/unless}}
+{{/each}}

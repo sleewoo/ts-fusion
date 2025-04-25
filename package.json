@@ -18,10 +18,12 @@
   },
   "scripts": {
     "// ✨ build": "",
-    "build:tests": "file-bundler -c test/file-bundler.toml",
     "build": "esbuilder ./src/index -o pkg -l .hbs=text -s ./scripts/build",
+    "prebuild:tests": "esbuilder ./src/test-factory/run -l .hbs=text -o ./test",
+    "build:tests": "node ./test/run",
+    "postbuild:tests": "rm ./test/run.js*",
     "// ✨ test": "",
-    "test": "vitest run",
+    "test": "tsc -p ./test/tsconfig.json",
     "// ✨ publish": "",
     "prepub": "./scripts/publish/prepare",
     "pub": "changeset publish"
@@ -36,11 +38,14 @@
     "@libconfig/biome": "^0.0.1",
     "@libconfig/typescript": "^0.0.1",
     "@libutil/esbuilder": "^0.0.7",
-    "@libutil/file-bundler": "^0.0.6",
-    "@types/node": "^22.14.1",
+    "@libutil/render": "^0.0.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.15.2",
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.0",
     "resolve-tspaths": "^0.8.23",
     "rimraf": "^6.0.1",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.2"
+    "tsafe": "^1.8.5",
+    "typescript": "^5.8.3"
   }
 }

@@ -1,6 +1,12 @@
 {
-  "include": ["./fixtures"],
+  "extends": "@libconfig/typescript/tsconfig.json",
+  "include": ["./snapshots"],
   "compilerOptions": {
-    "skipLibCheck": true
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "noEmit": true
   }
 }
