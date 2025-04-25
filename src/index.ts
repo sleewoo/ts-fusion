@@ -25,10 +25,14 @@ import { tupleHandler } from "./handlers/tuples";
 import { arrayHandler } from "./handlers/arrays";
 import { callSignatureHandler } from "./handlers/call-signatures";
 
-export default (
-  // either a project or path to tsconfig.json
-  tsConfigFilePathOrProject: string | Project,
-  // either sourceFile or path to file
+export default (file: string, opts?: UserOptions) => {
+  const project = new Project({ compilerOptions: { skipLibCheck: true } });
+  const sourceFile = project.addSourceFileAtPath(file);
+  return flattener(project, sourceFile, opts);
+};
+
+export const flattener = (
+  project: Project,
   file: string | SourceFile,
   opts?: UserOptions,
 ): Array<{
@@ -37,15 +41,6 @@ export default (
   text: string;
   comments: Array<string>;
 }> => {
-  const project =
-    typeof tsConfigFilePathOrProject === "string"
-      ? new Project({
-          tsConfigFilePath: tsConfigFilePathOrProject,
-          skipAddingFilesFromTsConfig: true,
-          compilerOptions: { skipLibCheck: true },
-        })
-      : tsConfigFilePathOrProject;
-
   const sourceFile =
     typeof file === "string"
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
