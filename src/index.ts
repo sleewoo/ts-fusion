@@ -346,7 +346,7 @@ const handlerStack: HandlerStack = {
           const objectTypeNode = typeNode.getObjectTypeNode();
           const indexTypeNode = typeNode.getIndexTypeNode();
           return format(
-            "%s[%s]",
+            "(%s)[%s]",
             next({
               typeNode: objectTypeNode,
               type: objectTypeNode.getType(),
