@@ -2,9 +2,12 @@ import { format } from "node:util";
 
 import { type ArrayTypeNode, type TypeNode, SyntaxKind } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 
-export const arrayHandler: Handler = ({ typeNode, typeParameters }) => {
+export const handlerQualifier: HandlerQualifier = ({
+  typeNode,
+  typeParameters,
+}) => {
   return typeNode.isKind(SyntaxKind.ArrayType)
     ? (next) => {
         /**

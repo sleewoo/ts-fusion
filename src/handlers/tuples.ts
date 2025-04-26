@@ -2,10 +2,13 @@ import { format } from "node:util";
 
 import { SyntaxKind } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 import { indent } from "@/utils";
 
-export const tupleHandler: Handler = ({ typeNode, typeParameters }) => {
+export const handlerQualifier: HandlerQualifier = ({
+  typeNode,
+  typeParameters,
+}) => {
   return typeNode.isKind(SyntaxKind.TupleType)
     ? (next) => {
         const elements = typeNode.getElements().map((element) => {
@@ -13,7 +16,7 @@ export const tupleHandler: Handler = ({ typeNode, typeParameters }) => {
           let isRest = element.isKind(SyntaxKind.RestType);
 
           let name: string | undefined;
-          let value = "unknown /** unknown tuple element signature */";
+          let text: string;
 
           if (element.isKind(SyntaxKind.NamedTupleMember)) {
             name = element.hasQuestionToken()
@@ -22,7 +25,7 @@ export const tupleHandler: Handler = ({ typeNode, typeParameters }) => {
 
             const elementTypeNode = element.getTypeNode();
 
-            value = next({
+            text = next({
               typeNode: elementTypeNode,
               type: elementTypeNode.getType(),
               typeParameters,
@@ -37,7 +40,7 @@ export const tupleHandler: Handler = ({ typeNode, typeParameters }) => {
             );
             if (parenthesizedType) {
               const innerTypeNode = parenthesizedType.getTypeNode();
-              value = format(
+              text = format(
                 "(%s)",
                 next({
                   typeNode: innerTypeNode,
@@ -47,31 +50,35 @@ export const tupleHandler: Handler = ({ typeNode, typeParameters }) => {
               );
             } else {
               const elementTypeNode = element.getTypeNode();
-              value = next({
+              text = next({
                 typeNode: elementTypeNode,
                 type: elementTypeNode.getType(),
                 typeParameters,
               });
             }
           } else {
-            value = next({
+            text = next({
               typeNode: element,
               type: element.getType(),
               typeParameters,
             });
           }
 
+          if (!text) {
+            text = "unknown /** unknown tuple element signature */";
+          }
+
           if (isRest) {
             return name
-              ? format("...%s: %s", name, value)
-              : format("...%s", value);
+              ? format("...%s: %s", name, text)
+              : format("...%s", text);
           }
 
           return name
-            ? format("%s: %s", name, value)
+            ? format("%s: %s", name, text)
             : isOptional
-              ? format("(%s)?", value)
-              : value;
+              ? format("(%s)?", text)
+              : text;
         });
 
         return format(

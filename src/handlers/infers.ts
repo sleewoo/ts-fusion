@@ -1,8 +1,8 @@
 import { SyntaxKind } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 
-export const inferTypeHandler: Handler = ({ typeNode }) => {
+export const handlerQualifier: HandlerQualifier = ({ typeNode }) => {
   return typeNode.isKind(SyntaxKind.InferType)
     ? () => typeNode.getText()
     : undefined;

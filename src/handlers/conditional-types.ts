@@ -2,9 +2,9 @@ import { format } from "node:util";
 
 import { SyntaxKind } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 
-export const conditionalTypeHandler: Handler = ({
+export const handlerQualifier: HandlerQualifier = ({
   typeNode,
   typeParameters,
 }) => {

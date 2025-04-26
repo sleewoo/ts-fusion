@@ -2,10 +2,10 @@ import { format } from "node:util";
 
 import { SyntaxKind } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 import { renderCallSignatureParameter, renderTypeParameter } from "@/utils";
 
-export const constructorTypeHandler: Handler = ({ typeNode }) => {
+export const handlerQualifier: HandlerQualifier = ({ typeNode }) => {
   return typeNode.isKind(SyntaxKind.ConstructorType)
     ? (next) => {
         const generics = typeNode

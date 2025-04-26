@@ -1,8 +1,8 @@
 import { TypeFlags } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 
-export const symbolHandler: Handler = ({ type }) => {
+export const handlerQualifier: HandlerQualifier = ({ type }) => {
   return type.getFlags() & (TypeFlags.ESSymbol | TypeFlags.UniqueESSymbol)
     ? () => "symbol"
     : undefined;

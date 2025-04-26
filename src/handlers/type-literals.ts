@@ -2,10 +2,10 @@ import { format } from "node:util";
 
 import { SyntaxKind } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 import { indent, renderCallSignatureAssets } from "@/utils";
 
-export const typeLiteralHandler: Handler = ({
+export const handlerQualifier: HandlerQualifier = ({
   typeNode,
   type,
   typeParameters,
@@ -30,7 +30,7 @@ export const typeLiteralHandler: Handler = ({
             return [
               {
                 key: keyTypeNode.getText(),
-                val: returnTypeNode
+                returnType: returnTypeNode
                   ? next({
                       typeNode: returnTypeNode,
                       type: returnTypeNode.getType(),
@@ -47,7 +47,13 @@ export const typeLiteralHandler: Handler = ({
          *      new (...): ...;
          *    }
          * */
-        const constructSignatures = type.getConstructSignatures();
+        const constructSignatures = type
+          .getConstructSignatures()
+          .map((signature) => {
+            return renderCallSignatureAssets(signature, (data) => {
+              return next({ ...data, typeParameters });
+            });
+          });
 
         /**
          * collecting method signatures, with comments (jsDoc format only):
@@ -57,14 +63,27 @@ export const typeLiteralHandler: Handler = ({
          * */
         const methodSignatures = typeNode
           .getChildrenOfKind(SyntaxKind.MethodSignature)
-          .map((methodSignature) => {
-            return {
-              name: methodSignature.getName(),
-              signatures: methodSignature.getType().getCallSignatures(),
-              comments: methodSignature
-                .getJsDocs()
-                .map((e) => e.getText().trim()),
-            };
+          .flatMap((methodSignature) => {
+            const name = methodSignature.getName();
+            const comments = methodSignature
+              .getLeadingCommentRanges()
+              .map((e) => e.getText().trim());
+            return methodSignature
+              .getType()
+              .getCallSignatures()
+              .map((signature) => {
+                const { generics, parameters, returnType } =
+                  renderCallSignatureAssets(signature, (data) => {
+                    return next({ ...data, typeParameters });
+                  });
+                return {
+                  name,
+                  comments,
+                  generics,
+                  parameters,
+                  returnType,
+                };
+              });
           });
 
         /**
@@ -74,15 +93,14 @@ export const typeLiteralHandler: Handler = ({
           .getChildrenOfKind(SyntaxKind.PropertySignature)
           .map((propertySignature) => {
             const propertyTypeNode = propertySignature.getTypeNode();
-            const name = format(
-              "%s%s%s",
-              propertySignature.isReadonly() ? "readonly " : "",
-              propertySignature.getName(),
-              propertySignature.hasQuestionToken() ? "?" : "",
-            );
             return {
-              name,
-              value: propertyTypeNode
+              name: format(
+                "%s%s%s",
+                propertySignature.isReadonly() ? "readonly " : "",
+                propertySignature.getName(),
+                propertySignature.hasQuestionToken() ? "?" : "",
+              ),
+              text: propertyTypeNode
                 ? next({
                     typeNode: propertyTypeNode,
                     type: propertyTypeNode.getType(),
@@ -90,22 +108,22 @@ export const typeLiteralHandler: Handler = ({
                   })
                 : "unknown /** unknown property signature */",
               comments: propertySignature
-                .getJsDocs()
+                .getLeadingCommentRanges()
                 .map((e) => e.getText().trim()),
             };
           });
 
         const hunks: Array<string> = [];
 
-        for (const { key, val } of indexSignatures) {
-          hunks.push(format("[k: %s]: %s", key, val));
+        for (const { key, returnType } of indexSignatures) {
+          hunks.push(format("[k: %s]: %s", key, returnType));
         }
 
-        for (const signature of constructSignatures) {
-          const { generics, parameters, returnType } =
-            renderCallSignatureAssets(signature, (data) =>
-              next({ ...data, typeParameters }),
-            );
+        for (const {
+          generics,
+          parameters,
+          returnType,
+        } of constructSignatures) {
           hunks.push(
             format(
               "new %s(%s): %s",
@@ -116,33 +134,33 @@ export const typeLiteralHandler: Handler = ({
           );
         }
 
-        for (const { name, signatures, comments } of methodSignatures) {
-          for (const signature of signatures) {
-            const { generics, parameters, returnType } =
-              renderCallSignatureAssets(signature, (data) =>
-                next({ ...data, typeParameters }),
-              );
-            hunks.push(
-              [
-                ...comments,
-                format(
-                  "%s%s(%s): %s",
-                  name,
-                  generics.length ? format("<%s>", generics.join(", ")) : "",
-                  parameters.join(", "),
-                  returnType,
-                ),
-              ].join("\n"),
-            );
-          }
+        for (const {
+          name,
+          comments,
+          generics,
+          parameters,
+          returnType,
+        } of methodSignatures) {
+          hunks.push(
+            [
+              ...comments,
+              format(
+                "%s%s(%s): %s",
+                name,
+                generics.length ? format("<%s>", generics.join(", ")) : "",
+                parameters.join(", "),
+                returnType,
+              ),
+            ].join("\n"),
+          );
         }
 
-        for (const { name, value, comments } of propertySignatures) {
+        for (const { name, text, comments } of propertySignatures) {
           hunks.push(
             [
               //
               ...comments,
-              format("%s: %s", name, value),
+              format("%s: %s", name, text),
             ].join("\n"),
           );
         }

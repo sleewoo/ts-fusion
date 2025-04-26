@@ -1,50 +1,28 @@
 import type { Type, TypeNode } from "ts-morph";
 
-export type TraverseDataParameters = Record<string, string | undefined>;
+export type CycleParameters = Record<string, string | undefined>;
 
-export type TraverseData = {
+export type CycleData = {
   typeNode: TypeNode;
   type: Type;
-  typeParameters?: TraverseDataParameters | undefined;
+  typeParameters?: CycleParameters | undefined;
 };
 
-export type TraverseOptions = { overrides: Record<string, string> };
+export type CycleOptions = {
+  overrides: Record<string, string>;
+};
 
-export type Traverse = (
-  data: TraverseData,
-  opts: TraverseOptions,
+export type CycleSignature = (
+  data: CycleData,
+  opts: CycleOptions,
   depthLevel?: number,
 ) => string;
 
-export type Next = (data: TraverseData) => string;
+export type Next = (data: CycleData) => string;
 
-export type Handler = (
-  data: TraverseData,
-) => ((next: Next, opts: TraverseOptions) => string) | undefined;
+export type Handler = (next: Next, opts: CycleOptions) => string;
 
-type HandlerName =
-  | "symbol"
-  | "void"
-  | "object"
-  | "constructorType"
-  | "conditionalType"
-  | "optionalType"
-  | "parenthesizedType"
-  | "indexedAccessType"
-  | "templateLiteralType"
-  | "mappedType"
-  | "inferType"
-  | "typeOperator"
-  | "typeReference"
-  | "typeLiteral"
-  | "typeQuery"
-  | "union"
-  | "intersection"
-  | "tuple"
-  | "array"
-  | "callSignature";
-
-export type HandlerStack = Record<`${HandlerName}Handler`, Handler>;
+export type HandlerQualifier = (data: CycleData) => Handler | undefined;
 
 export type UserOptions = {
   /**
@@ -52,6 +30,7 @@ export type UserOptions = {
    * use this filter to only process specific types.
    */
   typesFilter?: (typeName: string) => boolean;
+
   /**
    * a map of types to override default name for.
    *
@@ -68,6 +47,7 @@ export type UserOptions = {
    *    export type ResponseHandler = () => Promise<...>
    * */
   overrides?: Record<string, string>;
+
   /**
    * limit recursion to this level depth.
    * default: 16 */

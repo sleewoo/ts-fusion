@@ -2,9 +2,12 @@ import { format } from "node:util";
 
 import { SyntaxKind } from "ts-morph";
 
-import type { Handler, TraverseDataParameters } from "@/types";
+import type { HandlerQualifier, CycleParameters } from "@/types";
 
-export const typeReferenceHandler: Handler = ({ typeNode, typeParameters }) => {
+export const handlerQualifier: HandlerQualifier = ({
+  typeNode,
+  typeParameters,
+}) => {
   return typeNode.isKind(SyntaxKind.TypeReference)
     ? (next, { overrides }) => {
         const nameNode = typeNode.getTypeName();
@@ -54,23 +57,27 @@ export const typeReferenceHandler: Handler = ({ typeNode, typeParameters }) => {
           ? aliasDeclaration.getTypeNode()
           : undefined;
 
+        let text: string;
+
         if (aliasNode) {
           const aliasType = aliasNode.getType();
-          return next({
+          text = next({
             typeNode: aliasNode,
             type: aliasType.getTargetType() || aliasType,
             typeParameters: aliasDeclaration
               ?.getTypeParameters()
-              .reduce((map: TraverseDataParameters, param, i) => {
+              .reduce((map: CycleParameters, param, i) => {
                 map[param.getName()] =
                   typeArguments[i] ?? // empty string is a valid value
                   param.getDefault()?.getText();
                 return map;
               }, {}),
           });
+        } else {
+          text = format("%s /** unresolved */", typeNode.getText());
         }
 
-        return format("%s /** unresolved */", typeNode.getText());
+        return text;
       }
     : undefined;
 };

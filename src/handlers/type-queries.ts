@@ -1,8 +1,8 @@
 import { SyntaxKind, type TypeNode } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 
-export const typeQueryHandler: Handler = ({ typeNode }) => {
+export const handlerQualifier: HandlerQualifier = ({ typeNode }) => {
   return typeNode.isKind(SyntaxKind.TypeQuery)
     ? (next, { overrides }) => {
         /**
@@ -13,7 +13,9 @@ export const typeQueryHandler: Handler = ({ typeNode }) => {
         if (overrides[typeNode.getExprName().getText()]) {
           return typeNode.getText();
         }
+
         const [innerTypeNode] = typeNode.forEachChildAsArray();
+
         return next({
           typeNode: innerTypeNode as TypeNode,
           type: innerTypeNode.getType(),

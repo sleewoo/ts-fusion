@@ -1,9 +1,12 @@
 import { format } from "node:util";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 import { renderCallSignatureAssets } from "@/utils";
 
-export const callSignatureHandler: Handler = ({ type, typeParameters }) => {
+export const handlerQualifier: HandlerQualifier = ({
+  type,
+  typeParameters,
+}) => {
   const callSignatures = type.getCallSignatures();
 
   // if a type has call signatures, it is definitelly a function, is not it?

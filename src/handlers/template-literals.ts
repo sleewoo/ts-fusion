@@ -2,9 +2,9 @@ import { format } from "node:util";
 
 import { SyntaxKind, type TypeNode } from "ts-morph";
 
-import type { Handler } from "@/types";
+import type { HandlerQualifier } from "@/types";
 
-export const templateLiteralTypeHandler: Handler = ({ typeNode }) => {
+export const handlerQualifier: HandlerQualifier = ({ typeNode }) => {
   return typeNode.isKind(SyntaxKind.TemplateLiteralType)
     ? (next) => {
         const head = typeNode.getHead().getText();

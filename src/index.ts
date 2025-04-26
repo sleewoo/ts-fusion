@@ -1,35 +1,30 @@
 import { type SourceFile, Project } from "ts-morph";
 
-import type {
-  FlatDefinition,
-  HandlerStack,
-  Traverse,
-  UserOptions,
-} from "./types";
+import type { FlatDefinition, CycleSignature, UserOptions } from "./types";
 
 import builtins from "./builtins";
 import { isPrimitive, renderTypeParameter } from "./utils";
 
-import { typeOperatorHandler } from "./handlers/type-operators";
-import { symbolHandler } from "./handlers/symbol-keyword";
-import { voidHandler } from "./handlers/void-keyword";
-import { objectHandler } from "./handlers/object-keyword";
-import { constructorTypeHandler } from "./handlers/constructors";
-import { conditionalTypeHandler } from "./handlers/conditional-types";
-import { optionalTypeHandler } from "./handlers/optional-types";
-import { parenthesizedTypeHandler } from "./handlers/parenthesized-types";
-import { indexedAccessTypeHandler } from "./handlers/indexed-access";
-import { templateLiteralTypeHandler } from "./handlers/template-literals";
-import { mappedTypeHandler } from "./handlers/mapped-types";
-import { inferTypeHandler } from "./handlers/infers";
-import { typeReferenceHandler } from "./handlers/type-references";
-import { typeLiteralHandler } from "./handlers/type-literals";
-import { typeQueryHandler } from "./handlers/type-queries";
-import { unionHandler } from "./handlers/unions";
-import { intersectionHandler } from "./handlers/intersections";
-import { tupleHandler } from "./handlers/tuples";
-import { arrayHandler } from "./handlers/arrays";
-import { callSignatureHandler } from "./handlers/call-signatures";
+import { handlerQualifier as typeOperatorQualifier } from "./handlers/type-operators";
+import { handlerQualifier as symbolQualifier } from "./handlers/symbol-keyword";
+import { handlerQualifier as voidQualifier } from "./handlers/void-keyword";
+import { handlerQualifier as objectQualifier } from "./handlers/object-keyword";
+import { handlerQualifier as constructorTypeQualifier } from "./handlers/constructors";
+import { handlerQualifier as conditionalTypeQualifier } from "./handlers/conditional-types";
+import { handlerQualifier as optionalTypeQualifier } from "./handlers/optional-types";
+import { handlerQualifier as parenthesizedTypeQualifier } from "./handlers/parenthesized-types";
+import { handlerQualifier as indexedAccessTypeQualifier } from "./handlers/indexed-access";
+import { handlerQualifier as templateLiteralTypeQualifier } from "./handlers/template-literals";
+import { handlerQualifier as mappedTypeQualifier } from "./handlers/mapped-types";
+import { handlerQualifier as inferTypeQualifier } from "./handlers/infers";
+import { handlerQualifier as typeReferenceQualifier } from "./handlers/type-references";
+import { handlerQualifier as typeLiteralQualifier } from "./handlers/type-literals";
+import { handlerQualifier as typeQueryQualifier } from "./handlers/type-queries";
+import { handlerQualifier as unionQualifier } from "./handlers/unions";
+import { handlerQualifier as intersectionQualifier } from "./handlers/intersections";
+import { handlerQualifier as tupleQualifier } from "./handlers/tuples";
+import { handlerQualifier as arrayQualifier } from "./handlers/arrays";
+import { handlerQualifier as callSignatureQualifier } from "./handlers/call-signatures";
 
 export default (file: string, opts?: UserOptions) => {
   const project = new Project({ compilerOptions: { skipLibCheck: true } });
@@ -54,41 +49,43 @@ export const flattener = (
     ...opts?.overrides,
   };
 
-  const handlerStack: HandlerStack = {
+  const handlerStack = [
     /**
-     * always run typeOperatorHandler first!
+     * always run typeOperatorQualifier first!
      * */
-    typeOperatorHandler,
-    symbolHandler,
-    voidHandler,
-    objectHandler,
-    constructorTypeHandler,
-    conditionalTypeHandler,
-    optionalTypeHandler,
-    parenthesizedTypeHandler,
-    indexedAccessTypeHandler,
-    templateLiteralTypeHandler,
-    mappedTypeHandler,
-    inferTypeHandler,
-    typeReferenceHandler,
-    typeLiteralHandler,
-    typeQueryHandler,
-    unionHandler,
-    intersectionHandler,
-    tupleHandler,
-    arrayHandler,
-    callSignatureHandler,
-  };
+    typeOperatorQualifier,
+    symbolQualifier,
+    voidQualifier,
+    objectQualifier,
+    constructorTypeQualifier,
+    conditionalTypeQualifier,
+    optionalTypeQualifier,
+    parenthesizedTypeQualifier,
+    indexedAccessTypeQualifier,
+    templateLiteralTypeQualifier,
+    mappedTypeQualifier,
+    inferTypeQualifier,
+    typeReferenceQualifier,
+    typeLiteralQualifier,
+    typeQueryQualifier,
+    unionQualifier,
+    intersectionQualifier,
+    tupleQualifier,
+    arrayQualifier,
+    callSignatureQualifier,
+  ];
 
-  const traverse: Traverse = (data, opts, depthLevel = 1) => {
+  const traverse: CycleSignature = (data, opts, depthLevel = 1) => {
     if (depthLevel > maxDepth) {
       return "never /** maxDepth exceeded */";
     }
 
-    for (const key of Object.keys(handlerStack) as Array<keyof HandlerStack>) {
-      const handler = handlerStack[key](data);
+    for (const qualifier of handlerStack) {
+      const handler = qualifier(data);
       if (handler) {
-        return handler((next) => traverse(next, opts, depthLevel + 1), opts);
+        return handler((next) => {
+          return traverse(next, opts, depthLevel + 1);
+        }, opts);
       }
     }
 
