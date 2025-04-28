@@ -63,8 +63,10 @@ export type FlatDefinition = {
    * [ { name: "T", text: "T" }, { name: "R", text: "R = string" } ]
    * */
   parameters: Array<{ name: string; text: string }>;
-  /** type structure after flattening */
+  /** the type literal after flattening */
   text: string;
+  /** full type after flattening, with name, parameters, comments etc. */
+  fullText: string;
   /** any comments, multi/single line,
    * that preceeds type declaration in original file */
   comments: Array<string>;

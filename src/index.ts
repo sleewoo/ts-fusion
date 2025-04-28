@@ -1,7 +1,8 @@
+import { format } from "node:util";
+
 import { type SourceFile, Project } from "ts-morph";
 
 import type { FlatDefinition, CycleSignature, UserOptions } from "./types";
-
 import builtins from "./builtins";
 import { isPrimitive, renderTypeParameter } from "./utils";
 
@@ -129,36 +130,40 @@ export const flattener = (
     });
 
     if (!typesFilter || typesFilter(typeName)) {
-      return typeParameters.length
-        ? [
-            {
-              name: typeName,
-              parameters: typeParameters,
-              text: traverse(
-                {
-                  typeNode,
-                  type,
-                  typeParameters: typeParameters.reduce(
-                    (map: Record<string, string>, { name }) => {
-                      map[name] = name;
-                      return map;
-                    },
-                    {},
-                  ),
-                },
-                opts,
-              ),
-              comments,
+      const text = traverse(
+        {
+          typeNode,
+          type,
+          typeParameters: typeParameters.reduce(
+            (map: Record<string, string>, { name }) => {
+              map[name] = name;
+              return map;
             },
-          ]
-        : [
-            {
-              name: typeName,
-              parameters: [],
-              text: traverse({ typeNode, type }, opts),
-              comments,
-            },
-          ];
+            {},
+          ),
+        },
+        opts,
+      );
+
+      return [
+        {
+          name: typeName,
+          parameters: typeParameters,
+          comments,
+          text,
+          get fullText() {
+            return format(
+              "%s\nexport type %s%s = %s",
+              comments.join("\n"),
+              typeName,
+              typeParameters.length
+                ? format("<%s>", typeParameters.map((e) => e.text).join(", "))
+                : "",
+              text,
+            ).trim();
+          },
+        },
+      ];
     }
 
     return [];
