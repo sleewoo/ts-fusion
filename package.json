@@ -10,9 +10,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "pkg/*"
-  ],
+  "files": ["pkg/*"],
   "exports": {
     ".": {
       "types": "./pkg/index.d.ts",
@@ -21,7 +19,7 @@
   },
   "scripts": {
     "// ✨ build": "",
-    "build": "esbuilder ./src/index -o pkg -l .hbs=text -s ./scripts/build",
+    "build": "esbuilder ./src/index -o pkg -l .hbs=text -s ./scripts/build/",
     "prebuild:tests": "esbuilder ./src/test-factory/run -l .hbs=text -o ./test",
     "build:tests": "node ./test/run",
     "postbuild:tests": "rm ./test/run.js*",
