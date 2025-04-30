@@ -142,7 +142,7 @@ type ComplexObjectArraysCase3Flat = Array<{
         ][]
       ]
     }
-  }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+  }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
     id: (string & {
       __brand: "ProductID"
     });
@@ -174,7 +174,7 @@ type ComplexObjectArraysCase3Flat = Array<{
         ][]
       ]
     }
-  }>)[number])[K /** unresolved */] }
+  }>)[number])[K /** unresolved */]) }
 }>;
 
 // Inspired by IoT device configurations
@@ -550,7 +550,7 @@ type ComplexObjectArraysCase9Flat = Array<{
             ][]
           ]
         }
-      }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+      }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
         id: (string & {
           __brand: "ProductID"
         });
@@ -582,7 +582,7 @@ type ComplexObjectArraysCase9Flat = Array<{
             ][]
           ]
         }
-      }>)[number])[K /** unresolved */] }
+      }>)[number])[K /** unresolved */]) }
     }>)[number])["node"])
   };
   metrics: (((ReadonlyArray<Readonly<{
@@ -914,7 +914,7 @@ type ComplexObjectArraysCase11Flat = Array<{
               ][]
             ]
           }
-        }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+        }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
           id: (string & {
             __brand: "ProductID"
           });
@@ -946,7 +946,7 @@ type ComplexObjectArraysCase11Flat = Array<{
               ][]
             ]
           }
-        }>)[number])[K /** unresolved */] }
+        }>)[number])[K /** unresolved */]) }
       }>)[number])["node"])
     };
     metrics: (((ReadonlyArray<Readonly<{
@@ -990,7 +990,7 @@ type ComplexObjectArraysCase11Flat = Array<{
       }
     }>)[number])["firmware"]
   }>)[number])["metrics"];
-  constant: ((Array<{
+  constant: (((Array<{
     type: ("hero" | "cta" | "text");
     content: ((Array<{
       id: (string & {
@@ -1031,7 +1031,7 @@ type ComplexObjectArraysCase11Flat = Array<{
       __brand: "count"
     }))>)[number]>;
     readonly _version: number
-  }>)[number])["_version"] extends number ? boolean : never
+  }>)[number])["_version"] extends number ? boolean : never)
 }>;
 
 // Similar to genomic data structures
@@ -1093,7 +1093,7 @@ type ComplexObjectArraysCase12Flat = Array<{
           ][]
         ]
       }
-    }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+    }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
       id: (string & {
         __brand: "ProductID"
       });
@@ -1125,7 +1125,7 @@ type ComplexObjectArraysCase12Flat = Array<{
           ][]
         ]
       }
-    }>)[number])[K /** unresolved */] }
+    }>)[number])[K /** unresolved */]) }
   }>)[number])["properties"]
 }>;
 
@@ -1281,7 +1281,7 @@ type ComplexObjectArraysCase13Flat = Array<{
                   ][]
                 ]
               }
-            }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+            }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
               id: (string & {
                 __brand: "ProductID"
               });
@@ -1313,7 +1313,7 @@ type ComplexObjectArraysCase13Flat = Array<{
                   ][]
                 ]
               }
-            }>)[number])[K /** unresolved */] }
+            }>)[number])[K /** unresolved */]) }
           }>)[number])["node"])
         };
         metrics: (((ReadonlyArray<Readonly<{
@@ -1561,7 +1561,7 @@ type ComplexObjectArraysCase15Flat = Array<{
             ][]
           ]
         }
-      }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+      }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
         id: (string & {
           __brand: "ProductID"
         });
@@ -1593,7 +1593,7 @@ type ComplexObjectArraysCase15Flat = Array<{
             ][]
           ]
         }
-      }>)[number])[K /** unresolved */] }
+      }>)[number])[K /** unresolved */]) }
     }>)[number])["properties"]
   }>)[number])["genomeId"];
   parties: [
@@ -1748,7 +1748,7 @@ type ComplexObjectArraysCase16Flat = Array<{
                 ][]
               ]
             }
-          }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
             id: (string & {
               __brand: "ProductID"
             });
@@ -1780,7 +1780,7 @@ type ComplexObjectArraysCase16Flat = Array<{
                 ][]
               ]
             }
-          }>)[number])[K /** unresolved */] }
+          }>)[number])[K /** unresolved */]) }
         }>)[number])["node"])
       };
       metrics: (((ReadonlyArray<Readonly<{
@@ -1860,7 +1860,7 @@ type ComplexObjectArraysCase16Flat = Array<{
                 ][]
               ]
             }
-          }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
             id: (string & {
               __brand: "ProductID"
             });
@@ -1892,7 +1892,7 @@ type ComplexObjectArraysCase16Flat = Array<{
                 ][]
               ]
             }
-          }>)[number])[K /** unresolved */] }
+          }>)[number])[K /** unresolved */]) }
         }>)[number])["node"])
       };
       metrics: (((ReadonlyArray<Readonly<{
@@ -2312,7 +2312,7 @@ type ComplexObjectArraysCase17Flat = Array<{
 
 // Similar to climate data models
 type ComplexObjectArraysCase18Flat = Array<{
-  regionId: ((ReadonlyArray<Readonly<{
+  regionId: (((ReadonlyArray<Readonly<{
     coordinates: Readonly<[
       number,
       number,
@@ -2334,7 +2334,7 @@ type ComplexObjectArraysCase18Flat = Array<{
         __brand: "SensorID"
       })
     }>>)[number])["timestamp"]
-  }>>)[number])["coordinates"] extends infer C ? C /** unresolved */ extends string[] ? `reg_${(C /** unresolved */)[0]}_${(C /** unresolved */)[1]}` : never : never;
+  }>>)[number])["coordinates"] extends infer C ? (C /** unresolved */ extends string[] ? `reg_${(C /** unresolved */)[0]}_${(C /** unresolved */)[1]}` : never) : never);
   measurements: {
     year: number;
     temperature: ((Array<{
@@ -2374,7 +2374,7 @@ type ComplexObjectArraysCase18Flat = Array<{
                 ][]
               ]
             }
-          }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
             id: (string & {
               __brand: "ProductID"
             });
@@ -2406,7 +2406,7 @@ type ComplexObjectArraysCase18Flat = Array<{
                 ][]
               ]
             }
-          }>)[number])[K /** unresolved */] }
+          }>)[number])[K /** unresolved */]) }
         }>)[number])["node"])
       };
       metrics: (((ReadonlyArray<Readonly<{
@@ -2515,7 +2515,7 @@ type ComplexObjectArraysCase19Flat = Array<{
                 ][]
               ]
             }
-          }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
             id: (string & {
               __brand: "ProductID"
             });
@@ -2547,7 +2547,7 @@ type ComplexObjectArraysCase19Flat = Array<{
                 ][]
               ]
             }
-          }>)[number])[K /** unresolved */] }
+          }>)[number])[K /** unresolved */]) }
         }>)[number])["node"])
       };
       metrics: (((ReadonlyArray<Readonly<{
@@ -2592,7 +2592,7 @@ type ComplexObjectArraysCase19Flat = Array<{
       }>)[number])["firmware"]
     }>)[number])["metrics"];
     value: ((((Array<{
-      regionId: ((ReadonlyArray<Readonly<{
+      regionId: (((ReadonlyArray<Readonly<{
         coordinates: Readonly<[
           number,
           number,
@@ -2614,7 +2614,7 @@ type ComplexObjectArraysCase19Flat = Array<{
             __brand: "SensorID"
           })
         }>>)[number])["timestamp"]
-      }>>)[number])["coordinates"] extends infer C ? C /** unresolved */ extends string[] ? `reg_${(C /** unresolved */)[0]}_${(C /** unresolved */)[1]}` : never : never;
+      }>>)[number])["coordinates"] extends infer C ? (C /** unresolved */ extends string[] ? `reg_${(C /** unresolved */)[0]}_${(C /** unresolved */)[1]}` : never) : never);
       measurements: {
         year: number;
         temperature: ((Array<{
@@ -2654,7 +2654,7 @@ type ComplexObjectArraysCase19Flat = Array<{
                     ][]
                   ]
                 }
-              }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+              }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
                 id: (string & {
                   __brand: "ProductID"
                 });
@@ -2686,7 +2686,7 @@ type ComplexObjectArraysCase19Flat = Array<{
                     ][]
                   ]
                 }
-              }>)[number])[K /** unresolved */] }
+              }>)[number])[K /** unresolved */]) }
             }>)[number])["node"])
           };
           metrics: (((ReadonlyArray<Readonly<{
@@ -2867,7 +2867,7 @@ type ComplexObjectArraysCase20Flat = Array<{
                 ][]
               ]
             }
-          }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
             id: (string & {
               __brand: "ProductID"
             });
@@ -2899,7 +2899,7 @@ type ComplexObjectArraysCase20Flat = Array<{
                 ][]
               ]
             }
-          }>)[number])[K /** unresolved */] }
+          }>)[number])[K /** unresolved */]) }
         }>)[number])["properties"]
       }>)[number])["genomeId"];
       parties: [
@@ -3407,7 +3407,7 @@ type ComplexObjectArraysCase22Flat = Array<{
                   ][]
                 ]
               }
-            }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+            }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
               id: (string & {
                 __brand: "ProductID"
               });
@@ -3439,7 +3439,7 @@ type ComplexObjectArraysCase22Flat = Array<{
                   ][]
                 ]
               }
-            }>)[number])[K /** unresolved */] }
+            }>)[number])[K /** unresolved */]) }
           }>)[number])["properties"]
         }>)[number])["genomeId"];
         parties: [
@@ -3666,7 +3666,7 @@ type ComplexObjectArraysCase22Flat = Array<{
                 ][]
               ]
             }
-          }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
             id: (string & {
               __brand: "ProductID"
             });
@@ -3698,7 +3698,7 @@ type ComplexObjectArraysCase22Flat = Array<{
                 ][]
               ]
             }
-          }>)[number])[K /** unresolved */] }
+          }>)[number])[K /** unresolved */]) }
         }>)[number])["node"])
       };
       metrics: (((ReadonlyArray<Readonly<{
@@ -3742,7 +3742,7 @@ type ComplexObjectArraysCase22Flat = Array<{
         }
       }>)[number])["firmware"]
     }>)[number])["metrics"];
-    constant: ((Array<{
+    constant: (((Array<{
       type: ("hero" | "cta" | "text");
       content: ((Array<{
         id: (string & {
@@ -3783,7 +3783,7 @@ type ComplexObjectArraysCase22Flat = Array<{
         __brand: "count"
       }))>)[number]>;
       readonly _version: number
-    }>)[number])["_version"] extends number ? boolean : never
+    }>)[number])["_version"] extends number ? boolean : never)
   }>)[number])["outputs"]
 }>;
 
@@ -3935,7 +3935,7 @@ type ComplexObjectArraysCase23Flat = Array<{
                     ][]
                   ]
                 }
-              }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+              }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
                 id: (string & {
                   __brand: "ProductID"
                 });
@@ -3967,7 +3967,7 @@ type ComplexObjectArraysCase23Flat = Array<{
                     ][]
                   ]
                 }
-              }>)[number])[K /** unresolved */] }
+              }>)[number])[K /** unresolved */]) }
             }>)[number])["node"])
           };
           metrics: (((ReadonlyArray<Readonly<{
@@ -4047,7 +4047,7 @@ type ComplexObjectArraysCase23Flat = Array<{
                     ][]
                   ]
                 }
-              }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+              }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
                 id: (string & {
                   __brand: "ProductID"
                 });
@@ -4079,7 +4079,7 @@ type ComplexObjectArraysCase23Flat = Array<{
                     ][]
                   ]
                 }
-              }>)[number])[K /** unresolved */] }
+              }>)[number])[K /** unresolved */]) }
             }>)[number])["node"])
           };
           metrics: (((ReadonlyArray<Readonly<{
@@ -4471,7 +4471,7 @@ type ComplexObjectArraysCase24Flat = Array<{
                 ][]
               ]
             }
-          }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
             id: (string & {
               __brand: "ProductID"
             });
@@ -4503,7 +4503,7 @@ type ComplexObjectArraysCase24Flat = Array<{
                 ][]
               ]
             }
-          }>)[number])[K /** unresolved */] }
+          }>)[number])[K /** unresolved */]) }
         }>)[number])["node"])
       };
       metrics: (((ReadonlyArray<Readonly<{
@@ -4547,7 +4547,7 @@ type ComplexObjectArraysCase24Flat = Array<{
         }
       }>)[number])["firmware"]
     }>)[number])["metrics"];
-    constant: ((Array<{
+    constant: (((Array<{
       type: ("hero" | "cta" | "text");
       content: ((Array<{
         id: (string & {
@@ -4588,7 +4588,7 @@ type ComplexObjectArraysCase24Flat = Array<{
         __brand: "count"
       }))>)[number]>;
       readonly _version: number
-    }>)[number])["_version"] extends number ? boolean : never
+    }>)[number])["_version"] extends number ? boolean : never)
   }>)[number])["constant"][]
 }>;
 
@@ -4814,7 +4814,7 @@ type ComplexObjectArraysCase25Flat = Array<{
                     ][]
                   ]
                 }
-              }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+              }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
                 id: (string & {
                   __brand: "ProductID"
                 });
@@ -4842,7 +4842,7 @@ type ComplexObjectArraysCase25Flat = Array<{
                     ][]
                   ]
                 }
-              }>)[number])[K /** unresolved */] }
+              }>)[number])[K /** unresolved */]) }
             }>)[number])["node"])
           };
           metrics: (((ReadonlyArray<Readonly<{
@@ -4886,7 +4886,7 @@ type ComplexObjectArraysCase25Flat = Array<{
             }
           }>)[number])["firmware"]
         }>)[number])["metrics"];
-        constant: ((Array<{
+        constant: (((Array<{
           type: ("hero" | "cta" | "text");
           content: ((Array<{
             id: (string & {
@@ -4927,7 +4927,7 @@ type ComplexObjectArraysCase25Flat = Array<{
             __brand: "count"
           }))>)[number]>;
           readonly _version: number
-        }>)[number])["_version"] extends number ? boolean : never
+        }>)[number])["_version"] extends number ? boolean : never)
       }>)[number])["constant"][]
     }>)[number])["transactions"])[number])["from"];
     basis: (((((ReadonlyArray<Readonly<{

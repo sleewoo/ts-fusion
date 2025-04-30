@@ -100,7 +100,7 @@ type UtilityPatternsTest13Flat<T> = [
 
 type UtilityPatternsTest14Flat<T> = [
   T,
-  ...(T extends unknown[] ? (T)[number][] : never)
+  ...((T extends unknown[] ? (T)[number][] : never))
 ];
 
 type UtilityPatternsTest15Flat<T> = [
@@ -110,73 +110,73 @@ type UtilityPatternsTest15Flat<T> = [
 
 type UtilityPatternsTest16Flat<T> = [
   T,
-  ...(T extends object ? [
+  ...((T extends object ? [
     keyof T
-  ] : never)
+  ] : never))
 ];
 
 type UtilityPatternsTest17Flat<T> = [
   T,
-  ...(T extends Date ? [
+  ...((T extends Date ? [
     number
   ] : [
     string
-  ])
+  ]))
 ];
 
 type UtilityPatternsTest18Flat<T> = [
   T,
-  ...(T extends Error ? [
+  ...((T extends Error ? [
     string
   ] : [
     number
-  ])
+  ]))
 ];
 
 type UtilityPatternsTest19Flat<T> = [
   T,
-  ...(T extends Map<infer K, infer V> ? [
+  ...((T extends Map<infer K, infer V> ? [
     K /** unresolved */,
     V /** unresolved */
-  ] : never)
+  ] : never))
 ];
 
 type UtilityPatternsTest20Flat<T> = [
   T,
-  ...(T extends Set<infer V> ? [
+  ...((T extends Set<infer V> ? [
     V /** unresolved */
-  ] : never)
+  ] : never))
 ];
 
 type UtilityPatternsTest21Flat<T> = [
   T,
-  ...(T extends Promise<infer V> ? [
+  ...((T extends Promise<infer V> ? [
     V /** unresolved */
-  ] : never)
+  ] : never))
 ];
 
 type UtilityPatternsTest22Flat<T> = [
   T,
-  ...(T extends ((...args: never) => never) ? Parameters<T> : never)
+  ...((T extends ((...args: never) => never) ? Parameters<T> : never))
 ];
 
 type UtilityPatternsTest23Flat<T> = [
   T,
-  ...(T extends new (...args: never) => never ? ConstructorParameters<T> : never)
+  ...((T extends new (...args: never) => never ? ConstructorParameters<T> : never))
 ];
 
 type UtilityPatternsTest24Flat<T> = [
   T,
-  ...(T extends Array<infer U> ? [
+  ...((T extends Array<infer U> ? [
     U /** unresolved */
-  ] : never)
+  ] : never))
 ];
 
 type UtilityPatternsTest25Flat<T> = [
   T,
-  ...(T extends Record<string, infer V> ? [
+  ...((T extends Record<string, infer V> ? [
     V /** unresolved */
-  ] : never)
+  ] : never))
 ];
 
 

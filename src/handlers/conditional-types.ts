@@ -11,7 +11,7 @@ export const handlerQualifier: HandlerQualifier = ({
   return typeNode.isKind(SyntaxKind.ConditionalType)
     ? (next) => {
         return format(
-          "%s extends %s ? %s : %s",
+          "(%s extends %s ? %s : %s)",
           ...[
             typeNode.getCheckType(),
             typeNode.getExtendsType(),

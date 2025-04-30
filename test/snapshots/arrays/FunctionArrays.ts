@@ -204,7 +204,7 @@ type FunctionArraysCase10Flat = Array<((deltaTime: number) => {
 type FunctionArraysCase11Flat = Array<((data: Uint8Array, key: `0x${string}`) => Promise<ArrayBuffer>)>;
 
 // Pattern from data transformation pipelines
-type FunctionArraysCase12Flat<T> = Array<((input: T) => T extends number[] ? Array<{
+type FunctionArraysCase12Flat<T> = Array<((input: T) => (T extends number[] ? Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -236,7 +236,7 @@ type FunctionArraysCase12Flat<T> = Array<((input: T) => T extends number[] ? Arr
       ][]
     ]
   }
-}> : T)>;
+}> : T))>;
 
 // Inspired by machine learning activation functions
 type FunctionArraysCase13Flat = Array<((input: number) => (number & {
@@ -487,7 +487,7 @@ type FunctionArraysCase19Flat = Array<((ast: Array<{
                   ][]
                 ]
               }
-            }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+            }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
               id: (string & {
                 __brand: "ProductID"
               });
@@ -519,7 +519,7 @@ type FunctionArraysCase19Flat = Array<((ast: Array<{
                   ][]
                 ]
               }
-            }>)[number])[K /** unresolved */] }
+            }>)[number])[K /** unresolved */]) }
           }>)[number])["node"])
         };
         metrics: (((ReadonlyArray<Readonly<{
@@ -729,7 +729,7 @@ type FunctionArraysCase25Flat = Array<((population: Array<{
           ][]
         ]
       }
-    }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+    }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
       id: (string & {
         __brand: "ProductID"
       });
@@ -761,7 +761,7 @@ type FunctionArraysCase25Flat = Array<((population: Array<{
           ][]
         ]
       }
-    }>)[number])[K /** unresolved */] }
+    }>)[number])[K /** unresolved */]) }
   }>)[number])["properties"]
 }>, fitnessFn: (Array<((input: number) => (number & {
   __brand: "ActivationOutput"
@@ -823,7 +823,7 @@ type FunctionArraysCase25Flat = Array<((population: Array<{
           ][]
         ]
       }
-    }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+    }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
       id: (string & {
         __brand: "ProductID"
       });
@@ -855,7 +855,7 @@ type FunctionArraysCase25Flat = Array<((population: Array<{
           ][]
         ]
       }
-    }>)[number])[K /** unresolved */] }
+    }>)[number])[K /** unresolved */]) }
   }>)[number])["properties"]
 }>)>;
 

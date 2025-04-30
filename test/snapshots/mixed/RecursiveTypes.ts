@@ -127,7 +127,7 @@ type RecursiveTypesCase7Flat = {
 };
 
 // Similar to recursive validation rules
-type RecursiveTypesCase8Flat<T> = T extends object ? { [K in keyof T]: RecursiveTypesCase8<(T)[K /** unresolved */]> } : T;
+type RecursiveTypesCase8Flat<T> = (T extends object ? { [K in keyof T]: RecursiveTypesCase8<(T)[K /** unresolved */]> } : T);
 
 // Pattern from type-safe state machines
 type RecursiveTypesCase9Flat = ({
@@ -293,7 +293,7 @@ type RecursiveTypesCase19Flat = (string | [
 ]);
 
 // Similar to recursive type predicates
-type RecursiveTypesCase20Flat<T> = T extends object ? { [K in keyof T]: RecursiveTypesCase20<(T)[K /** unresolved */]> } : ((value: unknown) => value is T);
+type RecursiveTypesCase20Flat<T> = (T extends object ? { [K in keyof T]: RecursiveTypesCase20<(T)[K /** unresolved */]> } : ((value: unknown) => value is T));
 
 // Pattern from file format parsing
 type RecursiveTypesCase21Flat = {

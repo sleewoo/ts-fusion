@@ -29,52 +29,52 @@ import type {
 } from "@/fixtures/arrays/InferArrays.ts";
 
 // Inspired by API response unwrapping
-type InferArraysCase1Flat<T> = Array<T extends Array<infer U> ? U /** unresolved */ : never>;
+type InferArraysCase1Flat<T> = Array<(T extends Array<infer U> ? U /** unresolved */ : never)>;
 
 // Similar to promise batch processing
-type InferArraysCase2Flat<T> = Array<T extends Promise<infer U> ? U /** unresolved */ : T>;
+type InferArraysCase2Flat<T> = Array<(T extends Promise<infer U> ? U /** unresolved */ : T)>;
 
 // Pattern from function parameter extraction
-type InferArraysCase3Flat<T> = Array<T extends ((...args: infer P) => void) ? P /** unresolved */ : never>;
+type InferArraysCase3Flat<T> = Array<(T extends ((...args: infer P) => void) ? P /** unresolved */ : never)>;
 
 // Inspired by nested array flattening
-type InferArraysCase4Flat<T> = Array<T extends Array<Array<infer U>> ? U /** unresolved */ : T>;
+type InferArraysCase4Flat<T> = Array<(T extends Array<Array<infer U>> ? U /** unresolved */ : T)>;
 
 // Similar to union type filtering
-type InferArraysCase5Flat<T> = Array<T extends Array<infer U> ? U /** unresolved */ extends string ? U /** unresolved */ : never : never>;
+type InferArraysCase5Flat<T> = Array<(T extends Array<infer U> ? (U /** unresolved */ extends string ? U /** unresolved */ : never) : never)>;
 
 // Pattern from tuple element extraction
-type InferArraysCase6Flat<T> = Array<T extends [
+type InferArraysCase6Flat<T> = Array<(T extends [
   infer A,
   ...unknown[]
-] ? A /** unresolved */ : never>;
+] ? A /** unresolved */ : never)>;
 
 // Inspired by React prop type inference
-type InferArraysCase7Flat<T> = Array<T extends Array<infer P> ? P /** unresolved */ : never>;
+type InferArraysCase7Flat<T> = Array<(T extends Array<infer P> ? P /** unresolved */ : never)>;
 
 // Similar to recursive type unwrapping
-type InferArraysCase8Flat<T> = Array<T extends Array<infer U> ? InferArraysCase8<U /** unresolved */> : T>;
+type InferArraysCase8Flat<T> = Array<(T extends Array<infer U> ? InferArraysCase8<U /** unresolved */> : T)>;
 
 // Pattern from error type extraction
-type InferArraysCase9Flat<T> = Array<T extends Error ? (T)["message"] : never>;
+type InferArraysCase9Flat<T> = Array<(T extends Error ? (T)["message"] : never)>;
 
 // Inspired by mapped type value inference
-type InferArraysCase10Flat<T> = Array<T extends Record<string, infer V> ? V /** unresolved */ : never>;
+type InferArraysCase10Flat<T> = Array<(T extends Record<string, infer V> ? V /** unresolved */ : never)>;
 
 // Similar to function return type batching
-type InferArraysCase11Flat<T> = Array<T extends ((...args: unknown[]) => infer R) ? R /** unresolved */ : never>;
+type InferArraysCase11Flat<T> = Array<(T extends ((...args: unknown[]) => infer R) ? R /** unresolved */ : never)>;
 
 // Pattern from intersection type decomposition
-type InferArraysCase12Flat<T> = Array<T extends (infer U & object) ? U /** unresolved */ : never>;
+type InferArraysCase12Flat<T> = Array<(T extends (infer U & object) ? U /** unresolved */ : never)>;
 
 // Inspired by CSS property value inference
-type InferArraysCase13Flat<T> = Array<T extends keyof CSSStyleDeclaration /** unresolved */ ? (CSSStyleDeclaration /** unresolved */)[T] : never>;
+type InferArraysCase13Flat<T> = Array<(T extends keyof CSSStyleDeclaration /** unresolved */ ? (CSSStyleDeclaration /** unresolved */)[T] : never)>;
 
 // Similar to DOM event type mapping
-type InferArraysCase14Flat<T> = Array<T extends `on${infer E}` ? E /** unresolved */ : never>;
+type InferArraysCase14Flat<T> = Array<(T extends `on${infer E}` ? E /** unresolved */ : never)>;
 
 // Pattern from complex object key inference
-type InferArraysCase15Flat = Array<(Array<{
+type InferArraysCase15Flat = Array<((Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -106,28 +106,28 @@ type InferArraysCase15Flat = Array<(Array<{
       ][]
     ]
   }
-}>)[number] extends infer T ? keyof T /** unresolved */ : never>;
+}>)[number] extends infer T ? keyof T /** unresolved */ : never)>;
 
 // Inspired by recursive promise unwrapping
-type InferArraysCase16Flat<T> = Array<T extends Promise<infer U> ? InferArraysCase16<U /** unresolved */> : T>;
+type InferArraysCase16Flat<T> = Array<(T extends Promise<infer U> ? InferArraysCase16<U /** unresolved */> : T)>;
 
 // Similar to tuple rest element inference
-type InferArraysCase17Flat<T> = Array<T extends [
+type InferArraysCase17Flat<T> = Array<(T extends [
   string,
   ...infer R
-] ? R /** unresolved */ : never>;
+] ? R /** unresolved */ : never)>;
 
 // Pattern from function this type inference
-type InferArraysCase18Flat<T> = Array<T extends ((this: infer This, ...args: unknown[]) => void) ? This /** unresolved */ : never>;
+type InferArraysCase18Flat<T> = Array<(T extends ((this: infer This, ...args: unknown[]) => void) ? This /** unresolved */ : never)>;
 
 // Inspired by constructor parameter inference
-type InferArraysCase19Flat<T> = Array<T extends new (...args: infer P) => unknown ? P /** unresolved */ : never>;
+type InferArraysCase19Flat<T> = Array<(T extends new (...args: infer P) => unknown ? P /** unresolved */ : never)>;
 
 // Similar to template literal part inference
-type InferArraysCase20Flat<T> = Array<T extends `#${infer Hex}` ? Hex /** unresolved */ : never>;
+type InferArraysCase20Flat<T> = Array<(T extends `#${infer Hex}` ? Hex /** unresolved */ : never)>;
 
 // Pattern from hybrid type decomposition
-type InferArraysCase21Flat = Array<((({
+type InferArraysCase21Flat = Array<(((({
   inputs: ((Array<((string & {
     __brand: "id"
   }) | (number & {
@@ -172,10 +172,10 @@ type InferArraysCase21Flat = Array<((({
   }))[]
 } & {
   payable: boolean
-}))[])[number] extends infer U ? U /** unresolved */[] : never>;
+}))[])[number] extends infer U ? U /** unresolved */[] : never)>;
 
 // Inspired by function array parameter inference
-type InferArraysCase22Flat = Array<(Array<((req: {
+type InferArraysCase22Flat = Array<((Array<((req: {
   params: [
     number,
     number,
@@ -215,20 +215,20 @@ type InferArraysCase22Flat = Array<(Array<((req: {
       ]
     }
   }>) => void)
-}, next: (() => void)) => Promise<void>)>)[number] extends ((...args: infer P) => void) ? P /** unresolved */ : never>;
+}, next: (() => void)) => Promise<void>)>)[number] extends ((...args: infer P) => void) ? P /** unresolved */ : never)>;
 
 // Similar to nested object value inference
-type InferArraysCase23Flat<T> = Array<T extends {
+type InferArraysCase23Flat<T> = Array<(T extends {
   nested: {
     value: infer V
   }
-} ? V /** unresolved */ : never>;
+} ? V /** unresolved */ : never)>;
 
 // Pattern from recursive array depth detection
-type InferArraysCase24Flat<T, D extends number> = Array<T extends Array<infer U> ? InferArraysCase24<U /** unresolved */, D extends number ? D : never> : D>;
+type InferArraysCase24Flat<T, D extends number> = Array<(T extends Array<infer U> ? InferArraysCase24<U /** unresolved */, (D extends number ? D : never)> : D)>;
 
 // Inspired by complex type relationship inference
-type InferArraysCase25Flat = Array<(Array<{
+type InferArraysCase25Flat = Array<((Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -260,7 +260,7 @@ type InferArraysCase25Flat = Array<(Array<{
       ][]
     ]
   }
-}>)[number] extends infer U ? U /** unresolved */[] extends infer P ? P /** unresolved */[] : never : never>;
+}>)[number] extends infer U ? (U /** unresolved */[] extends infer P ? P /** unresolved */[] : never) : never)>;
 
 
 assert<

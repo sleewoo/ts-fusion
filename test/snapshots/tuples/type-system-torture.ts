@@ -30,7 +30,7 @@ import type {
 
 // @license MIT
 // Contains AI-generated test patterns
-type TypeSystemTortureTest1Flat<T> = [
+type TypeSystemTortureTest1Flat<T> = ([
   T,
   ...T[]
 ] extends [
@@ -39,7 +39,7 @@ type TypeSystemTortureTest1Flat<T> = [
 ] ? [
   First /** unresolved */,
   Rest /** unresolved */
-] : never;
+] : never);
 
 type TypeSystemTortureTest2Flat = [
   readonly [
@@ -81,7 +81,7 @@ type TypeSystemTortureTest5Flat = [
 type TypeSystemTortureTest6Flat<T, U> = [
   T,
   ...[
-    U extends T ? U : never
+    (U extends T ? U : never)
   ]
 ];
 
@@ -92,10 +92,10 @@ type TypeSystemTortureTest7Flat<T> = [
 
 type TypeSystemTortureTest8Flat<T> = [
   T,
-  T extends (infer U)[] ? U /** unresolved */ : never
+  (T extends (infer U)[] ? U /** unresolved */ : never)
 ];
 
-type TypeSystemTortureTest9Flat<T extends Array<(string | number)>> = [
+type TypeSystemTortureTest9Flat<T extends Array<(string | number)>> = ([
   [
     ...T
   ],
@@ -105,7 +105,7 @@ type TypeSystemTortureTest9Flat<T extends Array<(string | number)>> = [
     ...infer U
   ],
   unknown
-] ? U /** unresolved */ : never;
+] ? U /** unresolved */ : never);
 
 type TypeSystemTortureTest10Flat = [
   readonly [
@@ -121,12 +121,12 @@ type TypeSystemTortureTest11Flat<T extends string> = [
   ...T[]
 ];
 
-type TypeSystemTortureTest12Flat<T, U> = [
+type TypeSystemTortureTest12Flat<T, U> = ([
   ...T[],
   U[]
 ] extends [
   ...infer R
-] ? R /** unresolved */ : never;
+] ? R /** unresolved */ : never);
 
 // @skip-test: unique symbol makes unique types
 type TypeSystemTortureTest13Flat<T> = ([
@@ -151,7 +151,7 @@ type TypeSystemTortureTest15Flat<T> = [
 
 type TypeSystemTortureTest16Flat<T> = [
   T,
-  ...(T extends never[] ? T : never)
+  ...((T extends never[] ? T : never))
 ];
 
 type TypeSystemTortureTest17Flat<T> = [
@@ -161,58 +161,58 @@ type TypeSystemTortureTest17Flat<T> = [
 
 type TypeSystemTortureTest18Flat<T> = [
   T,
-  ...(T extends {
+  ...((T extends {
     length: number
   } ? [
     (T)["length"]
-  ] : never)
+  ] : never))
 ];
 
 type TypeSystemTortureTest19Flat<T> = [
   T,
-  ...(T extends Record<string, infer V> ? V /** unresolved */[] : never)
+  ...((T extends Record<string, infer V> ? V /** unresolved */[] : never))
 ];
 
 type TypeSystemTortureTest20Flat<T> = [
   T,
-  ...(T extends unknown[] ? { [K in keyof T]: (T)[K /** unresolved */] } : never)
+  ...((T extends unknown[] ? { [K in keyof T]: (T)[K /** unresolved */] } : never))
 ];
 
 type TypeSystemTortureTest21Flat<T> = [
   T,
-  ...(T extends ((...args: never) => infer R) ? [
+  ...((T extends ((...args: never) => infer R) ? [
     R /** unresolved */
-  ] : never)
+  ] : never))
 ];
 
 type TypeSystemTortureTest22Flat<T> = [
   T,
-  ...(T extends new (...args: never) => infer I ? [
+  ...((T extends new (...args: never) => infer I ? [
     I /** unresolved */
-  ] : never)
+  ] : never))
 ];
 
 type TypeSystemTortureTest23Flat<T> = [
   T,
-  ...(T extends Promise<infer V> ? [
+  ...((T extends Promise<infer V> ? [
     V /** unresolved */
-  ] : never)
+  ] : never))
 ];
 
 type TypeSystemTortureTest24Flat<T> = [
   T,
-  ...(T extends `/${string}` ? [
+  ...((T extends `/${string}` ? [
     T
-  ] : never)
+  ] : never))
 ];
 
 type TypeSystemTortureTest25Flat<T> = [
   T,
-  ...(T extends Date ? [
+  ...((T extends Date ? [
     number
   ] : [
     string
-  ])
+  ]))
 ];
 
 

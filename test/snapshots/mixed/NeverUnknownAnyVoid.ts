@@ -32,7 +32,7 @@ import type {
 type NeverUnknownAnyVoidCase1Flat = (() => never);
 
 // Similar to exhaustive type checking
-type NeverUnknownAnyVoidCase2Flat<T> = T extends string ? T : never;
+type NeverUnknownAnyVoidCase2Flat<T> = (T extends string ? T : never);
 
 // Pattern from third-party library boundaries
 type NeverUnknownAnyVoidCase3Flat = (unknown & {
@@ -94,22 +94,22 @@ type NeverUnknownAnyVoidCase8Flat = (never[] | never);
 type NeverUnknownAnyVoidCase9Flat = ((cb: ((result: any) => void)) => void);
 
 // Inspired by recursive termination
-type NeverUnknownAnyVoidCase10Flat<T> = T extends never ? T : T[];
+type NeverUnknownAnyVoidCase10Flat<T> = (T extends never ? T : T[]);
 
 // Similar to unsafe type assertions
 // biome-ignore lint:
-type NeverUnknownAnyVoidCase11Flat = any extends infer T ? T /** unresolved */ : never;
+type NeverUnknownAnyVoidCase11Flat = (any extends infer T ? T /** unresolved */ : never);
 
 // Pattern from type-safe void operations
 type NeverUnknownAnyVoidCase12Flat = {
   log: ((message: string) => void);
   /** biome-ignore lint: */
-  value: void extends true ? never : unknown
+  value: (void extends true ? never : unknown)
 };
 
 // Inspired by impossible conditions
 // biome-ignore lint:
-type NeverUnknownAnyVoidCase13Flat = never extends infer T ? T /** unresolved */ : any;
+type NeverUnknownAnyVoidCase13Flat = (never extends infer T ? T /** unresolved */ : any);
 
 // Similar to JSON parse results
 type NeverUnknownAnyVoidCase14Flat = (unknown | never);
@@ -142,9 +142,9 @@ type NeverUnknownAnyVoidCase19Flat = ((value: unknown) => value is (Array<(strin
 type NeverUnknownAnyVoidCase20Flat = (Promise<never> | Promise<unknown>);
 
 // Pattern from recursive type bottoms
-type NeverUnknownAnyVoidCase21Flat<T> = T extends never ? T : [
+type NeverUnknownAnyVoidCase21Flat<T> = (T extends never ? T : [
   T
-];
+]);
 
 // Inspired by type-safe voids
 type NeverUnknownAnyVoidCase22Flat = {
@@ -165,7 +165,7 @@ type NeverUnknownAnyVoidCase23Flat = { [K in never]: K /** unresolved */ };
 type NeverUnknownAnyVoidCase24Flat = (Error | never);
 
 // Inspired by top-type conversions
-type NeverUnknownAnyVoidCase25Flat = unknown extends infer T ? T /** unresolved */ extends Array<{
+type NeverUnknownAnyVoidCase25Flat = (unknown extends infer T ? (T /** unresolved */ extends Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -197,7 +197,7 @@ type NeverUnknownAnyVoidCase25Flat = unknown extends infer T ? T /** unresolved 
       ][]
     ]
   }
-}> ? T /** unresolved */ : Record<string, T /** unresolved */> : never;
+}> ? T /** unresolved */ : Record<string, T /** unresolved */>) : never);
 
 
 assert<

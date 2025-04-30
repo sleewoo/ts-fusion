@@ -172,14 +172,14 @@ type OptionalElementsTest21Flat<T> = [
 ];
 
 type OptionalElementsTest22Flat<T> = [
-  value?: T extends string ? string : number,
+  value?: (T extends string ? string : number),
   ...options: never[]
 ];
 
 type OptionalElementsTest23Flat<T> = [
-  ...(T extends never[] ? [
+  ...((T extends never[] ? [
     first?: (T)[0]
-  ] : never)
+  ] : never))
 ];
 
 type OptionalElementsTest24Flat = [

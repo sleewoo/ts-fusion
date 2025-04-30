@@ -246,7 +246,7 @@ type FunctionTypesCase11Flat = ((data: Uint8Array, key: (Array<(string & {
 })>)[number]) => Promise<ArrayBuffer>);
 
 // Pattern from data transformation pipelines
-type FunctionTypesCase12Flat<T> = ((input: T) => T extends Array<{
+type FunctionTypesCase12Flat<T> = ((input: T) => (T extends Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -280,7 +280,7 @@ type FunctionTypesCase12Flat<T> = ((input: T) => T extends Array<{
   }
 }> ? Array<(string & {
   __brand: "TransactionID"
-})> : T);
+})> : T));
 
 // Inspired by machine learning activation functions
 type FunctionTypesCase13Flat = ((input: number) => (number & {

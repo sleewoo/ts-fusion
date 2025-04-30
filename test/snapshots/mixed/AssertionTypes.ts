@@ -64,9 +64,9 @@ type AssertionTypesCase10Flat = (number & {
 });
 
 // Recursive validator
-type AssertionTypesCase12Flat<T> = T extends object ? {
+type AssertionTypesCase12Flat<T> = (T extends object ? {
   validate: ((obj: unknown) => obj is T)
-} : never;
+} : never);
 
 // Uppercase enum check
 type AssertionTypesCase13Flat = { [K in ("get" | "post")]: Uppercase<K /** unresolved */> };
@@ -93,7 +93,7 @@ type AssertionTypesCase22Flat<T> = {
 };
 
 // Recursive JSON check
-type AssertionTypesCase24Flat<T> = T extends object ? { [K in keyof T]: AssertionTypesCase24<(T)[K /** unresolved */]> } : ((value: unknown) => value is T);
+type AssertionTypesCase24Flat<T> = (T extends object ? { [K in keyof T]: AssertionTypesCase24<(T)[K /** unresolved */]> } : ((value: unknown) => value is T));
 
 
 assert<

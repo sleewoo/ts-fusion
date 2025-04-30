@@ -56,7 +56,7 @@ type TemplateLiteralTypesCase8Flat = `^${number}.${number}.${number}`;
 type TemplateLiteralTypesCase9Flat = `[${("DEBUG" | "INFO" | "ERROR")}] ${string}`;
 
 // Inspired by routing patterns
-type TemplateLiteralTypesCase10Flat = `/users/${number}/posts/${(Array<123 extends string ? number : boolean>)[number]}`;
+type TemplateLiteralTypesCase10Flat = `/users/${number}/posts/${(Array<(123 extends string ? number : boolean)>)[number]}`;
 
 // Similar to currency formatting
 type TemplateLiteralTypesCase11Flat = `${("USD" | "EUR")} ${number}.${number}`;

@@ -118,13 +118,13 @@ type MappedArraysCase4Flat = Array<{ +readonly [K in keyof (Array<Omit<((Readonl
 }>)["users"])[number], "permissions">>)[number] as `can${Capitalize<K /** unresolved */>}`]: boolean }>;
 
 // Similar to type-safe translations
-type MappedArraysCase5Flat<T> = Array<{ [K in keyof T as `msg_${string}`]: (T)[K /** unresolved */] extends string ? `${(T /** unresolved */)[K /** unresolved */]}_id` : never }>;
+type MappedArraysCase5Flat<T> = Array<{ [K in keyof T as `msg_${string}`]: ((T)[K /** unresolved */] extends string ? `${(T /** unresolved */)[K /** unresolved */]}_id` : never) }>;
 
 // Pattern from configuration validation
-type MappedArraysCase6Flat = Array<{ [K in keyof (Array<("success" | "error")>)[number]]: ((Array<("success" | "error")>)[number])[K /** unresolved */] extends string ? string : number }>;
+type MappedArraysCase6Flat = Array<{ [K in keyof (Array<("success" | "error")>)[number]]: (((Array<("success" | "error")>)[number])[K /** unresolved */] extends string ? string : number) }>;
 
 // Inspired by ORM relationships
-type MappedArraysCase7Flat<T> = Array<{ -readonly [K in keyof T]: (T)[K /** unresolved */] extends Array<infer U> ? U /** unresolved */ : never }>;
+type MappedArraysCase7Flat<T> = Array<{ -readonly [K in keyof T]: ((T)[K /** unresolved */] extends Array<infer U> ? U /** unresolved */ : never) }>;
 
 // Similar to CSS-in-JS props
 type MappedArraysCase8Flat = Array<{ +readonly [K in keyof (Array<{
@@ -165,7 +165,7 @@ type MappedArraysCase8Flat = Array<{ +readonly [K in keyof (Array<{
 // biome-ignore format: testing `]- ?`
 type MappedArraysCase9Flat<T extends {
   id: string
-}> = Array<{ +readonly [K in keyof T as (T)[K /** unresolved */] extends boolean ? `flag_${string}` : never]-?: (T)[K /** unresolved */] }>;
+}> = Array<{ +readonly [K in keyof T as ((T)[K /** unresolved */] extends boolean ? `flag_${string}` : never)]-?: (T)[K /** unresolved */] }>;
 
 // Inspired by API versioning
 type MappedArraysCase10Flat = Array<{ [K in keyof (Array<{
@@ -203,7 +203,7 @@ type MappedArraysCase10Flat = Array<{ [K in keyof (Array<{
 }>)[number]]: `${K /** unresolved */}_v1` }>;
 
 // Similar to recursive schema flattening
-type MappedArraysCase11Flat<T> = Array<{ [K in keyof T]: (T)[K /** unresolved */] extends object ? Record<string, (T)[K /** unresolved */]> : (T)[K /** unresolved */] }>;
+type MappedArraysCase11Flat<T> = Array<{ [K in keyof T]: ((T)[K /** unresolved */] extends object ? Record<string, (T)[K /** unresolved */]> : (T)[K /** unresolved */]) }>;
 
 // Pattern from validation error mapping
 type MappedArraysCase12Flat = Array<{ [K in keyof (Array<Omit<((Readonly<{
@@ -218,13 +218,13 @@ type MappedArraysCase12Flat = Array<{ [K in keyof (Array<Omit<((Readonly<{
       }))[]
     ]
   }>
-}>)["users"])[number], "permissions">>)[number]]: K /** unresolved */ extends string ? `${K /** unresolved */}Error` : never }>;
+}>)["users"])[number], "permissions">>)[number]]: (K /** unresolved */ extends string ? `${K /** unresolved */}Error` : never) }>;
 
 // Inspired by physics engine components
 type MappedArraysCase13Flat = Array<{ [K in ("x" | "y" | "z")]: number[] }>;
 
 // Similar to type-safe path mapping
-type MappedArraysCase14Flat<T> = Array<{ [K in keyof T as (T)[K /** unresolved */] extends (() => void) ? never : K /** unresolved */]: (T)[K /** unresolved */] }>;
+type MappedArraysCase14Flat<T> = Array<{ [K in keyof T as ((T)[K /** unresolved */] extends (() => void) ? never : K /** unresolved */)]: (T)[K /** unresolved */] }>;
 
 // Pattern from AST transformations
 type MappedArraysCase15Flat = Array<{ [K in keyof (ReadonlyArray<(string | number | ((({
@@ -234,7 +234,7 @@ type MappedArraysCase15Flat = Array<{ [K in keyof (ReadonlyArray<(string | numbe
 }))[])[number])>)[number]]: K /** unresolved */[] }>;
 
 // Inspired by financial reporting
-type MappedArraysCase16Flat<T> = Array<{ [K in keyof T as `total_${string}`]: (T)[K /** unresolved */] extends number ? number : never }>;
+type MappedArraysCase16Flat<T> = Array<{ [K in keyof T as `total_${string}`]: ((T)[K /** unresolved */] extends number ? number : never) }>;
 
 // Similar to nested permissions
 type MappedArraysCase17Flat = Array<{ [K in keyof (Array<{
@@ -275,7 +275,7 @@ type MappedArraysCase17Flat = Array<{ [K in keyof (Array<{
 }> }>;
 
 // Pattern from date format conversions
-type MappedArraysCase18Flat = Array<{ [K in ("iso" | "unix" | "utc")]: K /** unresolved */ extends "iso" ? string : number }>;
+type MappedArraysCase18Flat = Array<{ [K in ("iso" | "unix" | "utc")]: (K /** unresolved */ extends "iso" ? string : number) }>;
 
 // Inspired by API parameter wrapping
 type MappedArraysCase19Flat<T> = Array<{ [K in keyof T]: {
@@ -284,7 +284,7 @@ type MappedArraysCase19Flat<T> = Array<{ [K in keyof T]: {
 } }>;
 
 // Similar to enum transformations
-type MappedArraysCase20Flat<T> = Array<{ [K in keyof T]: (T)[K /** unresolved */] extends string ? `${Uppercase<"">}_${(T /** unresolved */)[K /** unresolved */]}` : never }>;
+type MappedArraysCase20Flat<T> = Array<{ [K in keyof T]: ((T)[K /** unresolved */] extends string ? `${Uppercase<"">}_${(T /** unresolved */)[K /** unresolved */]}` : never) }>;
 
 // Pattern from state machine transitions
 type MappedArraysCase21Flat = Array<{ [K in ("enter" | "exit")]: `on${Capitalize<K /** unresolved */>}` }>;
@@ -302,16 +302,16 @@ type MappedArraysCase22Flat = Array<{ [K in keyof (Array<Omit<((Readonly<{
       }))[]
     ]
   }>
-}>)["users"])[number], "permissions">>)[number]]: K /** unresolved */ extends string ? `${K /** unresolved */}_${number}` : never }>;
+}>)["users"])[number], "permissions">>)[number]]: (K /** unresolved */ extends string ? `${K /** unresolved */}_${number}` : never) }>;
 
 // Similar to DOM property filtering
-type MappedArraysCase23Flat = Array<{ [K in keyof HTMLElement]: K /** unresolved */ extends `on${string}` ? never : K /** unresolved */ }>;
+type MappedArraysCase23Flat = Array<{ [K in keyof HTMLElement]: (K /** unresolved */ extends `on${string}` ? never : K /** unresolved */) }>;
 
 // Pattern from recursive type expansion
-type MappedArraysCase24Flat<T> = Array<{ [K in keyof T]: (T)[K /** unresolved */] extends (infer U)[] ? U /** unresolved */[] : (T)[K /** unresolved */] }>;
+type MappedArraysCase24Flat<T> = Array<{ [K in keyof T]: ((T)[K /** unresolved */] extends (infer U)[] ? U /** unresolved */[] : (T)[K /** unresolved */]) }>;
 
 // Inspired by CSS property normalization
-type MappedArraysCase25Flat = Array<{ [K in keyof CSSStyleDeclaration /** unresolved */]: K /** unresolved */ extends string ? `${K /** unresolved */}-normalized` : never }>;
+type MappedArraysCase25Flat = Array<{ [K in keyof CSSStyleDeclaration /** unresolved */]: (K /** unresolved */ extends string ? `${K /** unresolved */}-normalized` : never) }>;
 
 
 assert<

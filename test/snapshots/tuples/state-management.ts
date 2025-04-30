@@ -73,7 +73,7 @@ type StateManagementTest5Flat<T> = [
 
 type StateManagementTest6Flat<T> = [
   T,
-  ...(T extends infer U ? U /** unresolved */[] : never)
+  ...((T extends infer U ? U /** unresolved */[] : never))
 ];
 
 type StateManagementTest7Flat = [

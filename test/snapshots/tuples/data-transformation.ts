@@ -57,7 +57,7 @@ type DataTransformationTest4Flat = [
 ];
 
 type DataTransformationTest5Flat<T> = [
-  T extends string ? "string" : "other",
+  (T extends string ? "string" : "other"),
   ...T[]
 ];
 

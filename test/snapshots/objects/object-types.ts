@@ -173,31 +173,31 @@ type TreeNodeFlat = {
   children: []
 };
 
-type NumericRangeFlat<Start extends number, End extends number> = Exclude<([])["length"] extends End ? ([])[number] : [
+type NumericRangeFlat<Start extends number, End extends number> = (Exclude<(([])["length"] extends End ? ([])[number] : [
   End,
   [
     ...[],
     ([])["length"]
   ]
-], ([])["length"] extends Start ? ([])[number] : [
+]), (([])["length"] extends Start ? ([])[number] : [
   Start,
   [
     ...[],
     ([])["length"]
   ]
-]> extends number ? Exclude<([])["length"] extends End ? ([])[number] : [
+])> extends number ? Exclude<(([])["length"] extends End ? ([])[number] : [
   End,
   [
     ...[],
     ([])["length"]
   ]
-], ([])["length"] extends Start ? ([])[number] : [
+]), (([])["length"] extends Start ? ([])[number] : [
   Start,
   [
     ...[],
     ([])["length"]
   ]
-]> : never;
+])> : never);
 
 
 assert<

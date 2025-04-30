@@ -101,9 +101,9 @@ type MultidimensionalArraysCase17Flat = [
 ];
 
 // Conditional nesting
-type MultidimensionalArraysCase18Flat<T> = T extends number ? T[][][] : T[];
+type MultidimensionalArraysCase18Flat<T> = (T extends number ? T[][][] : T[]);
 
-type MultidimensionalArraysCase19Flat = 5 extends number ? 5[][][] : 5[];
+type MultidimensionalArraysCase19Flat = (5 extends number ? 5[][][] : 5[]);
 
 // Intersection matrices
 type MultidimensionalArraysCase20Flat = ((number[] & {

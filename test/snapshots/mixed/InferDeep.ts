@@ -29,97 +29,97 @@ import type {
 } from "@/fixtures/mixed/InferDeep.ts";
 
 // Inspired by deep promise unwrapping
-type InferDeepCase1Flat<T> = T extends Promise<infer U> ? InferDeepCase1<U /** unresolved */> : T;
+type InferDeepCase1Flat<T> = (T extends Promise<infer U> ? InferDeepCase1<U /** unresolved */> : T);
 
 // Similar to AST traversal
-type InferDeepCase2Flat<T> = T extends {
+type InferDeepCase2Flat<T> = (T extends {
   children: infer C
-} ? InferDeepCase2<C /** unresolved */> : T;
+} ? InferDeepCase2<C /** unresolved */> : T);
 
 // Pattern from recursive arrays
-type InferDeepCase3Flat<T> = T extends (infer U)[] ? InferDeepCase3<U /** unresolved */> : T;
+type InferDeepCase3Flat<T> = (T extends (infer U)[] ? InferDeepCase3<U /** unresolved */> : T);
 
 // Inspired by function parameters
-type InferDeepCase4Flat<T> = T extends ((...args: infer P) => void) ? P /** unresolved */ : never;
+type InferDeepCase4Flat<T> = (T extends ((...args: infer P) => void) ? P /** unresolved */ : never);
 
 // Similar to DOM node unwrapping
-type InferDeepCase5Flat<T> = T extends NodeListOf<infer U> /** unresolved */ ? U /** unresolved */ : T;
+type InferDeepCase5Flat<T> = (T extends NodeListOf<infer U> /** unresolved */ ? U /** unresolved */ : T);
 
 // Pattern from error chains
-type InferDeepCase6Flat<T> = T extends {
+type InferDeepCase6Flat<T> = (T extends {
   cause: infer C
-} ? InferDeepCase6<C /** unresolved */> : T;
+} ? InferDeepCase6<C /** unresolved */> : T);
 
 // Inspired by mathematical expressions
-type InferDeepCase7Flat<T> = T extends [
+type InferDeepCase7Flat<T> = (T extends [
   infer Op,
   ...infer Args
-] ? Op /** unresolved */ extends "+" ? Args /** unresolved */ extends number[] ? number : never : Op /** unresolved */ extends "×" ? Args /** unresolved */ extends number[] ? number : never : never : never;
+] ? (Op /** unresolved */ extends "+" ? (Args /** unresolved */ extends number[] ? number : never) : (Op /** unresolved */ extends "×" ? (Args /** unresolved */ extends number[] ? number : never) : never)) : never);
 
 // Similar to API pagination
-type InferDeepCase8Flat<T> = T extends {
+type InferDeepCase8Flat<T> = (T extends {
   next: infer N
-} ? InferDeepCase8<N /** unresolved */> : T;
+} ? InferDeepCase8<N /** unresolved */> : T);
 
 // Pattern from type-safe paths
-type InferDeepCase9Flat<T> = T extends `/${infer Head}/${infer Tail}` ? [
+type InferDeepCase9Flat<T> = (T extends `/${infer Head}/${infer Tail}` ? [
   Head /** unresolved */,
   ...InferDeepCase9<`/${Tail /** unresolved */}`>
-] : T extends `/${infer Last}` ? [
+] : (T extends `/${infer Last}` ? [
   Last /** unresolved */
-] : never;
+] : never));
 
 // Inspired by CSS selectors
-type InferDeepCase10Flat<T> = T extends `:${infer P}` ? P /** unresolved */ extends `${infer K}(${infer V})` ? [
+type InferDeepCase10Flat<T> = (T extends `:${infer P}` ? (P /** unresolved */ extends `${infer K}(${infer V})` ? [
   K /** unresolved */,
   V /** unresolved */
-] : P /** unresolved */ : never;
+] : P /** unresolved */) : never);
 
 // Similar to recursive ORM
-type InferDeepCase11Flat<T> = T extends object ? { [K in keyof T]: InferDeepCase11<(T)[K /** unresolved */]> } : T;
+type InferDeepCase11Flat<T> = (T extends object ? { [K in keyof T]: InferDeepCase11<(T)[K /** unresolved */]> } : T);
 
 // Pattern from quantum circuits
-type InferDeepCase12Flat<T> = T extends {
+type InferDeepCase12Flat<T> = (T extends {
   gates: infer G
-} ? G /** unresolved */ extends Array<infer U> ? [
+} ? (G /** unresolved */ extends Array<infer U> ? [
   ...InferDeepCase12<U /** unresolved */>
-] : never : never;
+] : never) : never);
 
 // Inspired by genetic sequences
-type InferDeepCase13Flat<T> = T extends `${infer Base}${infer Rest}` ? [
+type InferDeepCase13Flat<T> = (T extends `${infer Base}${infer Rest}` ? [
   Base /** unresolved */,
   ...InferDeepCase13<Rest /** unresolved */>
-] : [];
+] : []);
 
 // Similar to UI component trees
-type InferDeepCase14Flat<T> = T extends {
+type InferDeepCase14Flat<T> = (T extends {
   children: infer C
-} ? C /** unresolved */ extends Array<infer U> ? InferDeepCase14<U /** unresolved */> : never : T;
+} ? (C /** unresolved */ extends Array<infer U> ? InferDeepCase14<U /** unresolved */> : never) : T);
 
 // Pattern from financial calculations
-type InferDeepCase15Flat<T> = T extends {
+type InferDeepCase15Flat<T> = (T extends {
   compound: true
 } ? InferDeepCase15<(T & {
   periods: number
-})> : T;
+})> : T);
 
 // Inspired by type predicates
-type InferDeepCase16Flat<T> = T extends ((value: unknown) => value is infer U) ? U /** unresolved */ : never;
+type InferDeepCase16Flat<T> = (T extends ((value: unknown) => value is infer U) ? U /** unresolved */ : never);
 
 // Similar to API responses
-type InferDeepCase17Flat<T> = T extends {
+type InferDeepCase17Flat<T> = (T extends {
   data: infer D
-} ? D /** unresolved */ extends object ? InferDeepCase17<D /** unresolved */> : D /** unresolved */ : never;
+} ? (D /** unresolved */ extends object ? InferDeepCase17<D /** unresolved */> : D /** unresolved */) : never);
 
 // Pattern from recursive schemas
-type InferDeepCase18Flat<T> = T extends {
+type InferDeepCase18Flat<T> = (T extends {
   schema: infer S
-} ? InferDeepCase18<S /** unresolved */> : T;
+} ? InferDeepCase18<S /** unresolved */> : T);
 
 // Inspired by physics simulations
-type InferDeepCase19Flat<T> = T extends {
+type InferDeepCase19Flat<T> = (T extends {
   position: infer P
-} ? P /** unresolved */ extends ([
+} ? (P /** unresolved */ extends ([
   componentType: ("transform" | "render"),
   data: ((({
     a: number
@@ -129,24 +129,24 @@ type InferDeepCase19Flat<T> = T extends {
   ...dependencies: string[]
 ][] & {
   projection: ("WGS84" | "Mercator")
-}) ? (P /** unresolved */)[number] : never : never;
+}) ? (P /** unresolved */)[number] : never) : never);
 
 // Similar to authentication chains
-type InferDeepCase20Flat<T> = T extends {
+type InferDeepCase20Flat<T> = (T extends {
   signedBy: infer S
-} ? InferDeepCase20<S /** unresolved */> : T;
+} ? InferDeepCase20<S /** unresolved */> : T);
 
 // Pattern from file formats
-type InferDeepCase21Flat<T> = T extends {
+type InferDeepCase21Flat<T> = (T extends {
   chunks: infer C
-} ? C /** unresolved */ extends Array<infer U> ? [
+} ? (C /** unresolved */ extends Array<infer U> ? [
   ...InferDeepCase21<U /** unresolved */>
-] : never : never;
+] : never) : never);
 
 // Inspired by astronomy data
-type InferDeepCase22Flat<T> = T extends {
+type InferDeepCase22Flat<T> = (T extends {
   coordinates: infer C
-} ? C /** unresolved */ extends ([
+} ? (C /** unresolved */ extends ([
   componentType: ("transform" | "render"),
   data: ((({
     a: number
@@ -158,15 +158,15 @@ type InferDeepCase22Flat<T> = T extends {
   projection: ("WGS84" | "Mercator")
 }) ? [
   ...C /** unresolved */
-] : never : never;
+] : never) : never);
 
 // Similar to machine learning
-type InferDeepCase23Flat<T> = T extends {
+type InferDeepCase23Flat<T> = (T extends {
   layers: infer L
-} ? L /** unresolved */ extends Array<infer U> ? InferDeepCase23<U /** unresolved */> : never : never;
+} ? (L /** unresolved */ extends Array<infer U> ? InferDeepCase23<U /** unresolved */> : never) : never);
 
 // Pattern from type utilities
-type InferDeepCase24Flat<T> = T extends keyof (Array<{
+type InferDeepCase24Flat<T> = (T extends keyof (Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -230,10 +230,10 @@ type InferDeepCase24Flat<T> = T extends keyof (Array<{
       ][]
     ]
   }
-}>)[number])[T] : never;
+}>)[number])[T] : never);
 
 // Inspired by recursive functions
-type InferDeepCase25Flat<T> = T extends ((...args: unknown[]) => infer R) ? InferDeepCase25<R /** unresolved */> : T;
+type InferDeepCase25Flat<T> = (T extends ((...args: unknown[]) => infer R) ? InferDeepCase25<R /** unresolved */> : T);
 
 
 assert<

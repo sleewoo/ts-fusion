@@ -160,16 +160,16 @@ type IndexedAccessKeyofTypesCase7Flat = ((Array<(string & {
 })>)[number])["__brand"];
 
 // Similar to recursive type navigation
-type IndexedAccessKeyofTypesCase8Flat<T> = T extends Array<infer U> ? IndexedAccessKeyofTypesCase8<U /** unresolved */> : keyof T;
+type IndexedAccessKeyofTypesCase8Flat<T> = (T extends Array<infer U> ? IndexedAccessKeyofTypesCase8<U /** unresolved */> : keyof T);
 
 // Pattern from physics engine components
-type IndexedAccessKeyofTypesCase9Flat = (((Array<((string & {
+type IndexedAccessKeyofTypesCase9Flat = ((((Array<((string & {
   __brand: "id"
 }) | (number & {
   __brand: "count"
 }))> & {
   expiration: Date
-}))[])[number] extends infer T ? T /** unresolved */ extends Array<infer U> ? U /** unresolved */ : T /** unresolved */ : never;
+}))[])[number] extends infer T ? (T /** unresolved */ extends Array<infer U> ? U /** unresolved */ : T /** unresolved */) : never);
 
 // Inspired by type-safe API wrappers
 type IndexedAccessKeyofTypesCase10Flat = (ReturnType<((vectors: ([
@@ -243,15 +243,15 @@ type IndexedAccessKeyofTypesCase11Flat = ((({
 })["config"])["ui"])["theme"];
 
 // Pattern from genetic data parsing
-type IndexedAccessKeyofTypesCase12Flat<T> = T extends {
+type IndexedAccessKeyofTypesCase12Flat<T> = (T extends {
   genome: infer G
-} ? G /** unresolved */ extends Array<infer S> ? S /** unresolved */ : never : never;
+} ? (G /** unresolved */ extends Array<infer S> ? S /** unresolved */ : never) : never);
 
 // Inspired by DOM element property maps
 type IndexedAccessKeyofTypesCase13Flat = (HTMLElement)[keyof HTMLElement];
 
 // Similar to recursive key collection
-type IndexedAccessKeyofTypesCase14Flat<T> = T extends object ? ({ [K in keyof T]: (K /** unresolved */ | IndexedAccessKeyofTypesCase14<(T)[K /** unresolved */]>) })[keyof T] : never;
+type IndexedAccessKeyofTypesCase14Flat<T> = (T extends object ? ({ [K in keyof T]: (K /** unresolved */ | IndexedAccessKeyofTypesCase14<(T)[K /** unresolved */]>) })[keyof T] : never);
 
 // Pattern from type-safe translations
 type IndexedAccessKeyofTypesCase15Flat = (({
@@ -286,9 +286,9 @@ type IndexedAccessKeyofTypesCase16Flat = (({
 }))["state"];
 
 // Similar to error code lookups
-type IndexedAccessKeyofTypesCase17Flat<T> = T extends {
+type IndexedAccessKeyofTypesCase17Flat<T> = (T extends {
   errors: infer E
-} ? E /** unresolved */ extends Array<infer C> ? C /** unresolved */ : never : never;
+} ? (E /** unresolved */ extends Array<infer C> ? C /** unresolved */ : never) : never);
 
 // Pattern from nested permissions
 type IndexedAccessKeyofTypesCase18Flat = keyof (({
@@ -302,9 +302,9 @@ type IndexedAccessKeyofTypesCase18Flat = keyof (({
 })))["role"];
 
 // Inspired to astronomy coordinate access
-type IndexedAccessKeyofTypesCase19Flat<T> = T extends {
+type IndexedAccessKeyofTypesCase19Flat<T> = (T extends {
   coordinates: infer C
-} ? C /** unresolved */ extends ([
+} ? (C /** unresolved */ extends ([
   componentType: ("transform" | "render"),
   data: ((({
     a: number
@@ -314,10 +314,10 @@ type IndexedAccessKeyofTypesCase19Flat<T> = T extends {
   ...dependencies: string[]
 ][] & {
   projection: ("WGS84" | "Mercator")
-}) ? (C /** unresolved */)[number] : never : never;
+}) ? (C /** unresolved */)[number] : never) : never);
 
 // Similar to type-safe path parameters
-type IndexedAccessKeyofTypesCase20Flat<T> = T extends `/${string}/${infer P}` ? P /** unresolved */ : never;
+type IndexedAccessKeyofTypesCase20Flat<T> = (T extends `/${string}/${infer P}` ? P /** unresolved */ : never);
 
 // Pattern from financial instrument metadata
 type IndexedAccessKeyofTypesCase21Flat = (({
@@ -349,14 +349,14 @@ type IndexedAccessKeyofTypesCase23Flat = (({
 }))["protocol"];
 
 // Pattern from authentication token claims
-type IndexedAccessKeyofTypesCase24Flat<T> = T extends {
+type IndexedAccessKeyofTypesCase24Flat<T> = (T extends {
   claims: infer C
-} ? keyof C /** unresolved */ : never;
+} ? keyof C /** unresolved */ : never);
 
 // Inspired by machine learning features
-type IndexedAccessKeyofTypesCase25Flat<T> = T extends {
+type IndexedAccessKeyofTypesCase25Flat<T> = (T extends {
   features: infer F
-} ? F /** unresolved */ extends Array<infer V> ? V /** unresolved */ : never : never;
+} ? (F /** unresolved */ extends Array<infer V> ? V /** unresolved */ : never) : never);
 
 
 assert<

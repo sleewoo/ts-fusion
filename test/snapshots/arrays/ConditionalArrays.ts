@@ -29,21 +29,21 @@ import type {
 } from "@/fixtures/arrays/ConditionalArrays.ts";
 
 // Inspired by API response handling
-type ConditionalArraysCase1Flat<T> = Array<T extends string ? {
+type ConditionalArraysCase1Flat<T> = Array<(T extends string ? {
   id: T
 } : {
   code: number
-}>;
+})>;
 
 // Similar to user role-based permissions
-type ConditionalArraysCase2Flat<T> = Array<T extends "admin" ? {
+type ConditionalArraysCase2Flat<T> = Array<(T extends "admin" ? {
   allPermissions: true
 } : {
   permissions: string[]
-}>;
+})>;
 
 // Pattern from form validation states
-type ConditionalArraysCase3Flat<T> = Array<T extends (Array<{
+type ConditionalArraysCase3Flat<T> = Array<(T extends (Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -81,13 +81,13 @@ type ConditionalArraysCase3Flat<T> = Array<T extends (Array<{
 } : {
   valid: false;
   errors: string[]
-}>;
+})>;
 
 // Inspired by numeric range checking
-type ConditionalArraysCase4Flat<T> = Array<T extends number ? T extends 100 ? T : never : never>;
+type ConditionalArraysCase4Flat<T> = Array<(T extends number ? (T extends 100 ? T : never) : never)>;
 
 // Similar to type-safe filtering
-type ConditionalArraysCase5Flat<T> = Array<T extends ((({
+type ConditionalArraysCase5Flat<T> = Array<(T extends ((({
   inputs: ((Array<((string & {
     __brand: "id"
   }) | (number & {
@@ -144,60 +144,60 @@ type ConditionalArraysCase5Flat<T> = Array<T extends ((({
       }))[]
     ]
   }>
-}>)["users"])[number], "permissions">>)[number]>;
+}>)["users"])[number], "permissions">>)[number])>;
 
 // Pattern from string format validation
-type ConditionalArraysCase6Flat<T> = Array<T extends `user_${string}` ? T : never>;
+type ConditionalArraysCase6Flat<T> = Array<(T extends `user_${string}` ? T : never)>;
 
 // Inspired by recursive type checking
-type ConditionalArraysCase7Flat<T> = Array<T extends number[] ? ConditionalArraysCase7<(T)[number]> : T>;
+type ConditionalArraysCase7Flat<T> = Array<(T extends number[] ? ConditionalArraysCase7<(T)[number]> : T)>;
 
 // Similar to promise unwrapping
-type ConditionalArraysCase8Flat<T> = Array<T extends Promise<infer U> ? U /** unresolved */ : T>;
+type ConditionalArraysCase8Flat<T> = Array<(T extends Promise<infer U> ? U /** unresolved */ : T)>;
 
 // Pattern from CSS property validation
-type ConditionalArraysCase9Flat<T> = Array<T extends "color" ? string : T extends "width" ? number : never>;
+type ConditionalArraysCase9Flat<T> = Array<(T extends "color" ? string : (T extends "width" ? number : never))>;
 
 // Inspired by type narrowing
-type ConditionalArraysCase10Flat<T> = Array<T extends {
+type ConditionalArraysCase10Flat<T> = Array<(T extends {
   type: infer U
-} ? U /** unresolved */ : never>;
+} ? U /** unresolved */ : never)>;
 
 // Similar to tuple type extraction
-type ConditionalArraysCase11Flat<T> = Array<T extends [
+type ConditionalArraysCase11Flat<T> = Array<(T extends [
   infer First,
   ...[]
-] ? First /** unresolved */ : never>;
+] ? First /** unresolved */ : never)>;
 
 // Pattern from function parameter types
-type ConditionalArraysCase12Flat<T> = Array<T extends ((...args: infer P) => never) ? P /** unresolved */ : never>;
+type ConditionalArraysCase12Flat<T> = Array<(T extends ((...args: infer P) => never) ? P /** unresolved */ : never)>;
 
 // Inspired by DOM element typing
-type ConditionalArraysCase13Flat<T> = Array<T extends HTMLElement ? (T)["tagName"] : string>;
+type ConditionalArraysCase13Flat<T> = Array<(T extends HTMLElement ? (T)["tagName"] : string)>;
 
 // Similar to recursive JSON parsing
-type ConditionalArraysCase14Flat<T> = Array<T extends object ? { [K in keyof T]: ConditionalArraysCase14<(T)[K /** unresolved */]> } : T>;
+type ConditionalArraysCase14Flat<T> = Array<(T extends object ? { [K in keyof T]: ConditionalArraysCase14<(T)[K /** unresolved */]> } : T)>;
 
 // Pattern from authentication flows
-type ConditionalArraysCase15Flat<T> = Array<T extends {
+type ConditionalArraysCase15Flat<T> = Array<(T extends {
   token: string
-} ? "AuthenticatedUser" : "GuestUser">;
+} ? "AuthenticatedUser" : "GuestUser")>;
 
 // Inspired by mathematical operations
-type ConditionalArraysCase16Flat<T> = Array<T extends number ? T extends 0 ? never : T extends 1 ? "unit" : number : string>;
+type ConditionalArraysCase16Flat<T> = Array<(T extends number ? (T extends 0 ? never : (T extends 1 ? "unit" : number)) : string)>;
 
 // Similar to state machine transitions
-type ConditionalArraysCase17Flat<T> = Array<T extends "pending" ? {
+type ConditionalArraysCase17Flat<T> = Array<(T extends "pending" ? {
   status: T
-} : T extends "completed" ? {
+} : (T extends "completed" ? {
   result: unknown
-} : never>;
+} : never))>;
 
 // Pattern from CSS media queries
-type ConditionalArraysCase18Flat<T> = Array<T extends `@${infer M}` ? M /** unresolved */ : never>;
+type ConditionalArraysCase18Flat<T> = Array<(T extends `@${infer M}` ? M /** unresolved */ : never)>;
 
 // Inspired by type mapping
-type ConditionalArraysCase19Flat<T> = Array<T extends keyof (Array<{
+type ConditionalArraysCase19Flat<T> = Array<(T extends keyof (Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -261,29 +261,29 @@ type ConditionalArraysCase19Flat<T> = Array<T extends keyof (Array<{
       ][]
     ]
   }
-}>)[number])[T] : never>;
+}>)[number])[T] : never)>;
 
 // Similar to error chain handling
-type ConditionalArraysCase20Flat<T> = Array<T extends Error ? {
+type ConditionalArraysCase20Flat<T> = Array<(T extends Error ? {
   message: (T)["message"]
-} : T>;
+} : T)>;
 
 // Pattern from URL parsing
-type ConditionalArraysCase21Flat<T> = Array<T extends `${infer Proto}://${string}` ? Proto /** unresolved */ : never>;
+type ConditionalArraysCase21Flat<T> = Array<(T extends `${infer Proto}://${string}` ? Proto /** unresolved */ : never)>;
 
 // Inspired by recursive type limits
-type ConditionalArraysCase22Flat<T> = Array<T extends object ? T extends {
+type ConditionalArraysCase22Flat<T> = Array<(T extends object ? (T extends {
   children: infer C
-} ? ConditionalArraysCase22<C /** unresolved */> : never : T>;
+} ? ConditionalArraysCase22<C /** unresolved */> : never) : T)>;
 
 // Similar to date format detection
-type ConditionalArraysCase23Flat<T> = Array<T extends `${number}-${number}-${number}` ? Date : string>;
+type ConditionalArraysCase23Flat<T> = Array<(T extends `${number}-${number}-${number}` ? Date : string)>;
 
 // Pattern from numeric type guards
-type ConditionalArraysCase24Flat<T> = Array<T extends number ? number extends T ? "wide" : T extends 1 ? "exact" : "narrow" : "non-number">;
+type ConditionalArraysCase24Flat<T> = Array<(T extends number ? (number extends T ? "wide" : (T extends 1 ? "exact" : "narrow")) : "non-number")>;
 
 // Inspired by complex type relationships
-type ConditionalArraysCase25Flat<T> = Array<T extends ((Array<{
+type ConditionalArraysCase25Flat<T> = Array<(T extends ((Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -372,7 +372,7 @@ type ConditionalArraysCase25Flat<T> = Array<T extends ((Array<{
   }))[]
 } & {
   payable: boolean
-}))[])[number]>;
+}))[])[number])>;
 
 
 assert<

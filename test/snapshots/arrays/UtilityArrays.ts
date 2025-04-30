@@ -552,7 +552,7 @@ type UtilityArraysCase19Flat = Array<Partial<Record<keyof (Array<{
 }>)[number], ReadonlyArray<string>>>>;
 
 // Similar to conditional type filtering
-type UtilityArraysCase20Flat<T> = Array<T extends string ? `${T /** unresolved */}_id` : never>;
+type UtilityArraysCase20Flat<T> = Array<(T extends string ? `${T /** unresolved */}_id` : never)>;
 
 // Pattern from mapped type modifiers
 type UtilityArraysCase21Flat = Array<{ -readonly [K in keyof (Array<{

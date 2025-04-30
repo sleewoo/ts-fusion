@@ -469,7 +469,7 @@ type UtilityTypesCase24Flat = { [K in keyof (Array<{
       ][]
     ]
   }
-}>)[number]]: ((Array<{
+}>)[number]]: (((Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -501,7 +501,7 @@ type UtilityTypesCase24Flat = { [K in keyof (Array<{
       ][]
     ]
   }
-}>)[number])[K /** unresolved */] extends string ? K /** unresolved */ : never };
+}>)[number])[K /** unresolved */] extends string ? K /** unresolved */ : never) };
 
 // Inspired by recursive utility combinations
 type UtilityTypesCase25Flat = Partial<Required<(Array<{

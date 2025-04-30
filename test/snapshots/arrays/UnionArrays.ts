@@ -85,11 +85,11 @@ type UnionArraysCase15Flat = Array<(UnionArraysCase15 | string)>;
 type UnionArraysCase16Flat = ((UnionArraysCase16[] | number))[];
 
 // Conditional unions
-type UnionArraysCase17Flat<T> = Array<T extends string ? number : boolean>;
+type UnionArraysCase17Flat<T> = Array<(T extends string ? number : boolean)>;
 
-type UnionArraysCase18Flat = Array<"test" extends string ? number : boolean>;
+type UnionArraysCase18Flat = Array<("test" extends string ? number : boolean)>;
 
-type UnionArraysCase19Flat = Array<123 extends string ? number : boolean>;
+type UnionArraysCase19Flat = Array<(123 extends string ? number : boolean)>;
 
 // Mapped type unions
 type UnionArraysCase20Flat<T> = ({ [K in keyof T]: (T)[K /** unresolved */][] })[keyof T];

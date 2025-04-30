@@ -635,7 +635,7 @@ type HybridArraysCase13Flat = ((Array<{
                 ][]
               ]
             }
-          }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
             id: (string & {
               __brand: "ProductID"
             });
@@ -667,7 +667,7 @@ type HybridArraysCase13Flat = ((Array<{
                 ][]
               ]
             }
-          }>)[number])[K /** unresolved */] }
+          }>)[number])[K /** unresolved */]) }
         }>)[number])["node"])
       };
       metrics: (((ReadonlyArray<Readonly<{
@@ -711,7 +711,7 @@ type HybridArraysCase13Flat = ((Array<{
         }
       }>)[number])["firmware"]
     }>)[number])["metrics"];
-    constant: ((Array<{
+    constant: (((Array<{
       type: ("hero" | "cta" | "text");
       content: ((Array<{
         id: (string & {
@@ -752,7 +752,7 @@ type HybridArraysCase13Flat = ((Array<{
         __brand: "count"
       }))>)[number]>;
       readonly _version: number
-    }>)[number])["_version"] extends number ? boolean : never
+    }>)[number])["_version"] extends number ? boolean : never)
   }>)[number])["constant"][]
 }> & {
   scriptSig: (Array<((req: {
@@ -1069,7 +1069,7 @@ type HybridArraysCase19Flat = ((Array<{
           ][]
         ]
       }
-    }>)[number]]?: K /** unresolved */ extends "id" ? never : ((Array<{
+    }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
       id: (string & {
         __brand: "ProductID"
       });
@@ -1101,7 +1101,7 @@ type HybridArraysCase19Flat = ((Array<{
           ][]
         ]
       }
-    }>)[number])[K /** unresolved */] }
+    }>)[number])[K /** unresolved */]) }
   }>)[number])["properties"]
 }> & {
   alignment: (number[] & {

@@ -59,10 +59,10 @@ type GenericsStressCase3_1Flat<T, U extends keyof T /** unresolved */> = {
 };
 
 // Inspired by database ORM patterns
-type GenericsStressCase4Flat<T extends object> = { [K in keyof T]: (T)[K /** unresolved */] extends Array<infer U> ? U /** unresolved */ : never }[];
+type GenericsStressCase4Flat<T extends object> = { [K in keyof T]: ((T)[K /** unresolved */] extends Array<infer U> ? U /** unresolved */ : never) }[];
 
 // Similar to validation framework types
-type GenericsStressCase5Flat<T> = T extends (Array<{
+type GenericsStressCase5Flat<T> = (T extends (Array<{
   id: (string & {
     __brand: "ProductID"
   });
@@ -100,7 +100,7 @@ type GenericsStressCase5Flat<T> = T extends (Array<{
 } : {
   valid: false;
   errors: string[]
-};
+});
 
 // Pattern from dependency injection containers
 type GenericsStressCase6Flat<T extends new (...args: unknown[]) => never> = (InstanceType<T> & {
@@ -110,10 +110,10 @@ type GenericsStressCase6Flat<T extends new (...args: unknown[]) => never> = (Ins
 });
 
 // Inspired by mathematical operations
-type GenericsStressCase7Flat<T extends (number | string)> = T extends number ? T[] : T extends string ? (T)["length"] : never;
+type GenericsStressCase7Flat<T extends (number | string)> = (T extends number ? T[] : (T extends string ? (T)["length"] : never));
 
 // Similar to recursive data structures
-type GenericsStressCase8Flat<T> = T extends object ? { [K in keyof T]: GenericsStressCase8<(T)[K /** unresolved */]> } : T;
+type GenericsStressCase8Flat<T> = (T extends object ? { [K in keyof T]: GenericsStressCase8<(T)[K /** unresolved */]> } : T);
 
 // Pattern from API pagination systems
 type GenericsStressCase9Flat<T> = {
@@ -123,10 +123,10 @@ type GenericsStressCase9Flat<T> = {
 };
 
 // Inspired by CSS-in-JS prop handling
-type GenericsStressCase10Flat<T> = { [K in keyof T as `$${string}`]: (T)[K /** unresolved */] extends string ? (T)[K /** unresolved */] : never };
+type GenericsStressCase10Flat<T> = { [K in keyof T as `$${string}`]: ((T)[K /** unresolved */] extends string ? (T)[K /** unresolved */] : never) };
 
 // Similar to financial calculations
-type GenericsStressCase11Flat<T extends number, U extends number> = ((principal: T, rate: U) => T extends U ? number : never);
+type GenericsStressCase11Flat<T extends number, U extends number> = ((principal: T, rate: U) => (T extends U ? number : never));
 
 // Pattern from observable patterns
 type GenericsStressCase12Flat<T> = {
@@ -135,12 +135,12 @@ type GenericsStressCase12Flat<T> = {
 };
 
 // Inspired by authentication systems
-type GenericsStressCase13Flat<T> = T extends {
+type GenericsStressCase13Flat<T> = (T extends {
   permissions: string[]
-} ? ((required: string) => T) : never;
+} ? ((required: string) => T) : never);
 
 // Similar to recursive type utilities
-type GenericsStressCase14Flat<T> = T extends Array<infer U> ? GenericsStressCase14<U /** unresolved */> : T;
+type GenericsStressCase14Flat<T> = (T extends Array<infer U> ? GenericsStressCase14<U /** unresolved */> : T);
 
 // Pattern from internationalization systems
 type GenericsStressCase15Flat<T extends Record<string, string>> = {
@@ -172,18 +172,18 @@ type GenericsStressCase17Flat<T, U> = {
 };
 
 // Pattern from validation frameworks
-type GenericsStressCase18Flat<T> = { [K in keyof T]: (T)[K /** unresolved */] extends string ? {
+type GenericsStressCase18Flat<T> = { [K in keyof T]: ((T)[K /** unresolved */] extends string ? {
   minLength: number;
   maxLength: number
 } : {
   min: number;
   max: number
-} };
+}) };
 
 // Inspired by graph traversal algorithms
-type GenericsStressCase19Flat<T> = T extends {
+type GenericsStressCase19Flat<T> = (T extends {
   neighbors: Array<infer U>
-} ? Array<GenericsStressCase19<U /** unresolved */>> : T;
+} ? Array<GenericsStressCase19<U /** unresolved */>> : T);
 
 // Similar to quantum state operations
 type GenericsStressCase20Flat<T> = {

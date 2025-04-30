@@ -162,7 +162,7 @@ type TypePredicatesCase23Flat = ((token: unknown) => token is `Bearer ${string}`
 type TypePredicatesCase24Flat = ((state: unknown) => state is ("loading" | "ready" | "error"));
 
 // Recursive type guard
-type TypePredicatesCase25Flat<T> = T extends object ? { [K in keyof T]: TypePredicatesCase25<(T)[K /** unresolved */]> } : ((v: unknown) => v is T);
+type TypePredicatesCase25Flat<T> = (T extends object ? { [K in keyof T]: TypePredicatesCase25<(T)[K /** unresolved */]> } : ((v: unknown) => v is T));
 
 
 assert<
