@@ -56,7 +56,7 @@ export const handlerQualifier: HandlerQualifier = ({
           });
 
         /**
-         * collecting method signatures, with comments (jsDoc format only):
+         * collecting method signatures, with comments
          *    export type ObjectWithMethods = {
          *      calculate(...): ...;
          *    }
@@ -87,7 +87,7 @@ export const handlerQualifier: HandlerQualifier = ({
           });
 
         /**
-         * collecting regular properties, with comments (jsDoc format only)
+         * collecting regular properties, with comments
          * */
         const propertySignatures = typeNode
           .getChildrenOfKind(SyntaxKind.PropertySignature)
