@@ -3,16 +3,14 @@
   "name": "ts-fusion",
   "description": "Flatten complex TypeScript types into readable, inspectable plaintext structures",
   "version": "0.0.4",
-  "nodeVersion": "22.14.0",
-  "packageManager": "pnpm@10.8.0",
+  "nodeVersion": "22.15.0",
+  "packageManager": "pnpm@10.10.0",
   "author": "Slee Woo",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "pkg/*"
-  ],
+  "files": ["pkg/*"],
   "exports": {
     ".": {
       "types": "./pkg/index.d.ts",
@@ -32,7 +30,6 @@
     "pub": "changeset publish"
   },
   "dependencies": {
-    "crc": "^4.3.2",
     "ts-morph": "^25.0.1"
   },
   "devDependencies": {
@@ -43,7 +40,7 @@
     "@libutil/esbuilder": "^0.0.7",
     "@libutil/render": "^0.0.1",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.15.2",
+    "@types/node": "^22.15.3",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
     "resolve-tspaths": "^0.8.23",
