@@ -19,11 +19,14 @@ export const handlerQualifier: HandlerQualifier = ({
           typeNode
             .forEachChildAsArray()
             .map((intersectionTypeNode) => {
-              return next({
-                typeNode: intersectionTypeNode as TypeNode,
-                type: intersectionTypeNode.getType(),
-                typeParameters,
-              });
+              return format(
+                "(%s)",
+                next({
+                  typeNode: intersectionTypeNode as TypeNode,
+                  type: intersectionTypeNode.getType(),
+                  typeParameters,
+                }),
+              );
             })
             .join(" & "),
         );

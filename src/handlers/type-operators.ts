@@ -16,7 +16,7 @@ export const handlerQualifier: HandlerQualifier = ({
         let template = "%s";
 
         if (typeNode.getFirstChildByKind(SyntaxKind.KeyOfKeyword)) {
-          template = `keyof ${template}`;
+          template = `keyof (${template})`;
         }
 
         if (typeNode.getFirstChildByKind(SyntaxKind.ReadonlyKeyword)) {

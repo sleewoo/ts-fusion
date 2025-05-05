@@ -19,11 +19,14 @@ export const handlerQualifier: HandlerQualifier = ({
           typeNode
             .forEachChildAsArray()
             .map((typeNode) => {
-              return next({
-                typeNode: typeNode as TypeNode,
-                type: typeNode.getType(),
-                typeParameters,
-              });
+              return format(
+                "(%s)",
+                next({
+                  typeNode: typeNode as TypeNode,
+                  type: typeNode.getType(),
+                  typeParameters,
+                }),
+              );
             })
             .join(" | "),
         );
