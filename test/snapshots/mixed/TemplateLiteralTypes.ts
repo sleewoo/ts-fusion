@@ -29,22 +29,22 @@ import type {
 } from "@/fixtures/mixed/TemplateLiteralTypes.ts";
 
 // Inspired by REST API endpoint patterns
-type TemplateLiteralTypesCase1Flat = `/api/v${number}/${(Array<("success" | "error")>)[number]}`;
+type TemplateLiteralTypesCase1Flat = `/api/v${number}/${("success") | ("error")}`;
 
 // Similar to CSS-in-JS class generation
-type TemplateLiteralTypesCase2Flat = `text-${("left" | "center")}-${("sm" | "md")}`;
+type TemplateLiteralTypesCase2Flat = `text-${(("left") | ("center"))}-${(("sm") | ("md"))}`;
 
 // Pattern from localization key structures
-type TemplateLiteralTypesCase3Flat = `i18n.${("home" | "profile")}.${string}`;
+type TemplateLiteralTypesCase3Flat = `i18n.${(("home") | ("profile"))}.${string}`;
 
 // Inspired by unique resource identifiers
-type TemplateLiteralTypesCase4Flat = `${(`img_${("jpg" | "png")}`[])[number]}_${number}`;
+type TemplateLiteralTypesCase4Flat = `${`img_${(("jpg") | ("png"))}`}_${number}`;
 
 // Similar to timestamp formats
 type TemplateLiteralTypesCase5Flat = `${number}-${number}-${number}T${number}:${number}:${number}Z`;
 
 // Pattern from file system paths
-type TemplateLiteralTypesCase6Flat = `/${string}/${string}.${("ts" | "js")}`;
+type TemplateLiteralTypesCase6Flat = `/${string}/${string}.${(("ts") | ("js"))}`;
 
 // Inspired by error code conventions
 type TemplateLiteralTypesCase7Flat = `ERR_${number}_${Uppercase<string>}`;
@@ -53,48 +53,43 @@ type TemplateLiteralTypesCase7Flat = `ERR_${number}_${Uppercase<string>}`;
 type TemplateLiteralTypesCase8Flat = `^${number}.${number}.${number}`;
 
 // Pattern from log message formats
-type TemplateLiteralTypesCase9Flat = `[${("DEBUG" | "INFO" | "ERROR")}] ${string}`;
+type TemplateLiteralTypesCase9Flat = `[${(("DEBUG") | ("INFO") | ("ERROR"))}] ${string}`;
 
 // Inspired by routing patterns
-type TemplateLiteralTypesCase10Flat = `/users/${number}/posts/${(Array<(123 extends string ? number : boolean)>)[number]}`;
+type TemplateLiteralTypesCase10Flat = `/users/${number}/posts/${(123) extends (string) ? (number) : (boolean)}`;
 
 // Similar to currency formatting
-type TemplateLiteralTypesCase11Flat = `${("USD" | "EUR")} ${number}.${number}`;
+type TemplateLiteralTypesCase11Flat = `${(("USD") | ("EUR"))} ${number}.${number}`;
 
 // Pattern from date localization
 type TemplateLiteralTypesCase12Flat = `${number}/${number}/${number}`;
 
 // Inspired by email validation patterns
-type TemplateLiteralTypesCase13Flat = `${string}@${string}.${("com" | "org")}`;
+type TemplateLiteralTypesCase13Flat = `${string}@${string}.${(("com") | ("org"))}`;
 
 // Similar to HTML data attributes
-type TemplateLiteralTypesCase14Flat = `data-${("test" | "qa")}-${string}`;
+type TemplateLiteralTypesCase14Flat = `data-${(("test") | ("qa"))}-${string}`;
 
 // Pattern from environment variables
-type TemplateLiteralTypesCase15Flat = `CONFIG_${Uppercase<keyof (Array<{
-  id: (string & {
+type TemplateLiteralTypesCase15Flat = `CONFIG_${Uppercase<keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -103,19 +98,19 @@ type TemplateLiteralTypesCase15Flat = `CONFIG_${Uppercase<keyof (Array<{
       ][]
     ]
   }
-}>)[number]>}`;
+})>}`;
 
 // Inspired by permission strings
-type TemplateLiteralTypesCase16Flat = `perm:${string}:${("read" | "write")}`;
+type TemplateLiteralTypesCase16Flat = `perm:${string}:${(("read") | ("write"))}`;
 
 // Similar to query parameters
-type TemplateLiteralTypesCase17Flat = `?${string}=${(string | number)}`;
+type TemplateLiteralTypesCase17Flat = `?${string}=${((string) | (number))}`;
 
 // Pattern from media queries
-type TemplateLiteralTypesCase18Flat = `@media (${("min" | "max")}-width: ${number}px)`;
+type TemplateLiteralTypesCase18Flat = `@media (${(("min") | ("max"))}-width: ${number}px)`;
 
 // Inspired by storage keys
-type TemplateLiteralTypesCase19Flat = `ls_${Lowercase<`${("USD" | "EUR")} ${number}.${number}`>}`;
+type TemplateLiteralTypesCase19Flat = `ls_${Lowercase<`${(("USD") | ("EUR"))} ${number}.${number}`>}`;
 
 // Similar to authentication headers
 type TemplateLiteralTypesCase20Flat = `Bearer ${string}`;
@@ -130,36 +125,36 @@ type TemplateLiteralTypesCase22Flat = `/${string}/gi${"m"}${"s"}`;
 type TemplateLiteralTypesCase23Flat = `card_${number}-${number}-${number}-${number}`;
 
 // Pattern from color formats
-type TemplateLiteralTypesCase24Flat = (`#${string}` | `rgb(${number},${number},${number})`);
+type TemplateLiteralTypesCase24Flat = ((`#${string}`) | (`rgb(${number},${number},${number})`));
 
 // Inspired by XML namespaces
-type TemplateLiteralTypesCase25Flat = `<${keyof ((vectors: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type TemplateLiteralTypesCase25Flat = `<${keyof (((vectors: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})[]) => {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))[]) => {
   magnitude: number;
   direction: number
-})}>${string}</${keyof ((vectors: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+}))}>${string}</${keyof (((vectors: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})[]) => {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))[]) => {
   magnitude: number;
   direction: number
-})}>`;
+}))}>`;
 
 
 assert<

@@ -67,13 +67,13 @@ type BasicPrimitiveArraysCase15Flat = unknown[];
 type BasicPrimitiveArraysCase16Flat = `${number}`[];
 
 // Mixed declaration styles
-type BasicPrimitiveArraysCase17Flat = (Array<number> & {
+type BasicPrimitiveArraysCase17Flat = ((Array<number>) & ({
   length: 5
-});
+}));
 
-type BasicPrimitiveArraysCase18Flat = ([
+type BasicPrimitiveArraysCase18Flat = (([
   number
-] extends infer T ? T /** unresolved */[] : never);
+]) extends (infer T) ? (T /** unresolved */[]) : (never));
 
 type BasicPrimitiveArraysCase19Flat = readonly number[][];
 
@@ -84,11 +84,11 @@ type BasicPrimitiveArraysCase21Flat = -5[];
 
 type BasicPrimitiveArraysCase22Flat = 99999999999[];
 
-type BasicPrimitiveArraysCase23Flat = ((number & {}))[];
+type BasicPrimitiveArraysCase23Flat = (((number) & ({})))[];
 
-type BasicPrimitiveArraysCase24Flat = ((string | never))[];
+type BasicPrimitiveArraysCase24Flat = (((string) | (never)))[];
 
-type BasicPrimitiveArraysCase25Flat = Array<(number | never)>;
+type BasicPrimitiveArraysCase25Flat = Array<((number) | (never))>;
 
 
 assert<

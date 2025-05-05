@@ -29,35 +29,30 @@ import type {
 } from "@/fixtures/arrays/HybridArrays.ts";
 
 // Inspired by React ref array patterns
-type HybridArraysCase1Flat = (number[] & {
+type HybridArraysCase1Flat = ((number[]) & ({
   readonly current: number[]
-});
+}));
 
 // Similar to Redux action type intersections
-type HybridArraysCase2Flat = ((Array<{
-  id: (string & {
+type HybridArraysCase2Flat = (((Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -66,34 +61,34 @@ type HybridArraysCase2Flat = ((Array<{
       ][]
     ]
   }
-}> & {
+}>) & ({
   timestamp: string
-}))[];
+})))[];
 
 // Pattern from GIS coordinate systems
-type HybridArraysCase3Flat = ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type HybridArraysCase3Flat = (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-});
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}));
 
 // Inspired by financial instrument hybrids
-type HybridArraysCase4Flat = ((Array<((string & {
+type HybridArraysCase4Flat = (((Array<((((string) & ({
   __brand: "id"
-}) | (number & {
+}))) | (((number) & ({
   __brand: "count"
-}))> & {
+}))))>) & ({
   expiration: Date
-}))[];
+})))[];
 
 // Similar to type-safe event emitters
-type HybridArraysCase5Flat = (Array<((req: {
+type HybridArraysCase5Flat = ((Array<((req: {
   params: [
     number,
     number,
@@ -101,29 +96,24 @@ type HybridArraysCase5Flat = (Array<((req: {
   ][]
 }, res: {
   json: ((data: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -133,61 +123,56 @@ type HybridArraysCase5Flat = (Array<((req: {
       ]
     }
   }>) => void)
-}, next: (() => void)) => Promise<void>)> & {
-  eventMap: Map<string, (number[] & {
+}, next: (() => void)) => Promise<void>)>) & ({
+  eventMap: Map<string, ((number[]) & ({
     readonly current: number[]
-  })>
-});
+  }))>
+}));
 
 // Pattern from 3D graphics buffers
-type HybridArraysCase6Flat = (Float32Array & {
+type HybridArraysCase6Flat = ((Float32Array) & ({
   vertexCount: number;
-  attributes: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  attributes: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  })[]
-});
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }))[]
+}));
 
 // Inspired by blockchain smart contract ABIs
-type HybridArraysCase7Flat = (({
-  inputs: ((Array<((string & {
+type HybridArraysCase7Flat = ((({
+  inputs: (((Array<((((string) & ({
     __brand: "id"
-  }) | (number & {
+  }))) | (((number) & ({
     __brand: "count"
-  }))> & {
+  }))))>) & ({
     expiration: Date
-  }))[];
-  outputs: ((Array<{
-    id: (string & {
+  })))[];
+  outputs: (((Array<{
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -196,16 +181,16 @@ type HybridArraysCase7Flat = (({
         ][]
       ]
     }
-  }> & {
+  }>) & ({
     timestamp: string
-  }))[]
-} & {
+  })))[]
+}) & ({
   payable: boolean
-}))[];
+})))[];
 
 // Similar to neural network layer hybrids
-type HybridArraysCase8Flat = (Array<symbol> & {
-  activation: (Array<((req: {
+type HybridArraysCase8Flat = ((Array<symbol>) & ({
+  activation: (req: {
     params: [
       number,
       number,
@@ -213,29 +198,24 @@ type HybridArraysCase8Flat = (Array<symbol> & {
     ][]
   }, res: {
     json: ((data: Array<{
-      id: (string & {
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -245,21 +225,21 @@ type HybridArraysCase8Flat = (Array<symbol> & {
         ]
       }
     }>) => void)
-  }, next: (() => void)) => Promise<void>)>)[number];
-  weights: (number[] & {
+  }, next: (() => void)) => Promise<void>;
+  weights: ((number[]) & ({
     readonly current: number[]
-  })
-});
+  }))
+}));
 
 // Pattern from quantum state hybrids
-type HybridArraysCase9Flat = ((`img_${("jpg" | "png")}`[] & {
-  classicalBits: (number[] & {
+type HybridArraysCase9Flat = (((`img_${(("jpg") | ("png"))}`[]) & ({
+  classicalBits: ((number[]) & ({
     readonly current: number[]
-  })
-}))[];
+  }))
+})))[];
 
 // Inspired by API gateway configs
-type HybridArraysCase10Flat = (((Array<((req: {
+type HybridArraysCase10Flat = ((((req: {
   params: [
     number,
     number,
@@ -267,29 +247,24 @@ type HybridArraysCase10Flat = (((Array<((req: {
   ][]
 }, res: {
   json: ((data: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -299,36 +274,31 @@ type HybridArraysCase10Flat = (((Array<((req: {
       ]
     }
   }>) => void)
-}, next: (() => void)) => Promise<void>)>)[number] & {
+}, next: (() => void)) => Promise<void>) & ({
   rateLimit: number;
   path: `/${string}`
-}))[];
+})))[];
 
 // Similar to type-safe ORM relationships
-type HybridArraysCase11Flat = (Array<{
-  id: (string & {
+type HybridArraysCase11Flat = ((Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -337,9 +307,9 @@ type HybridArraysCase11Flat = (Array<{
       ][]
     ]
   }
-}> & {
-  joins: (Array<symbol> & {
-    activation: (Array<((req: {
+}>) & ({
+  joins: ((Array<symbol>) & ({
+    activation: (req: {
       params: [
         number,
         number,
@@ -347,29 +317,24 @@ type HybridArraysCase11Flat = (Array<{
       ][]
     }, res: {
       json: ((data: Array<{
-        id: (string & {
+        id: ((string) & ({
           __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
+        }));
+        variants:  readonly [
               string,
-              ...(({
+              ...((({
                 a: number
-              } | {
+              }) | ({
                 b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
+              })))[]
+            ];
         pricing: {
           base: number;
-          currency: (Array<((string & {
+          currency: (((string) & ({
             __brand: "id"
-          }) | (number & {
+          }))) | (((number) & ({
             __brand: "count"
-          }))>)[number];
+          })));
           discounts?: [
             key: `i18n_${string}`,
             translations: [
@@ -379,121 +344,56 @@ type HybridArraysCase11Flat = (Array<{
           ]
         }
       }>) => void)
-    }, next: (() => void)) => Promise<void>)>)[number];
-    weights: (number[] & {
+    }, next: (() => void)) => Promise<void>;
+    weights: ((number[]) & ({
       readonly current: number[]
-    })
-  })[]
-} & {
+    }))
+  }))[]
+}) & ({
   _hydrated: boolean
-});
+}));
 
 // Pattern from physics engine colliders
-type HybridArraysCase12Flat = (([
-  componentType: ("transform" | "render"),
-  data: ((({
+type HybridArraysCase12Flat = (((([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}) & {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))) & ({
   material: {
     friction: number;
-    restitution: ((((Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))> & {
-      expiration: Date
-    }))[])[number])["expiration"]
+    restitution:  Date
   }
-}[]);
+}[]));
 
 // Inspired by cryptocurrency UTXO patterns
-type HybridArraysCase13Flat = ((Array<{
-  block: (ReadonlyArray<Readonly<{
-    previousHash: (string & {
+type HybridArraysCase13Flat = (((Array<{
+  block: Readonly<{
+    previousHash: ((string) & ({
       __brand: "SHA256"
-    });
+    }));
     nonce: number;
-    readonly timestamp: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"]
-  }>>)[number];
+    readonly timestamp:  number
+  }>;
   transactions: {
-    from: ((Array<{
-      id: (string & {
+    from:  ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
-      pricing: {
-        base: number;
-        currency: (Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number];
-        discounts?: [
-          key: `i18n_${string}`,
-          translations: [
-            string,
-            ((newValue: string) => void)
-          ][]
-        ]
-      }
-    }>)[number])["id"];
+      }));
     to: [
       "previousHash"
     ];
-    value: ((((Array<{
-      holdings: {
-        asset: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
+    value:   {
             base: number;
-            currency: (Array<((string & {
+            currency: (((string) & ({
               __brand: "id"
-            }) | (number & {
+            }))) | (((number) & ({
               __brand: "count"
-            }))>)[number];
+            })));
             discounts?: [
               key: `i18n_${string}`,
               translations: [
@@ -502,260 +402,10 @@ type HybridArraysCase13Flat = ((Array<{
               ][]
             ]
           }
-        }>)[number])["id"];
-        quantity: (number & {
-          __minimum: 0
-        });
-        value: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"]
-      }[];
-      riskProfile: ((ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]]: string }>>)[number])[keyof (ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]]: string }>>)[number]]
-    }>)[number])["holdings"])[number])["value"]
   }[];
-  smartContracts: ((Array<{
-    method: `0x${string}`;
-    inputs: (ReadonlyArray<Readonly<{
-      previousHash: (string & {
-        __brand: "SHA256"
-      });
-      nonce: number;
-      readonly timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }>>)[number];
-    outputs: ((Array<{
-      experimentId: `exp_${number}`;
-      parameters: {
-        [k: `param_${string}`]: (number | ((Array<{
-          node: string;
-          properties: { [K in keyof (Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])[K /** unresolved */]) }
-        }>)[number])["node"])
-      };
-      metrics: (((ReadonlyArray<Readonly<{
-        weights: ReadonlyArray<ReadonlyArray<({
-          formula: string;
-          value: never
-        } | {
-          value: number;
-          formula?: never
-        })>>;
-        activation: ("relu" | "sigmoid");
-        readonly bias: (Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>)[number]
-      }>>)[number])["weights"])[number];
-      dependencies: ((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
-            major: number,
-            minor: number,
-            patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"]
-    }>)[number])["metrics"];
-    constant: (((Array<{
-      type: ("hero" | "cta" | "text");
-      content: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])["pricing"];
-      meta: Partial<(Array<((string & {
-        __brand: "id"
-      }) | (number & {
-        __brand: "count"
-      }))>)[number]>;
-      readonly _version: number
-    }>)[number])["_version"] extends number ? boolean : never)
-  }>)[number])["constant"][]
-}> & {
-  scriptSig: (Array<((req: {
+  smartContracts:  (( number) extends (number) ? (boolean) : (never))[]
+}>) & ({
+  scriptSig: ((Array<((req: {
     params: [
       number,
       number,
@@ -763,29 +413,24 @@ type HybridArraysCase13Flat = ((Array<{
     ][]
   }, res: {
     json: ((data: Array<{
-      id: (string & {
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -795,66 +440,47 @@ type HybridArraysCase13Flat = ((Array<{
         ]
       }
     }>) => void)
-  }, next: (() => void)) => Promise<void>)> & {
-    eventMap: Map<string, (number[] & {
+  }, next: (() => void)) => Promise<void>)>) & ({
+    eventMap: Map<string, ((number[]) & ({
       readonly current: number[]
-    })>
-  })
-}))[];
+    }))>
+  }))
+})))[];
 
 // Similar to medical imaging hybrids
-type HybridArraysCase14Flat = ((Int16Array & {
+type HybridArraysCase14Flat = (((Int16Array) & ({
   dimensions: [
     number,
     number,
     number
   ];
-  voxelSize: (number[] & {
+  voxelSize: ((number[]) & ({
     readonly current: number[]
-  })
-}))[];
+  }))
+})))[];
 
 // Pattern from game engine ECS systems
-type HybridArraysCase15Flat = ((Array<{
-  mesh: ((({
+type HybridArraysCase15Flat = (((Array<{
+  mesh: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number];
+  });
   transform: {
     position: [
       number,
       number,
       (number)?
     ][];
-    rotation: (((Array<{
-      deviceId: `dev_${string}`;
-      sensors: ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>;
-      readonly firmware: {
-        version: [
+    rotation:  [
           major: number,
           minor: number,
           patch: number
-        ];
-        checksum: (string & {
-          __length: 40
-        })
-      }
-    }>)[number])["firmware"])["version"]
+        ]
   };
   children: []
-}> & {
-  systems: (((Array<((req: {
+}>) & ({
+  systems: ((((req: {
     params: [
       number,
       number,
@@ -862,29 +488,24 @@ type HybridArraysCase15Flat = ((Array<{
     ][]
   }, res: {
     json: ((data: Array<{
-      id: (string & {
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -894,14 +515,14 @@ type HybridArraysCase15Flat = ((Array<{
         ]
       }
     }>) => void)
-  }, next: (() => void)) => Promise<void>)>)[number] & {
+  }, next: (() => void)) => Promise<void>) & ({
     rateLimit: number;
     path: `/${string}`
-  }))[]
-}))[];
+  })))[]
+})))[];
 
 // Inspired by IoT device telemetry
-type HybridArraysCase16Flat = ((Array<{
+type HybridArraysCase16Flat = (((Array<{
   deviceId: `dev_${string}`;
   sensors: ReadonlyArray<Readonly<{
     timestamp: number;
@@ -910,9 +531,9 @@ type HybridArraysCase16Flat = ((Array<{
       number,
       (number)?
     ][]>;
-    readonly sensorId: (string & {
+    readonly sensorId: ((string) & ({
       __brand: "SensorID"
-    })
+    }))
   }>>;
   readonly firmware: {
     version: [
@@ -920,58 +541,51 @@ type HybridArraysCase16Flat = ((Array<{
       minor: number,
       patch: number
     ];
-    checksum: (string & {
+    checksum: ((string) & ({
       __length: 40
-    })
+    }))
   }
-}> & {
-  firmware: ((`img_${("jpg" | "png")}`[] & {
-    classicalBits: (number[] & {
+}>) & ({
+  firmware: (((`img_${(("jpg") | ("png"))}`[]) & ({
+    classicalBits: ((number[]) & ({
       readonly current: number[]
-    })
-  }))[];
-  signalStrength: ((number[] & {
-    readonly current: number[]
-  }))[number]
-}))[];
+    }))
+  })))[];
+  signalStrength: number
+})))[];
 
 // Similar to type-safe CSS-in-JS props
 type HybridArraysCase17Flat = {
-  breakpoints: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  breakpoints: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  });
-  variants: ((Array<{
-    id: (string & {
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }));
+  variants: (((Array<{
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -980,87 +594,58 @@ type HybridArraysCase17Flat = {
         ][]
       ]
     }
-  }> & {
+  }>) & ({
     timestamp: string
-  }))[]
+  })))[]
 }[];
 
 // Pattern from aerospace telemetry
-type HybridArraysCase18Flat = (((Float32Array & {
+type HybridArraysCase18Flat = (((((Float32Array) & ({
   vertexCount: number;
-  attributes: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  attributes: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  })[]
-}) & {
-  timestamp: ((((Array<((string & {
-    __brand: "id"
-  }) | (number & {
-    __brand: "count"
-  }))> & {
-    expiration: Date
-  }))[])[number])["expiration"];
-  source: ("GPS" | "INS")
-}))[];
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }))[]
+}))) & ({
+  timestamp:  Date;
+  source: (("GPS") | ("INS"))
+})))[];
 
 // Inspired by computational biology
-type HybridArraysCase19Flat = ((Array<{
-  genomeId: (string & {
+type HybridArraysCase19Flat = (((Array<{
+  genomeId: ((string) & ({
     __brand: "GenomeID"
-  });
+  }));
   sequences: {
     chromosome: `chr${number}`;
-    markers: ((((ReadonlyArray<Readonly<{
-      electrons: ReadonlyArray<Readonly<{
-        qubits: ReadonlyArray<Readonly<{
-          state: ("|0>" | "|1>" | "+" | "-");
-          probability: (number & {
-            __range: [
-              0,
-              1
-            ]
-          })
-        }>>
-      }>>;
-      orbitals: ReadonlyArray<Readonly<{
-        energy: number;
-        shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>
-    }>>)[number])["orbitals"])[number])["energy"][]
+    markers:  number[]
   }[];
-  variations: ((Array<{
-    node: string;
-    properties: { [K in keyof (Array<{
-      id: (string & {
+  variations:  { [K in keyof ({
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -1069,30 +654,25 @@ type HybridArraysCase19Flat = ((Array<{
           ][]
         ]
       }
-    }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-      id: (string & {
+    })]?: ((K /** unresolved */) extends ("id") ? (never) : (({
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -1101,35 +681,34 @@ type HybridArraysCase19Flat = ((Array<{
           ][]
         ]
       }
-    }>)[number])[K /** unresolved */]) }
-  }>)[number])["properties"]
-}> & {
-  alignment: (number[] & {
+    })[K /** unresolved */])) }
+}>) & ({
+  alignment: ((number[]) & ({
     readonly current: number[]
-  });
-  scoringMatrix: (Float32Array & {
+  }));
+  scoringMatrix: ((Float32Array) & ({
     vertexCount: number;
-    attributes: ([
-      componentType: ("transform" | "render"),
-      data: ((({
+    attributes: (([
+      componentType: (("transform") | ("render")),
+      data: ({
         a: number
-      } | {
+      }) | ({
         b: string
-      }))[])[number],
+      }),
       ...dependencies: string[]
-    ][] & {
-      projection: ("WGS84" | "Mercator")
-    })[]
-  })
-}))[];
+    ][]) & ({
+      projection: (("WGS84") | ("Mercator"))
+    }))[]
+  }))
+})))[];
 
 // Similar to quantum-classical hybrids
-type HybridArraysCase20Flat = ((((`img_${("jpg" | "png")}`[] & {
-  classicalBits: (number[] & {
+type HybridArraysCase20Flat = ((((((`img_${(("jpg") | ("png"))}`[]) & ({
+  classicalBits: ((number[]) & ({
     readonly current: number[]
-  })
-}))[] & {
-  classicalControl: ((((Array<((req: {
+  }))
+})))[]) & ({
+  classicalControl: ((req: {
     params: [
       number,
       number,
@@ -1137,29 +716,24 @@ type HybridArraysCase20Flat = ((((`img_${("jpg" | "png")}`[] & {
     ][]
   }, res: {
     json: ((data: Array<{
-      id: (string & {
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -1169,173 +743,60 @@ type HybridArraysCase20Flat = ((((`img_${("jpg" | "png")}`[] & {
         ]
       }
     }>) => void)
-  }, next: (() => void)) => Promise<void>)>)[number] & {
+  }, next: (() => void)) => Promise<void>) & ({
     rateLimit: number;
     path: `/${string}`
-  }))[])[number]
-}))[];
+  })
+})))[];
 
 // Pattern from automotive CAN bus
-type HybridArraysCase21Flat = ((Uint8Array & {
+type HybridArraysCase21Flat = (((Uint8Array) & ({
   arbitrationId: number;
   extended: boolean;
-  data: (number[] & {
+  data: ((number[]) & ({
     readonly current: number[]
-  })
-}))[];
+  }))
+})))[];
 
 // Inspired by astronomy catalogs
-type HybridArraysCase22Flat = ((Array<{
+type HybridArraysCase22Flat = (((Array<{
   celestialId: `cel_${number}`;
-  coordinates: ((ReadonlyArray<Readonly<{
-    coordinates: Readonly<[
+  coordinates:  Readonly<[
       number,
       number,
       (number)?
     ][]>;
-    velocity: Readonly<[
-      number,
-      number,
-      (number)?
-    ][]>;
-    readonly timestamp: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"]
-  }>>)[number])["coordinates"];
   magnitudes: {
-    band: (((((ReadonlyArray<Readonly<{
-      electrons: ReadonlyArray<Readonly<{
-        qubits: ReadonlyArray<Readonly<{
-          state: ("|0>" | "|1>" | "+" | "-");
-          probability: (number & {
-            __range: [
-              0,
-              1
-            ]
-          })
-        }>>
-      }>>;
-      orbitals: ReadonlyArray<Readonly<{
-        energy: number;
-        shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>
-    }>>)[number])["orbitals"])[number])["shape"])[number];
+    band: ReadonlyArray<(("X") | ("O") | (null))>;
     value: number
   }[];
-  discoveries: ((((Array<{
-    documentId: (string & {
-      __brand: "DocumentID"
-    });
-    revisions: {
-      content: ((Array<{
-        type: ("hero" | "cta" | "text");
-        content: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"];
-        meta: Partial<(Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number]>;
-        readonly _version: number
-      }>)[number])["content"];
-      author: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["id"];
-      timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }[]
-  }>)[number])["revisions"])[number])["author"][]
-}> & {
-  spectralClass: ("O" | "B" | "A");
-  parallax: ((number[] & {
-    readonly current: number[]
-  }))[number]
-}))[];
+  discoveries:   string[]
+}>) & ({
+  spectralClass: (("O") | ("B") | ("A"));
+  parallax: number
+})))[];
 
 // Similar to type-safe dependency graphs
-type HybridArraysCase23Flat = ((readonly number[][] & {
-  dependencyMap: Map<((((Array<{
-    id: (string & {
+type HybridArraysCase23Flat = (((readonly number[][]) & ({
+  dependencyMap: Map<((Array<{
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -1344,63 +805,61 @@ type HybridArraysCase23Flat = ((readonly number[][] & {
         ][]
       ]
     }
-  }> & {
+  }>) & ({
     timestamp: string
-  }))[])[number])["length"], ((Array<((string & {
+  }))["length"], (((Array<((((string) & ({
     __brand: "id"
-  }) | (number & {
+  }))) | (((number) & ({
     __brand: "count"
-  }))> & {
+  }))))>) & ({
     expiration: Date
-  }))[]>
-}))[];
+  })))[]>
+})))[];
 
 // Pattern from robotics sensor fusion
-type HybridArraysCase24Flat = ((([
-  componentType: ("transform" | "render"),
-  data: ((({
+type HybridArraysCase24Flat = ((((([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}) & {
-  sensorType: ("LIDAR" | "RADAR" | "CAMERA");
-  calibration: (Float32Array & {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))) & ({
+  sensorType: (("LIDAR") | ("RADAR") | ("CAMERA"));
+  calibration: ((Float32Array) & ({
     vertexCount: number;
-    attributes: ([
-      componentType: ("transform" | "render"),
-      data: ((({
+    attributes: (([
+      componentType: (("transform") | ("render")),
+      data: ({
         a: number
-      } | {
+      }) | ({
         b: string
-      }))[])[number],
+      }),
       ...dependencies: string[]
-    ][] & {
-      projection: ("WGS84" | "Mercator")
-    })[]
-  })
-}))[];
+    ][]) & ({
+      projection: (("WGS84") | ("Mercator"))
+    }))[]
+  }))
+})))[];
 
 // Inspired by nuclear physics simulations
-type HybridArraysCase25Flat = ((((`img_${("jpg" | "png")}`[] & {
-  classicalBits: (number[] & {
+type HybridArraysCase25Flat = ((((((`img_${(("jpg") | ("png"))}`[]) & ({
+  classicalBits: ((number[]) & ({
     readonly current: number[]
-  })
-}))[] & {
-  decayChains: ((Array<((string & {
+  }))
+})))[]) & ({
+  decayChains: (((Array<((((string) & ({
     __brand: "id"
-  }) | (number & {
+  }))) | (((number) & ({
     __brand: "count"
-  }))> & {
+  }))))>) & ({
     expiration: Date
-  }))[];
-  halfLife: ((number[] & {
-    readonly current: number[]
-  }))[number]
-}))[];
+  })))[];
+  halfLife: number
+})))[];
 
 
 assert<

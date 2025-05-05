@@ -40,13 +40,13 @@ type ProductFlat<T extends string> = {
   price: number;
   variants: {
     color: string;
-    size: ("S" | "M" | "L")
+    size: (("S") | ("M") | ("L"))
   }[]
 };
 
 type VariantFlat = {
   color: string;
-  size: ("S" | "M" | "L")
+  size: (("S") | ("M") | ("L"))
 };
 
 // API patterns from tRPC
@@ -80,9 +80,9 @@ type ColumnMetadataFlat = {
 // Added comprehensive validation error type
 type ValidationErrorFlat = {
   [k: string]: unknown;
-  path: ((string | number))[];
+  path: (((string) | (number)))[];
   message: string;
-  code: ("invalid_type" | "missing_value" | "custom" | "too_small" | "too_big");
+  code: (("invalid_type") | ("missing_value") | ("custom") | ("too_small") | ("too_big"));
   expected?: string;
   received?: string;
   fatal?: boolean
@@ -90,7 +90,7 @@ type ValidationErrorFlat = {
 
 // Added validation context type
 type ValidationContextFlat = {
-  path: ((string | number))[];
+  path: (((string) | (number)))[];
   parent: unknown;
   schema: unknown
 };
@@ -115,14 +115,14 @@ type PaginationMetaFlat = {
 type HypermediaLinkFlat = {
   href: string;
   rel: string;
-  method: ("GET" | "POST" | "PUT" | "DELETE");
+  method: (("GET") | ("POST") | ("PUT") | ("DELETE"));
   type?: string
 };
 
 type FieldErrorFlat = {
-  path: ((string | number))[];
+  path: (((string) | (number)))[];
   message: string;
-  code: ("missing" | "invalid" | "conflict")
+  code: (("missing") | ("invalid") | ("conflict"))
 };
 
 // Added UI-specific foundational types
@@ -133,7 +133,7 @@ type SyntheticEventFlat<T> = {
 };
 
 type CSSPropertiesFlat = {
-  [k: string]: (string | number)
+  [k: string]: ((string) | (number))
 };
 
 type CoordinatesFlat = {
@@ -147,7 +147,7 @@ type DimensionFlat = {
 };
 
 type DatabaseConnectionFlat = {
-  type: ("postgres" | "mysql" | "sqlite");
+  type: (("postgres") | ("mysql") | ("sqlite"));
   host: string;
   port: number;
   username: string;
@@ -173,31 +173,31 @@ type TreeNodeFlat = {
   children: []
 };
 
-type NumericRangeFlat<Start extends number, End extends number> = (Exclude<(([])["length"] extends End ? ([])[number] : [
+type NumericRangeFlat<Start extends number, End extends number> = ((Exclude<((([])["length"]) extends (End) ? (([])[number]) : ([
   End,
   [
     ...[],
     ([])["length"]
   ]
-]), (([])["length"] extends Start ? ([])[number] : [
+])), ((([])["length"]) extends (Start) ? (([])[number]) : ([
   Start,
   [
     ...[],
     ([])["length"]
   ]
-])> extends number ? Exclude<(([])["length"] extends End ? ([])[number] : [
+]))>) extends (number) ? (Exclude<((([])["length"]) extends (End) ? (([])[number]) : ([
   End,
   [
     ...[],
     ([])["length"]
   ]
-]), (([])["length"] extends Start ? ([])[number] : [
+])), ((([])["length"]) extends (Start) ? (([])[number]) : ([
   Start,
   [
     ...[],
     ([])["length"]
   ]
-])> : never);
+]))>) : (never));
 
 
 assert<

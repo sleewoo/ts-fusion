@@ -65,7 +65,7 @@ type ApiResponseTest3Flat<T> = {
   links: {
     href: string;
     rel: string;
-    method: ("GET" | "POST" | "PUT" | "DELETE");
+    method: (("GET") | ("POST") | ("PUT") | ("DELETE"));
     type?: string
   }[]
 };
@@ -75,7 +75,7 @@ type ApiResponseTest4Flat<T> = {
   data?: T;
   errors?: Array<{
     message: string;
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     extensions?: Record<string, unknown>
   }>
 };
@@ -90,13 +90,13 @@ type ApiResponseTest5Flat<T> = {
     id: string;
     attributes: T;
     relationships?: Record<string, {
-      data: ({
+      data: (({
         type: string;
         id: string
-      } | Array<{
+      }) | (Array<{
         type: string;
         id: string
-      }>)
+      }>))
     }>
   }>;
   included?: unknown[]
@@ -153,9 +153,9 @@ type ApiResponseTest9Flat<T> = {
 type ApiResponseTest10Flat = {
   code: "validation_failed";
   errors: {
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     message: string;
-    code: ("missing" | "invalid" | "conflict")
+    code: (("missing") | ("invalid") | ("conflict"))
   }[];
   status: 422
 };
@@ -168,7 +168,7 @@ type ApiResponseTest11Flat<T> = {
   _links: Record<string, {
     href: string;
     rel: string;
-    method: ("GET" | "POST" | "PUT" | "DELETE");
+    method: (("GET") | ("POST") | ("PUT") | ("DELETE"));
     type?: string
   }>;
   page: {
@@ -185,9 +185,9 @@ type ApiResponseTest12Flat = {
   [k: `_${number}`]: {
     code: "validation_failed";
     errors: {
-      path: ((string | number))[];
+      path: (((string) | (number)))[];
       message: string;
-      code: ("missing" | "invalid" | "conflict")
+      code: (("missing") | ("invalid") | ("conflict"))
     }[];
     status: 422
   };
@@ -199,17 +199,17 @@ type ApiResponseTest12Flat = {
 };
 
 // 13. Batch response
-type ApiResponseTest13Flat = Array<({
+type ApiResponseTest13Flat = Array<(({
   status: 200;
   body: unknown
-} | {
+}) | ({
   status: 207;
   body: {
-    results: Array<({
+    results: Array<(({
       data: unknown;
       status: number;
       headers: Record<string, string>
-    } | {
+    }) | ({
       error: {
         code: string;
         message: string;
@@ -223,9 +223,9 @@ type ApiResponseTest13Flat = Array<({
         timestamp: Date;
         stack?: string
       }
-    })>
+    }))>
   }
-})>;
+}))>;
 
 // 14. Server-Sent Events (SSE)
 type ApiResponseTest14Flat<T> = {
@@ -239,14 +239,14 @@ type ApiResponseTest14Flat<T> = {
 type ApiResponseTest15Flat<T> = {
   correlationId: string;
   timestamp: Date;
-  payload: (T | {
+  payload: ((T) | ({
     code: string;
     message: string;
     details?: Array<{
       field?: string;
       issue: string
     }>
-  })
+  }))
 };
 
 // 16. CQRS-style response
@@ -266,9 +266,9 @@ type ApiResponseTest16Flat<T> = {
 
 // 17. Health check response
 type ApiResponseTest17Flat = {
-  status: ("ok" | "degraded" | "down");
+  status: (("ok") | ("degraded") | ("down"));
   checks: Record<string, {
-    status: ("pass" | "fail" | "warn");
+    status: (("pass") | ("fail") | ("warn"));
     output?: string;
     duration: number
   }>
@@ -277,7 +277,7 @@ type ApiResponseTest17Flat = {
 // 18. Pre-signed URL response
 type ApiResponseTest18Flat = {
   url: string;
-  method: ("PUT" | "GET");
+  method: (("PUT") | ("GET"));
   headers: Record<string, string>;
   expiresAt: Date;
   fields?: Record<string, string>
@@ -310,16 +310,16 @@ type ApiResponseTest21Flat<T> = {
 };
 
 // 22. Conditional response
-type ApiResponseTest22Flat<T> = ({
+type ApiResponseTest22Flat<T> = (({
   status: 200;
   body: T;
   fresh: boolean
-} | {
+}) | ({
   status: 304;
   headers: {
     ETag: string
   }
-});
+}));
 
 // 23. Preflight response
 type ApiResponseTest23Flat = {
@@ -334,7 +334,7 @@ type ApiResponseTest23Flat = {
 type ApiResponseTest24Flat = {
   status: 206;
   contentRange: string;
-  acceptRanges: ("bytes" | "none");
+  acceptRanges: (("bytes") | ("none"));
   contentLength: number;
   body: ArrayBuffer
 };
@@ -347,7 +347,7 @@ type ApiResponseTest25Flat = {
     description?: string;
     parameters?: Array<{
       name: string;
-      in: ("query" | "path" | "header");
+      in: (("query") | ("path") | ("header"));
       required?: boolean
     }>
   }>

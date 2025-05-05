@@ -32,11 +32,11 @@ import type {
 type FunctionArraysCase1Flat = Array<((event: unknown) => void)>;
 
 // Similar to Redux middleware signatures
-type FunctionArraysCase2Flat = Array<((next: (Array<((event: unknown) => void)>)[number]) => ((action: (({
+type FunctionArraysCase2Flat = Array<((next: (event: unknown) => void) => ((action: ((({
   a: number
-} | {
+}) | ({
   b: string
-}))[]) => void))>;
+})))[]) => void))>;
 
 // Pattern from Express.js route handlers
 type FunctionArraysCase3Flat = Array<((req: {
@@ -47,29 +47,24 @@ type FunctionArraysCase3Flat = Array<((req: {
   ][]
 }, res: {
   json: ((data: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -82,53 +77,21 @@ type FunctionArraysCase3Flat = Array<((req: {
 }, next: (() => void)) => Promise<void>)>;
 
 // Inspired by validation libraries
-type FunctionArraysCase4Flat = Array<((value: unknown) => value is (number[])[number])>;
+type FunctionArraysCase4Flat = Array<((value: unknown) => value is number)>;
 
 // Similar to observable subscriptions
 type FunctionArraysCase5Flat = Array<((value: [
   number,
   number,
   (number)?
-][]) => ((({
+][]) => ({
   a: number
-} | {
+}) | ({
   b: string
-}))[])[number])>;
+}))>;
 
 // Pattern from financial calculators
-type FunctionArraysCase6Flat = Array<((principal: number, rate: (((Array<{
-  id: (string & {
-    __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
-        string,
-        ...(({
-          a: number
-        } | {
-          b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
-  pricing: {
-    base: number;
-    currency: (Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number];
-    discounts?: [
-      key: `i18n_${string}`,
-      translations: [
-        string,
-        ((newValue: string) => void)
-      ][]
-    ]
-  }
-}>)[number])["pricing"])["base"]) => number)>[];
+type FunctionArraysCase6Flat = Array<((principal: number, rate:  number) => number)>[];
 
 // Inspired by physics engines
 type FunctionArraysCase7Flat = Array<((vectors: [
@@ -150,29 +113,24 @@ type FunctionArraysCase8Flat = Array<((input: unknown) => [
 type FunctionArraysCase9Flat = Array<((context: {
   commit: string;
   artifacts: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -193,41 +151,36 @@ type FunctionArraysCase10Flat = Array<((deltaTime: number) => {
     number,
     (number)?
   ][][];
-  states: (({
+  states: ((({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[]
+  })))[]
 })>;
 
 // Similar to cryptographic operations
 type FunctionArraysCase11Flat = Array<((data: Uint8Array, key: `0x${string}`) => Promise<ArrayBuffer>)>;
 
 // Pattern from data transformation pipelines
-type FunctionArraysCase12Flat<T> = Array<((input: T) => (T extends number[] ? Array<{
-  id: (string & {
+type FunctionArraysCase12Flat<T> = Array<((input: T) => ((T) extends (number[]) ? (Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -236,38 +189,33 @@ type FunctionArraysCase12Flat<T> = Array<((input: T) => (T extends number[] ? Ar
       ][]
     ]
   }
-}> : T))>;
+}>) : (T)))>;
 
 // Inspired by machine learning activation functions
-type FunctionArraysCase13Flat = Array<((input: number) => (number & {
+type FunctionArraysCase13Flat = Array<((input: number) => ((number) & ({
   __brand: "ActivationOutput"
-}))>;
+})))>;
 
 // Similar to database seed functions
 type FunctionArraysCase14Flat = Array<((count: number) => Promise<Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -279,45 +227,40 @@ type FunctionArraysCase14Flat = Array<((count: number) => Promise<Array<{
 }>>)>;
 
 // Pattern from animation interpolators
-type FunctionArraysCase15Flat = Array<((progress: (number & {
+type FunctionArraysCase15Flat = Array<((progress: ((number) & ({
   __range: [
     0,
     1
   ]
-})) => [
+}))) => [
   number,
   number,
   (number)?
 ][])>;
 
 // Inspired by quantum computing simulators
-type FunctionArraysCase16Flat = Array<((qubits: (Parameters<(Array<((event: ("add" | "change" | "delete"), path: string) => void)>)[number]>)[0]) => ReadonlyArray<number>)>;
+type FunctionArraysCase16Flat = Array<((qubits: (Parameters<(event: (("add") | ("change") | ("delete")), path: string) => void>)[0]) => ReadonlyArray<number>)>;
 
 // Similar to authorization middleware
-type FunctionArraysCase17Flat = Array<((user: (Array<{
-  id: (string & {
+type FunctionArraysCase17Flat = Array<((user: {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -326,264 +269,56 @@ type FunctionArraysCase17Flat = Array<((user: (Array<{
       ][]
     ]
   }
-}>)[number], resource: (({
+}, resource: ((({
   a: number
-} | {
+}) | ({
   b: string
-}))[]) => (boolean | never))>;
+})))[]) => ((boolean) | (never)))>;
 
 // Pattern from file system watchers
-type FunctionArraysCase18Flat = Array<((event: ("add" | "change" | "delete"), path: string) => void)>;
+type FunctionArraysCase18Flat = Array<((event: (("add") | ("change") | ("delete")), path: string) => void)>;
 
 // Inspired by compilers/transpilers
 type FunctionArraysCase19Flat = Array<((ast: Array<{
-  assemblyId: ((Array<{
-    documentId: (string & {
+  assemblyId:  ((string) & ({
       __brand: "DocumentID"
-    });
-    revisions: {
-      content: ((Array<{
-        type: ("hero" | "cta" | "text");
-        content: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"];
-        meta: Partial<(Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number]>;
-        readonly _version: number
-      }>)[number])["content"];
-      author: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["id"];
-      timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }[]
-  }>)[number])["documentId"];
-  components: (((Array<{
-    mesh: ((({
+    }));
+  components: ((({
+    mesh: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number];
+    });
     transform: {
       position: [
         number,
         number,
         (number)?
       ][];
-      rotation: (((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
+      rotation:  [
             major: number,
             minor: number,
             patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"])["version"]
+          ]
     };
     children: []
-  }>)[number] & {
+  }) & ({
     material: {
-      density: ((Array<{
-        experimentId: `exp_${number}`;
-        parameters: {
-          [k: `param_${string}`]: (number | ((Array<{
-            node: string;
-            properties: { [K in keyof (Array<{
-              id: (string & {
-                __brand: "ProductID"
-              });
-              variants: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["permissions"];
-              pricing: {
-                base: number;
-                currency: (Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number];
-                discounts?: [
-                  key: `i18n_${string}`,
-                  translations: [
-                    string,
-                    ((newValue: string) => void)
-                  ][]
-                ]
-              }
-            }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-              id: (string & {
-                __brand: "ProductID"
-              });
-              variants: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["permissions"];
-              pricing: {
-                base: number;
-                currency: (Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number];
-                discounts?: [
-                  key: `i18n_${string}`,
-                  translations: [
-                    string,
-                    ((newValue: string) => void)
-                  ][]
-                ]
-              }
-            }>)[number])[K /** unresolved */]) }
-          }>)[number])["node"])
-        };
-        metrics: (((ReadonlyArray<Readonly<{
-          weights: ReadonlyArray<ReadonlyArray<({
+      density:  ReadonlyArray<(({
             formula: string;
             value: never
-          } | {
+          }) | ({
             value: number;
             formula?: never
-          })>>;
-          activation: ("relu" | "sigmoid");
-          readonly bias: (Readonly<Array<{
-            readonly amount: number;
-            readonly currency: (string & {
-              __brand: "ISO4217"
-            })
-          }>>)[number]
-        }>>)[number])["weights"])[number];
-        dependencies: ((Array<{
-          deviceId: `dev_${string}`;
-          sensors: ReadonlyArray<Readonly<{
-            timestamp: number;
-            values: Readonly<[
-              number,
-              number,
-              (number)?
-            ][]>;
-            readonly sensorId: (string & {
-              __brand: "SensorID"
-            })
-          }>>;
-          readonly firmware: {
-            version: [
-              major: number,
-              minor: number,
-              patch: number
-            ];
-            checksum: (string & {
-              __length: 40
-            })
-          }
-        }>)[number])["firmware"]
-      }>)[number])["metrics"];
-      texture: ((ReadonlyArray<Readonly<{
-        breakpoints: Readonly<[
+          }))>;
+      texture:  Readonly<[
           number,
           number,
           number
-        ]>;
-        colors: Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>
-      }>>)[number])["breakpoints"]
+        ]>
     }
-  }))[];
-  constraints: ((ReadonlyArray<Readonly<{
-    commit: (string & {
-      __brand: "SHA1"
-    });
-    diff: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-  }>>)[number])["diff"]
+  })))[];
+  constraints:  Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>
 }>) => {
   code: string;
   warnings: string[]
@@ -593,47 +328,28 @@ type FunctionArraysCase19Flat = Array<((ast: Array<{
 type FunctionArraysCase20Flat = Array<(<T>(source: T /** unresolved */[]) => ((predicate: ((value: T /** unresolved */) => boolean)) => T /** unresolved */[]))>;
 
 // Pattern from validation sanitizers
-type FunctionArraysCase21Flat = Array<(<T extends string>(input: T /** unresolved */) => (T /** unresolved */ & {
+type FunctionArraysCase21Flat = Array<(<T extends string>(input: T /** unresolved */) => ((T /** unresolved */) & ({
   __sanitized: true
-}))>;
+})))>;
 
 // Inspired by CAD software tools
 type FunctionArraysCase22Flat = Array<((shapes: Array<{
-  mesh: ((({
+  mesh: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number];
+  });
   transform: {
     position: [
       number,
       number,
       (number)?
     ][];
-    rotation: (((Array<{
-      deviceId: `dev_${string}`;
-      sensors: ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>;
-      readonly firmware: {
-        version: [
+    rotation:  [
           major: number,
           minor: number,
           patch: number
-        ];
-        checksum: (string & {
-          __length: 40
-        })
-      }
-    }>)[number])["firmware"])["version"]
+        ]
   };
   children: []
 }>) => {
@@ -645,82 +361,46 @@ type FunctionArraysCase22Flat = Array<((shapes: Array<{
 type FunctionArraysCase23Flat = Array<((buffer: Float32Array) => Promise<Float32Array>)>;
 
 // Pattern from IoT device handlers
-type FunctionArraysCase24Flat = Array<((sensor: (((Array<{
-  deviceId: `dev_${string}`;
-  sensors: ReadonlyArray<Readonly<{
+type FunctionArraysCase24Flat = Array<((sensor: Readonly<{
     timestamp: number;
     values: Readonly<[
       number,
       number,
       (number)?
     ][]>;
-    readonly sensorId: (string & {
+    readonly sensorId: ((string) & ({
       __brand: "SensorID"
-    })
-  }>>;
-  readonly firmware: {
-    version: [
-      major: number,
-      minor: number,
-      patch: number
-    ];
-    checksum: (string & {
-      __length: 40
-    })
-  }
-}>)[number])["sensors"])[number], timestamp: number) => void)>;
+    }))
+  }>, timestamp: number) => void)>;
 
 // Inspired by genetic algorithms
 type FunctionArraysCase25Flat = Array<((population: Array<{
-  genomeId: (string & {
+  genomeId: ((string) & ({
     __brand: "GenomeID"
-  });
+  }));
   sequences: {
     chromosome: `chr${number}`;
-    markers: ((((ReadonlyArray<Readonly<{
-      electrons: ReadonlyArray<Readonly<{
-        qubits: ReadonlyArray<Readonly<{
-          state: ("|0>" | "|1>" | "+" | "-");
-          probability: (number & {
-            __range: [
-              0,
-              1
-            ]
-          })
-        }>>
-      }>>;
-      orbitals: ReadonlyArray<Readonly<{
-        energy: number;
-        shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>
-    }>>)[number])["orbitals"])[number])["energy"][]
+    markers:  number[]
   }[];
-  variations: ((Array<{
-    node: string;
-    properties: { [K in keyof (Array<{
-      id: (string & {
+  variations:  { [K in keyof ({
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -729,30 +409,25 @@ type FunctionArraysCase25Flat = Array<((population: Array<{
           ][]
         ]
       }
-    }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-      id: (string & {
+    })]?: ((K /** unresolved */) extends ("id") ? (never) : (({
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -761,60 +436,36 @@ type FunctionArraysCase25Flat = Array<((population: Array<{
           ][]
         ]
       }
-    }>)[number])[K /** unresolved */]) }
-  }>)[number])["properties"]
-}>, fitnessFn: (Array<((input: number) => (number & {
+    })[K /** unresolved */])) }
+}>, fitnessFn: (input: number) => ((number) & ({
   __brand: "ActivationOutput"
-}))>)[number]) => Array<{
-  genomeId: (string & {
+}))) => Array<{
+  genomeId: ((string) & ({
     __brand: "GenomeID"
-  });
+  }));
   sequences: {
     chromosome: `chr${number}`;
-    markers: ((((ReadonlyArray<Readonly<{
-      electrons: ReadonlyArray<Readonly<{
-        qubits: ReadonlyArray<Readonly<{
-          state: ("|0>" | "|1>" | "+" | "-");
-          probability: (number & {
-            __range: [
-              0,
-              1
-            ]
-          })
-        }>>
-      }>>;
-      orbitals: ReadonlyArray<Readonly<{
-        energy: number;
-        shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>
-    }>>)[number])["orbitals"])[number])["energy"][]
+    markers:  number[]
   }[];
-  variations: ((Array<{
-    node: string;
-    properties: { [K in keyof (Array<{
-      id: (string & {
+  variations:  { [K in keyof ({
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -823,30 +474,25 @@ type FunctionArraysCase25Flat = Array<((population: Array<{
           ][]
         ]
       }
-    }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-      id: (string & {
+    })]?: ((K /** unresolved */) extends ("id") ? (never) : (({
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -855,8 +501,7 @@ type FunctionArraysCase25Flat = Array<((population: Array<{
           ][]
         ]
       }
-    }>)[number])[K /** unresolved */]) }
-  }>)[number])["properties"]
+    })[K /** unresolved */])) }
 }>)>;
 
 

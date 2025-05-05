@@ -29,7 +29,7 @@ import type {
 } from "@/fixtures/tuples/api-handling.ts";
 
 type ApiHandlingTest1Flat = [
-  ("GET" | "POST" | "PUT" | "DELETE"),
+  (("GET") | ("POST") | ("PUT") | ("DELETE")),
   URL,
   ...headers: [
     string,
@@ -86,14 +86,14 @@ type ApiHandlingTest7Flat = [
   ...endpoints: [
     ...[
       string,
-      ("GET" | "POST" | "PUT" | "DELETE")
+      (("GET") | ("POST") | ("PUT") | ("DELETE"))
     ][]
   ]
 ];
 
 type ApiHandlingTest8Flat<T> = [
   T,
-  ...((Error | null))[]
+  ...(((Error) | (null)))[]
 ];
 
 type ApiHandlingTest9Flat = [
@@ -187,14 +187,14 @@ type ApiHandlingTest19Flat = [
 type ApiHandlingTest20Flat = [
   rateLimit: number,
   ...windowSizes: [
-    (1 | 60 | 3600),
+    ((1) | (60) | (3600)),
     number
   ][]
 ];
 
 type ApiHandlingTest21Flat = [
   authToken?: string,
-  ...scopes: (("read" | "write"))[]
+  ...scopes: ((("read") | ("write")))[]
 ];
 
 type ApiHandlingTest22Flat = [

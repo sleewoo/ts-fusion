@@ -107,10 +107,10 @@ type OptionalElementsTest12Flat<T> = [
 ];
 
 type OptionalElementsTest13Flat = [
-  source?: (string | [
+  source?: ((string) | ([
     number,
     number
-  ]),
+  ])),
   transform?: (() => never)
 ];
 
@@ -125,9 +125,9 @@ type OptionalElementsTest14Flat = [
 ];
 
 type OptionalElementsTest15Flat<T> = [
-  combined?: (T & {
+  combined?: ((T) & ({
     timestamp: Date
-  }),
+  })),
   partial?: Partial<T>
 ];
 
@@ -154,7 +154,7 @@ type OptionalElementsTest18Flat<T> = [
 ];
 
 type OptionalElementsTest19Flat = [
-  format?: ("json" | "csv"),
+  format?: (("json") | ("csv")),
   ...dataEntries: [
     string,
     unknown
@@ -167,26 +167,26 @@ type OptionalElementsTest20Flat<T> = [
 ];
 
 type OptionalElementsTest21Flat<T> = [
-  primary?: (T)[keyof T],
-  secondary?: keyof T
+  primary?: (T)[keyof (T)],
+  secondary?: keyof (T)
 ];
 
 type OptionalElementsTest22Flat<T> = [
-  value?: (T extends string ? string : number),
+  value?: ((T) extends (string) ? (string) : (number)),
   ...options: never[]
 ];
 
 type OptionalElementsTest23Flat<T> = [
-  ...((T extends never[] ? [
+  ...(((T) extends (never[]) ? ([
     first?: (T)[0]
-  ] : never))
+  ]) : (never)))
 ];
 
 type OptionalElementsTest24Flat = [
   ...config: [
     port?: number
   ],
-  ...features: (("logging" | "caching"))[]
+  ...features: ((("logging") | ("caching")))[]
 ];
 
 type OptionalElementsTest25Flat<T> = [

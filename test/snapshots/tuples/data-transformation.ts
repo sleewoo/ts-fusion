@@ -57,14 +57,14 @@ type DataTransformationTest4Flat = [
 ];
 
 type DataTransformationTest5Flat<T> = [
-  (T extends string ? "string" : "other"),
+  ((T) extends (string) ? ("string") : ("other")),
   ...T[]
 ];
 
 type DataTransformationTest6Flat = [
-  format: ("csv" | "json"),
+  format: (("csv") | ("json")),
   ...data: [
-    ...((string | number))[]
+    ...(((string) | (number)))[]
   ]
 ];
 
@@ -130,7 +130,7 @@ type DataTransformationTest14Flat<T, U> = [
 ];
 
 type DataTransformationTest15Flat = [
-  compression: ("gzip" | "brotli"),
+  compression: (("gzip") | ("brotli")),
   ...chunks: Uint8Array[]
 ];
 
@@ -188,7 +188,7 @@ type DataTransformationTest23Flat<T> = [
 ];
 
 type DataTransformationTest24Flat<T> = [
-  sortKey: keyof T,
+  sortKey: keyof (T),
   ...items: T[]
 ];
 

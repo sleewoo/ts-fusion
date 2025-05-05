@@ -42,7 +42,7 @@ type ValidationSchemaTest2Flat<T> = {
   validateSync: ((value: unknown) => T);
   describe: (() => {
     type: string;
-    fields: { [K in keyof T]?: {
+    fields: { [K in keyof (T)]?: {
       type: string;
       required: boolean;
       tests: string[]
@@ -58,9 +58,9 @@ type ValidationSchemaTest3Flat = {
     $id?: string;
     $schema?: string
   }>;
-  type: (("string" | "number" | "boolean" | "object" | "array" | "null") | ("string" & {
+  type: (((("string") | ("number") | ("boolean") | ("object") | ("array") | ("null"))) | ((("string") & ({
     __id: number
-  })[]);
+  }))[]));
   properties?: Record<string, {
     [k: string]: unknown;
     $id?: string;
@@ -76,15 +76,15 @@ type ValidationSchemaTest4Flat<T> = {
     new: ((...args: unknown[]) => T)
   };
   constraints: {
-    type: ("min" | "max" | "matches");
-    value: (number | string | RegExp);
+    type: (("min") | ("max") | ("matches"));
+    value: ((number) | (string) | (RegExp));
     message?: string
   }[];
-  errorMessage?: (string | ((validationContext: {
-    path: ((string | number))[];
+  errorMessage?: ((string) | (((validationContext: {
+    path: (((string) | (number)))[];
     parent: unknown;
     schema: unknown
-  }) => string))
+  }) => string)))
 };
 
 // 5. Joi-like async schema
@@ -93,25 +93,25 @@ type ValidationSchemaTest5Flat<T> = {
   options: {
     abortEarly: boolean;
     stripUnknown: boolean;
-    presence: ("required" | "optional")
+    presence: (("required") | ("optional"))
   }
 };
 
 // 6. io-ts codec
 type ValidationSchemaTest6Flat<T, U> = {
-  decode: ((input: U) => ({
+  decode: ((input: U) => (({
     left: {
       [k: string]: unknown;
-      path: ((string | number))[];
+      path: (((string) | (number)))[];
       message: string;
-      code: ("invalid_type" | "missing_value" | "custom" | "too_small" | "too_big");
+      code: (("invalid_type") | ("missing_value") | ("custom") | ("too_small") | ("too_big"));
       expected?: string;
       received?: string;
       fatal?: boolean
     }[]
-  } | {
+  }) | ({
     right: T
-  }));
+  })));
   encode: ((value: T) => U);
   name: string;
   is: ((u: unknown) => u is Record<string, T>)
@@ -120,19 +120,19 @@ type ValidationSchemaTest6Flat<T, U> = {
 // 7. Superstruct coercer
 type ValidationSchemaTest7Flat<T> = {
   coerce: ((value: unknown, context: {
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     parent: unknown;
     schema: unknown
   }) => T);
   validate: ((value: T, context: {
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     parent: unknown;
     schema: unknown
   }) => {
     [k: string]: unknown;
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     message: string;
-    code: ("invalid_type" | "missing_value" | "custom" | "too_small" | "too_big");
+    code: (("invalid_type") | ("missing_value") | ("custom") | ("too_small") | ("too_big"));
     expected?: string;
     received?: string;
     fatal?: boolean
@@ -142,7 +142,7 @@ type ValidationSchemaTest7Flat<T> = {
 // 8. Valibot pipe
 type ValidationSchemaTest8Flat<T> = {
   pipe: Array<{
-    type: ("transform" | "check");
+    type: (("transform") | ("check"));
     fn: ((value: T) => unknown)
   }>;
   transform: ((value: T) => unknown);
@@ -151,14 +151,14 @@ type ValidationSchemaTest8Flat<T> = {
 
 // 9. Vest test suite
 type ValidationSchemaTest9Flat<T> = {
-  test: ((fieldName: keyof T, assertions: (() => void)) => void);
+  test: ((fieldName: keyof (T), assertions: (() => void)) => void);
   enforce: ((values: Partial<T>) => {
     valid: boolean;
-    errors: { [K in keyof T]?: {
+    errors: { [K in keyof (T)]?: {
       [k: string]: unknown;
-      path: ((string | number))[];
+      path: (((string) | (number)))[];
       message: string;
-      code: ("invalid_type" | "missing_value" | "custom" | "too_small" | "too_big");
+      code: (("invalid_type") | ("missing_value") | ("custom") | ("too_small") | ("too_big"));
       expected?: string;
       received?: string;
       fatal?: boolean
@@ -167,16 +167,16 @@ type ValidationSchemaTest9Flat<T> = {
 };
 
 // 10. JSON Schema with references
-type ValidationSchemaTest10Flat = ({
+type ValidationSchemaTest10Flat = (({
   $schema: string;
   $defs: Record<string, {
     [k: string]: unknown;
     $id?: string;
     $schema?: string
   }>;
-  type: (("string" | "number" | "boolean" | "object" | "array" | "null") | ("string" & {
+  type: (((("string") | ("number") | ("boolean") | ("object") | ("array") | ("null"))) | ((("string") & ({
     __id: number
-  })[]);
+  }))[]));
   properties?: Record<string, {
     [k: string]: unknown;
     $id?: string;
@@ -184,16 +184,16 @@ type ValidationSchemaTest10Flat = ({
   }>;
   required?: string[];
   readonly "@additionalProperties"?: boolean
-} & {
+}) & ({
   $ref: string;
   $dynamicRef?: string;
   $recursiveAnchor?: boolean
-});
+}));
 
 // 11. Conditional validation
 type ValidationSchemaTest11Flat<T> = {
   if: ((value: Partial<T>, context: {
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     parent: unknown;
     schema: unknown
   }) => boolean);
@@ -230,7 +230,7 @@ type ValidationSchemaTest13Flat<T> = {
 };
 
 // 14. Branded type
-type ValidationSchemaTest14Flat<T, B extends string> = (T & {
+type ValidationSchemaTest14Flat<T, B extends string> = ((T) & ({
   readonly __brand: B;
   readonly __validator: {
     _type: T;
@@ -238,49 +238,49 @@ type ValidationSchemaTest14Flat<T, B extends string> = (T & {
     safeParse: ((input: unknown) => T);
     refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
   }
-});
+}));
 
 // 15. Default values
-type ValidationSchemaTest15Flat<T> = ({
+type ValidationSchemaTest15Flat<T> = (({
   _type: T;
   parse: ((input: unknown) => T);
   safeParse: ((input: unknown) => T);
   refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
-} & {
-  default: (T | (() => T));
-  optional: (() => (T | undefined))
-});
+}) & ({
+  default: ((T) | ((() => T)));
+  optional: (() => ((T) | (undefined)))
+}));
 
 // 16. Error customization
-type ValidationSchemaTest16Flat<T> = ({
+type ValidationSchemaTest16Flat<T> = (({
   _type: T;
   parse: ((input: unknown) => T);
   safeParse: ((input: unknown) => T);
   refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
-} & {
-  message: (string | ((ctx: {
-    path: ((string | number))[];
+}) & ({
+  message: ((string) | (((ctx: {
+    path: (((string) | (number)))[];
     parent: unknown;
     schema: unknown
-  }) => string));
-  path: ((string | number))[];
+  }) => string)));
+  path: (((string) | (number)))[];
   params?: Record<string, unknown>
-});
+}));
 
 // 17. Schema metadata
-type ValidationSchemaTest17Flat<T> = ({
+type ValidationSchemaTest17Flat<T> = (({
   _type: T;
   parse: ((input: unknown) => T);
   safeParse: ((input: unknown) => T);
   refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
-} & {
+}) & ({
   meta: {
     [k: string]: unknown;
     description?: string;
     examples?: T[];
     deprecated?: boolean
   }
-});
+}));
 
 // 18. Partial schema
 type ValidationSchemaTest18Flat<T> = {
@@ -296,23 +296,23 @@ type ValidationSchemaTest19Flat<T, U> = {
     safeParse: ((input: unknown) => T);
     refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
   }) => U);
-  omit: (<K extends keyof (T & U)>(keys: K /** unresolved */[]) => Omit<U, K /** unresolved */>)
+  omit: (<K extends keyof (((T) & (U)))>(keys: K /** unresolved */[]) => Omit<U, K /** unresolved */>)
 };
 
 // 20. Array constraints
-type ValidationSchemaTest20Flat<T> = ({
+type ValidationSchemaTest20Flat<T> = (({
   _type: T[];
   parse: ((input: unknown) => T[]);
   safeParse: ((input: unknown) => T[]);
   refine: (<U extends T[]>(fn: ((val: T[]) => U /** unresolved */)) => U /** unresolved */)
-} & {
+}) & ({
   min: ((length: number) => T);
   max: ((length: number) => T);
   length: ((length: number) => T)
-});
+}));
 
 // 21. Record validation
-type ValidationSchemaTest21Flat<K extends (string | number | symbol), V> = {
+type ValidationSchemaTest21Flat<K extends ((string) | (number) | (symbol)), V> = {
   keySchema: {
     _type: K;
     parse: ((input: unknown) => K);
@@ -349,15 +349,15 @@ type ValidationSchemaTest22Flat<T> = {
 };
 
 // 23. Async side effects
-type ValidationSchemaTest23Flat<T> = ({
+type ValidationSchemaTest23Flat<T> = (({
   _type: T;
   parse: ((input: unknown) => T);
   safeParse: ((input: unknown) => T);
   refine: (<U extends T>(fn: ((val: T) => U /** unresolved */)) => U /** unresolved */)
-} & {
+}) & ({
   checkAsync: ((value: T) => Promise<boolean>);
   transformAsync: ((value: T) => Promise<T>)
-});
+}));
 
 // 24. File validation
 type ValidationSchemaTest24Flat = {
@@ -369,9 +369,9 @@ type ValidationSchemaTest24Flat = {
     content: ArrayBuffer
   }) => {
     [k: string]: unknown;
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     message: string;
-    code: ("invalid_type" | "missing_value" | "custom" | "too_small" | "too_big");
+    code: (("invalid_type") | ("missing_value") | ("custom") | ("too_small") | ("too_big"));
     expected?: string;
     received?: string;
     fatal?: boolean
@@ -380,16 +380,16 @@ type ValidationSchemaTest24Flat = {
 
 // 25. Cross-field validation
 type ValidationSchemaTest25Flat<T> = {
-  dependencies: (keyof T)[];
+  dependencies: (keyof (T))[];
   validate: ((value: T, context: {
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     parent: unknown;
     schema: unknown
   }) => {
     [k: string]: unknown;
-    path: ((string | number))[];
+    path: (((string) | (number)))[];
     message: string;
-    code: ("invalid_type" | "missing_value" | "custom" | "too_small" | "too_big");
+    code: (("invalid_type") | ("missing_value") | ("custom") | ("too_small") | ("too_big"));
     expected?: string;
     received?: string;
     fatal?: boolean

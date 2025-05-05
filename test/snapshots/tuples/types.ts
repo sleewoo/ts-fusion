@@ -30,7 +30,7 @@ type TypesErrorResultFlat = {
   message: string
 };
 
-type TypesHttpMethodFlat = ("GET" | "POST" | "PUT" | "DELETE");
+type TypesHttpMethodFlat = (("GET") | ("POST") | ("PUT") | ("DELETE"));
 
 type TypesHttpResponseFlat<T> = [
   status: number,

@@ -29,20 +29,13 @@ import type {
 } from "@/fixtures/mixed/UtilityTypes.ts";
 
 // Inspired by API partial updates
-type UtilityTypesCase1Flat = Partial<(({
-  subject: string[];
-  action: string[];
-  object: string[];
-  conditions: {
-    [k: string]: never
-  }
-})["subject"])[number]>;
+type UtilityTypesCase1Flat = Partial< string>;
 
 // Similar to strict configuration requirements
 type UtilityTypesCase2Flat = Required<(((req: {
-  params: Array<(string & {
+  params: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 }, res: {
   json: ((data: unknown) => void)
 }) => Promise<void>))["arguments"]>;
@@ -54,29 +47,22 @@ type UtilityTypesCase3Flat = Readonly<{
     createdAt: Date;
     updatedAt?: Date
   };
-  id: ((Omit<{
+  id: (((Omit<{
     id: string;
     name: string;
     email?: string;
     readonly createdAt: Date
-  }, ("createdAt" | "updatedAt")> & {
+  }, (("createdAt") | ("updatedAt"))>) & ({
     passwordHash: string;
     lastLogin?: Date
-  }))["id"]
+  })))["id"]
 }>;
 
 // Inspired by type-safe dictionaries
-type UtilityTypesCase4Flat = Record<(99999999999[])[number], string>;
+type UtilityTypesCase4Flat = Record<99999999999, string>;
 
 // Similar to form field selection
-type UtilityTypesCase5Flat = Pick<(({
-  header: string[];
-  rows: Array<Record<string, string>>;
-  errors: Array<{
-    row: number;
-    message: string
-  }>
-})["rows"])[number], ("id" | "variants")>;
+type UtilityTypesCase5Flat = Pick<Record<string, string>, (("id") | ("variants"))>;
 
 // Pattern from secure data handling
 type UtilityTypesCase6Flat = Omit<{
@@ -87,24 +73,24 @@ type UtilityTypesCase6Flat = Omit<{
 }, "sensitiveData">;
 
 // Inspired by error filtering
-type UtilityTypesCase7Flat = Exclude<([
+type UtilityTypesCase7Flat = Exclude<(([
   `/users/${number}`,
   ...Array<`/posts/${string}`>
-] | Error), Error>;
+]) | (Error)), Error>;
 
 // Similar to valid user extraction
-type UtilityTypesCase8Flat = Extract<(Array<((number | string))[][]>)[number], {
+type UtilityTypesCase8Flat = Extract<(((number) | (string)))[][], {
   valid: true
 }>;
 
 // Pattern from non-nullable API responses
-type UtilityTypesCase9Flat = NonNullable<((Array<("success" | "error")>)[number] | null)>;
+type UtilityTypesCase9Flat = NonNullable<((("success") | ("error")) | (null))>;
 
 // Inspired by async handler returns
 type UtilityTypesCase10Flat = ReturnType<((req: {
-  params: Array<(string & {
+  params: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 }, res: {
   json: ((data: unknown) => void)
 }) => Promise<void>)>;
@@ -116,11 +102,11 @@ type UtilityTypesCase11Flat = Parameters<typeof Date>;
 type UtilityTypesCase12Flat = InstanceType<typeof Date>;
 
 // Inspired by promise unwrapping
-type UtilityTypesCase13Flat = Awaited<Promise<Promise<{ [K in keyof {
+type UtilityTypesCase13Flat = Awaited<Promise<Promise<{ [K in keyof ({
   mappings: {
     properties: {
       [k: string]: {
-        type: ("text" | "keyword" | "long" | "date");
+        type: (("text") | ("keyword") | ("long") | ("date"));
         index?: boolean;
         analyzer?: string
       }
@@ -130,11 +116,11 @@ type UtilityTypesCase13Flat = Awaited<Promise<Promise<{ [K in keyof {
     numberOfShards: number;
     numberOfReplicas: number
   }
-} as Uppercase<K /** unresolved */>]: ({
+}) as Uppercase<K /** unresolved */>]: ({
   mappings: {
     properties: {
       [k: string]: {
-        type: ("text" | "keyword" | "long" | "date");
+        type: (("text") | ("keyword") | ("long") | ("date"));
         index?: boolean;
         analyzer?: string
       }
@@ -147,11 +133,11 @@ type UtilityTypesCase13Flat = Awaited<Promise<Promise<{ [K in keyof {
 })[K /** unresolved */] }>>>;
 
 // Similar to uppercase key mapping
-type UtilityTypesCase14Flat = { [K in keyof {
+type UtilityTypesCase14Flat = { [K in keyof ({
   mappings: {
     properties: {
       [k: string]: {
-        type: ("text" | "keyword" | "long" | "date");
+        type: (("text") | ("keyword") | ("long") | ("date"));
         index?: boolean;
         analyzer?: string
       }
@@ -161,11 +147,11 @@ type UtilityTypesCase14Flat = { [K in keyof {
     numberOfShards: number;
     numberOfReplicas: number
   }
-} as Uppercase<K /** unresolved */>]: ({
+}) as Uppercase<K /** unresolved */>]: ({
   mappings: {
     properties: {
       [k: string]: {
-        type: ("text" | "keyword" | "long" | "date");
+        type: (("text") | ("keyword") | ("long") | ("date"));
         index?: boolean;
         analyzer?: string
       }
@@ -178,16 +164,16 @@ type UtilityTypesCase14Flat = { [K in keyof {
 })[K /** unresolved */] };
 
 // Pattern from required query parameters
-type UtilityTypesCase15Flat = { [K in keyof (((req: {
-  params: Array<(string & {
+type UtilityTypesCase15Flat = { [K in keyof ((((req: {
+  params: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 }, res: {
   json: ((data: unknown) => void)
-}) => Promise<void>))["arguments"]]-?: ((((req: {
-  params: Array<(string & {
+}) => Promise<void>))["arguments"])]-?: ((((req: {
+  params: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 }, res: {
   json: ((data: unknown) => void)
 }) => Promise<void>))["arguments"])[K /** unresolved */] };
@@ -195,7 +181,7 @@ type UtilityTypesCase15Flat = { [K in keyof (((req: {
 // Inspired by deep readonly state
 type UtilityTypesCase16Flat = Readonly<{
   config: {
-    type: ("postgres" | "mysql" | "sqlite");
+    type: (("postgres") | ("mysql") | ("sqlite"));
     host: string;
     port: number;
     username: string;
@@ -206,30 +192,25 @@ type UtilityTypesCase16Flat = Readonly<{
 }>;
 
 // Similar to partial database updates
-type UtilityTypesCase17Flat = Partial<(Array<{
-  id: (string & {
+type UtilityTypesCase17Flat = Partial<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -238,33 +219,28 @@ type UtilityTypesCase17Flat = Partial<(Array<{
       ][]
     ]
   }
-}>)[number]>;
+}>;
 
 // Pattern from complete user profiles
-type UtilityTypesCase18Flat = Required<(Array<{
-  id: (string & {
+type UtilityTypesCase18Flat = Required<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -273,42 +249,37 @@ type UtilityTypesCase18Flat = Required<(Array<{
       ][]
     ]
   }
-}>)[number]>;
+}>;
 
 // Inspired by function property mapping
-type UtilityTypesCase19Flat = Record<keyof ((req: {
-  params: Array<(string & {
+type UtilityTypesCase19Flat = Record<keyof (((req: {
+  params: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 }, res: {
   json: ((data: unknown) => void)
-}) => Promise<void>), (() => void)>;
+}) => Promise<void>)), (() => void)>;
 
 // Similar to numeric key filtering
-type UtilityTypesCase20Flat = Exclude<keyof (Array<{
-  id: (string & {
+type UtilityTypesCase20Flat = Exclude<keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -317,48 +288,43 @@ type UtilityTypesCase20Flat = Exclude<keyof (Array<{
       ][]
     ]
   }
-}>)[number], symbol>;
+}), symbol>;
 
 // Pattern from branded currency conversions
-type UtilityTypesCase21Flat = (({
+type UtilityTypesCase21Flat = (((({
   id: string;
   save: (() => Promise<void>);
   remove: (() => Promise<void>);
   reload: (() => Promise<void>)
-} & {
+}) & ({
   id: string;
   name: string;
   email?: string;
   readonly createdAt: Date
-}) & Readonly<{
+}))) & (Readonly<{
   __currency: "USD"
-}>);
+}>));
 
 // Inspired by hybrid type utilities
-type UtilityTypesCase22Flat = (Pick<(Array<{
-  id: (string & {
+type UtilityTypesCase22Flat = ((Pick<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -367,30 +333,25 @@ type UtilityTypesCase22Flat = (Pick<(Array<{
       ][]
     ]
   }
-}>)[number], "id"> & Omit<(Array<{
-  id: (string & {
+}, "id">) & (Omit<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -399,33 +360,28 @@ type UtilityTypesCase22Flat = (Pick<(Array<{
       ][]
     ]
   }
-}>)[number], "pricing">);
+}, "pricing">));
 
 // Similar to date transformations
-type UtilityTypesCase23Flat = Record<keyof (Array<{
-  id: (string & {
+type UtilityTypesCase23Flat = Record<keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -434,33 +390,28 @@ type UtilityTypesCase23Flat = Record<keyof (Array<{
       ][]
     ]
   }
-}>)[number], Date>;
+}), Date>;
 
 // Pattern from union type mapping
-type UtilityTypesCase24Flat = { [K in keyof (Array<{
-  id: (string & {
+type UtilityTypesCase24Flat = { [K in keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -469,30 +420,25 @@ type UtilityTypesCase24Flat = { [K in keyof (Array<{
       ][]
     ]
   }
-}>)[number]]: (((Array<{
-  id: (string & {
+})]: ((({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -501,33 +447,28 @@ type UtilityTypesCase24Flat = { [K in keyof (Array<{
       ][]
     ]
   }
-}>)[number])[K /** unresolved */] extends string ? K /** unresolved */ : never) };
+})[K /** unresolved */]) extends (string) ? (K /** unresolved */) : (never)) };
 
 // Inspired by recursive utility combinations
-type UtilityTypesCase25Flat = Partial<Required<(Array<{
-  id: (string & {
+type UtilityTypesCase25Flat = Partial<Required<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -536,7 +477,7 @@ type UtilityTypesCase25Flat = Partial<Required<(Array<{
       ][]
     ]
   }
-}>)[number]>>;
+}>>;
 
 
 assert<

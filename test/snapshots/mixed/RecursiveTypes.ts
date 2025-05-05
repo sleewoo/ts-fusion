@@ -35,62 +35,57 @@ type RecursiveTypesCase1Flat = {
 };
 
 // Similar to filesystem directory structures
-type RecursiveTypesCase2Flat = ({
+type RecursiveTypesCase2Flat = (({
   type: "file";
   name: string
-} | {
+}) | ({
   type: "directory";
   contents: RecursiveTypesCase2[]
-});
+}));
 
 // Pattern from parser AST nodes
 type RecursiveTypesCase3Flat = {
   type: string;
   children: RecursiveTypesCase3[];
-  position: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  position: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  })
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }))
 };
 
 // Inspired by UI component hierarchies
-type RecursiveTypesCase4Flat<T> = (T | {
+type RecursiveTypesCase4Flat<T> = ((T) | ({
   component: string;
   children: RecursiveTypesCase4<T>[]
-});
+}));
 
 // Similar to promise chains
-type RecursiveTypesCase5Flat = Promise<(RecursiveTypesCase5 | Array<{
-  id: (string & {
+type RecursiveTypesCase5Flat = Promise<((RecursiveTypesCase5) | (Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -99,46 +94,46 @@ type RecursiveTypesCase5Flat = Promise<(RecursiveTypesCase5 | Array<{
       ][]
     ]
   }
-}>)>;
+}>))>;
 
 // Pattern from financial transaction trees
 type RecursiveTypesCase6Flat = {
   amount: number;
   subTransactions: RecursiveTypesCase6[];
-  currency: (Array<(string & {
+  currency: (string) & ({
     __brand: "TransactionID"
-  })>)[number]
+  })
 };
 
 // Inspired by physics engine transforms
 type RecursiveTypesCase7Flat = {
-  position: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  position: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  });
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }));
   children: RecursiveTypesCase7[]
 };
 
 // Similar to recursive validation rules
-type RecursiveTypesCase8Flat<T> = (T extends object ? { [K in keyof T]: RecursiveTypesCase8<(T)[K /** unresolved */]> } : T);
+type RecursiveTypesCase8Flat<T> = ((T) extends (object) ? ({ [K in keyof (T)]: RecursiveTypesCase8<(T)[K /** unresolved */]> }) : (T));
 
 // Pattern from type-safe state machines
-type RecursiveTypesCase9Flat = ({
+type RecursiveTypesCase9Flat = (({
   state: "idle"
-} | {
+}) | ({
   state: "active";
   prev: RecursiveTypesCase9
-} | {
+}) | ({
   state: "error";
   recovery: (() => RecursiveTypesCase9)
-});
+}));
 
 // Inspired by genomic data structures
 type RecursiveTypesCase10Flat = {
@@ -148,36 +143,36 @@ type RecursiveTypesCase10Flat = {
 };
 
 // Similar to recursive API pagination
-type RecursiveTypesCase11Flat<T> = (T[] | {
+type RecursiveTypesCase11Flat<T> = ((T[]) | ({
   next: RecursiveTypesCase11<T>;
   results: T[]
-});
+}));
 
 // Pattern from CSS rule nesting
 type RecursiveTypesCase12Flat = {
   selector: string;
-  rules: ((RecursiveTypesCase12 | ((vectors: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  rules: (((RecursiveTypesCase12) | (((vectors: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  })[]) => {
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }))[]) => {
     magnitude: number;
     direction: number
-  })))[]
+  }))))[]
 };
 
 // Inspired by mathematical expressions
-type RecursiveTypesCase13Flat = (number | {
-  op: ("+" | "×");
+type RecursiveTypesCase13Flat = ((number) | ({
+  op: (("+") | ("×"));
   left: RecursiveTypesCase13;
   right: RecursiveTypesCase13
-});
+}));
 
 // Similar to recursive permissions
 type RecursiveTypesCase14Flat = {
@@ -191,41 +186,36 @@ type RecursiveTypesCase15Flat<T> = ((state: T, action: RecursiveTypesCase15<T>) 
 
 // Inspired by 3D scene graphs
 type RecursiveTypesCase16Flat = {
-  transform: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  transform: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  });
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }));
   meshes: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -243,29 +233,24 @@ type RecursiveTypesCase17Flat = {
   name: string;
   subcategories: RecursiveTypesCase17[];
   products: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -279,29 +264,29 @@ type RecursiveTypesCase17Flat = {
 
 // Pattern from authentication chains
 type RecursiveTypesCase18Flat = {
-  user: (Array<(string & {
+  user: (string) & ({
     __brand: "TransactionID"
-  })>)[number];
+  });
   signedBy?: RecursiveTypesCase18;
   permissions: string[]
 };
 
 // Inspired by blockchain merkle trees
-type RecursiveTypesCase19Flat = (string | [
+type RecursiveTypesCase19Flat = ((string) | ([
   RecursiveTypesCase19,
   RecursiveTypesCase19
-]);
+]));
 
 // Similar to recursive type predicates
-type RecursiveTypesCase20Flat<T> = (T extends object ? { [K in keyof T]: RecursiveTypesCase20<(T)[K /** unresolved */]> } : ((value: unknown) => value is T));
+type RecursiveTypesCase20Flat<T> = ((T) extends (object) ? ({ [K in keyof (T)]: RecursiveTypesCase20<(T)[K /** unresolved */]> }) : (((value: unknown) => value is T)));
 
 // Pattern from file format parsing
 type RecursiveTypesCase21Flat = {
   header: Uint8Array;
   chunks: RecursiveTypesCase21[];
-  checksum: (Array<(string & {
+  checksum: (string) & ({
     __brand: "TransactionID"
-  })>)[number]
+  })
 };
 
 // Inspired by quantum circuit patterns
@@ -315,17 +300,17 @@ type RecursiveTypesCase22Flat = {
 type RecursiveTypesCase23Flat = {
   duration: number;
   keyframes: RecursiveTypesCase23[];
-  easing: ((vectors: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  easing: ((vectors: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  })[]) => {
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }))[]) => {
     magnitude: number;
     direction: number
   })
@@ -341,17 +326,17 @@ type RecursiveTypesCase24Flat<T> = {
 type RecursiveTypesCase25Flat = {
   name: string;
   children: RecursiveTypesCase25[];
-  coordinates: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  coordinates: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  });
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }));
   magnitude: number
 };
 

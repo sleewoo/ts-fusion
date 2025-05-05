@@ -36,7 +36,7 @@ type MultidimensionalArraysCase2Flat = string[][][];
 type MultidimensionalArraysCase3Flat = Array<Array<boolean>>;
 
 // Mixed dimensions
-type MultidimensionalArraysCase4Flat = ((number[] | string))[][];
+type MultidimensionalArraysCase4Flat = (((number[]) | (string)))[][];
 
 type MultidimensionalArraysCase5Flat = ReadonlyArray<readonly number[][]>;
 
@@ -52,9 +52,9 @@ type MultidimensionalArraysCase7Flat = Array<[
 ][]>;
 
 // Complex element types
-type MultidimensionalArraysCase8Flat = Array<((number | string))[][]>;
+type MultidimensionalArraysCase8Flat = Array<(((number) | (string)))[][]>;
 
-type MultidimensionalArraysCase9Flat = Array<((number | string))[][]>[];
+type MultidimensionalArraysCase9Flat = Array<(((number) | (string)))[][]>[];
 
 // Recursive nesting
 type MultidimensionalArraysCase10Flat = ReadonlyArray<bigint>[][];
@@ -66,7 +66,7 @@ type MultidimensionalArraysCase11Flat = Array<Array<[
 ]>>;
 
 // Mixed array types
-type MultidimensionalArraysCase12Flat = ((number[] | string[]))[][];
+type MultidimensionalArraysCase12Flat = (((number[]) | (string[])))[][];
 
 type MultidimensionalArraysCase13Flat = Array<ReadonlyArray<number>[]>;
 
@@ -87,7 +87,7 @@ type MultidimensionalArraysCase14Flat = ReturnType<(() => [
 ])>;
 
 // Mapped dimensions
-type MultidimensionalArraysCase15Flat = { [K in (0 | 1)]: Array<Array<K /** unresolved */>> }[];
+type MultidimensionalArraysCase15Flat = { [K in ((0) | (1))]: Array<Array<K /** unresolved */>> }[];
 
 // Spread operations
 type MultidimensionalArraysCase16Flat = [
@@ -101,19 +101,19 @@ type MultidimensionalArraysCase17Flat = [
 ];
 
 // Conditional nesting
-type MultidimensionalArraysCase18Flat<T> = (T extends number ? T[][][] : T[]);
+type MultidimensionalArraysCase18Flat<T> = ((T) extends (number) ? (T[][][]) : (T[]));
 
-type MultidimensionalArraysCase19Flat = (5 extends number ? 5[][][] : 5[]);
+type MultidimensionalArraysCase19Flat = ((5) extends (number) ? (5[][][]) : (5[]));
 
 // Intersection matrices
-type MultidimensionalArraysCase20Flat = ((number[] & {
+type MultidimensionalArraysCase20Flat = (((number[]) & ({
   fixed: true
-}))[][];
+})))[][];
 
 // Branded nested arrays
-type MultidimensionalArraysCase21Flat = Array<Array<(string & {
+type MultidimensionalArraysCase21Flat = Array<Array<((string) & ({
   __coordinate: true
-})>>;
+}))>>;
 
 // Async multidimensional
 type MultidimensionalArraysCase22Flat = Promise<number[]>[];

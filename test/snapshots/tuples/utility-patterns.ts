@@ -32,7 +32,7 @@ import type {
 // Contains AI-generated test patterns
 type UtilityPatternsTest1Flat<T> = [
   T,
-  (Error | null)
+  ((Error) | (null))
 ];
 
 type UtilityPatternsTest2Flat = [
@@ -62,7 +62,7 @@ type UtilityPatternsTest6Flat = [
 
 type UtilityPatternsTest7Flat = [
   string,
-  ...((number | boolean))[]
+  ...(((number) | (boolean)))[]
 ];
 
 type UtilityPatternsTest8Flat = [
@@ -89,8 +89,8 @@ type UtilityPatternsTest11Flat<T> = [
 ];
 
 type UtilityPatternsTest12Flat<T> = [
-  key: keyof T,
-  defaultValue: (T)[keyof T]
+  key: keyof (T),
+  defaultValue: (T)[keyof (T)]
 ];
 
 type UtilityPatternsTest13Flat<T> = [
@@ -100,83 +100,83 @@ type UtilityPatternsTest13Flat<T> = [
 
 type UtilityPatternsTest14Flat<T> = [
   T,
-  ...((T extends unknown[] ? (T)[number][] : never))
+  ...(((T) extends (unknown[]) ? ((T)[number][]) : (never)))
 ];
 
 type UtilityPatternsTest15Flat<T> = [
   T,
-  ...(keyof T)[]
+  ...(keyof (T))[]
 ];
 
 type UtilityPatternsTest16Flat<T> = [
   T,
-  ...((T extends object ? [
-    keyof T
-  ] : never))
+  ...(((T) extends (object) ? ([
+    keyof (T)
+  ]) : (never)))
 ];
 
 type UtilityPatternsTest17Flat<T> = [
   T,
-  ...((T extends Date ? [
+  ...(((T) extends (Date) ? ([
     number
-  ] : [
+  ]) : ([
     string
-  ]))
+  ])))
 ];
 
 type UtilityPatternsTest18Flat<T> = [
   T,
-  ...((T extends Error ? [
+  ...(((T) extends (Error) ? ([
     string
-  ] : [
+  ]) : ([
     number
-  ]))
+  ])))
 ];
 
 type UtilityPatternsTest19Flat<T> = [
   T,
-  ...((T extends Map<infer K, infer V> ? [
+  ...(((T) extends (Map<infer K, infer V>) ? ([
     K /** unresolved */,
     V /** unresolved */
-  ] : never))
+  ]) : (never)))
 ];
 
 type UtilityPatternsTest20Flat<T> = [
   T,
-  ...((T extends Set<infer V> ? [
+  ...(((T) extends (Set<infer V>) ? ([
     V /** unresolved */
-  ] : never))
+  ]) : (never)))
 ];
 
 type UtilityPatternsTest21Flat<T> = [
   T,
-  ...((T extends Promise<infer V> ? [
+  ...(((T) extends (Promise<infer V>) ? ([
     V /** unresolved */
-  ] : never))
+  ]) : (never)))
 ];
 
 type UtilityPatternsTest22Flat<T> = [
   T,
-  ...((T extends ((...args: never) => never) ? Parameters<T> : never))
+  ...(((T) extends (((...args: never) => never)) ? (Parameters<T>) : (never)))
 ];
 
 type UtilityPatternsTest23Flat<T> = [
   T,
-  ...((T extends new (...args: never) => never ? ConstructorParameters<T> : never))
+  ...(((T) extends (new (...args: never) => never) ? (ConstructorParameters<T>) : (never)))
 ];
 
 type UtilityPatternsTest24Flat<T> = [
   T,
-  ...((T extends Array<infer U> ? [
+  ...(((T) extends (Array<infer U>) ? ([
     U /** unresolved */
-  ] : never))
+  ]) : (never)))
 ];
 
 type UtilityPatternsTest25Flat<T> = [
   T,
-  ...((T extends Record<string, infer V> ? [
+  ...(((T) extends (Record<string, infer V>) ? ([
     V /** unresolved */
-  ] : never))
+  ]) : (never)))
 ];
 
 

@@ -32,69 +32,64 @@ import type {
 type TemplateLiteralArraysCase1Flat = Array<`/api/v${number}/${string}`>;
 
 // Similar to localization key structures
-type TemplateLiteralArraysCase2Flat = Array<`i18n.${("home" | "profile")}.${string}`>;
+type TemplateLiteralArraysCase2Flat = Array<`i18n.${(("home") | ("profile"))}.${string}`>;
 
 // Pattern from CSS utility class names
-type TemplateLiteralArraysCase3Flat = Array<`text-${("left" | "center" | "right")}-${("sm" | "md" | "lg")}`>;
+type TemplateLiteralArraysCase3Flat = Array<`text-${(("left") | ("center") | ("right"))}-${(("sm") | ("md") | ("lg"))}`>;
 
 // Inspired by unique resource identifiers
-type TemplateLiteralArraysCase4Flat = Array<`${(`img_${("jpg" | "png")}`[])[number]}_${number}`>;
+type TemplateLiteralArraysCase4Flat = Array<`${`img_${(("jpg") | ("png"))}`}_${number}`>;
 
 // Similar to timestamp formats
 type TemplateLiteralArraysCase5Flat = Array<`${number}-${number}-${number}T${number}:${number}:${number}Z`>;
 
 // Pattern from file system paths
-type TemplateLiteralArraysCase6Flat = Array<`/${string}/${string}.${("ts" | "js" | "json")}`>;
+type TemplateLiteralArraysCase6Flat = Array<`/${string}/${string}.${(("ts") | ("js") | ("json"))}`>;
 
 // Inspired by error code conventions
 type TemplateLiteralArraysCase7Flat = Array<`ERR_${number}_${Uppercase<string>}`>;
 
 // Similar to semantic version ranges
-type TemplateLiteralArraysCase8Flat = Array<(`^${number}.${number}.${number}` | `~${number}.${number}.${number}`)>;
+type TemplateLiteralArraysCase8Flat = Array<((`^${number}.${number}.${number}`) | (`~${number}.${number}.${number}`))>;
 
 // Pattern from log message formats
-type TemplateLiteralArraysCase9Flat = Array<`[${("DEBUG" | "INFO" | "ERROR")}] ${string}`>;
+type TemplateLiteralArraysCase9Flat = Array<`[${(("DEBUG") | ("INFO") | ("ERROR"))}] ${string}`>;
 
 // Inspired by routing patterns
 type TemplateLiteralArraysCase10Flat = Array<`/users/${number}/posts/${string}`>;
 
 // Similar to currency formatting
-type TemplateLiteralArraysCase11Flat = Array<`${("USD" | "EUR")} ${number}.${number}`>;
+type TemplateLiteralArraysCase11Flat = Array<`${(("USD") | ("EUR"))} ${number}.${number}`>;
 
 // Pattern from date localization
-type TemplateLiteralArraysCase12Flat = Array<(`${number}/${number}/${number}` | `${number}-${number}-${number}`)>;
+type TemplateLiteralArraysCase12Flat = Array<((`${number}/${number}/${number}`) | (`${number}-${number}-${number}`))>;
 
 // Inspired by email validation patterns
-type TemplateLiteralArraysCase13Flat = Array<`${string}@${string}.${("com" | "org" | "net")}`>;
+type TemplateLiteralArraysCase13Flat = Array<`${string}@${string}.${(("com") | ("org") | ("net"))}`>;
 
 // Similar to HTML data attributes
-type TemplateLiteralArraysCase14Flat = Array<`data-${("test" | "qa")}-${string}`>;
+type TemplateLiteralArraysCase14Flat = Array<`data-${(("test") | ("qa"))}-${string}`>;
 
 // Pattern from environment variables
-type TemplateLiteralArraysCase15Flat = Array<`CONFIG_${Uppercase<keyof (Array<{
-  id: (string & {
+type TemplateLiteralArraysCase15Flat = Array<`CONFIG_${Uppercase<keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -103,19 +98,19 @@ type TemplateLiteralArraysCase15Flat = Array<`CONFIG_${Uppercase<keyof (Array<{
       ][]
     ]
   }
-}>)[number]>}`>;
+})>}`>;
 
 // Inspired by permission strings
-type TemplateLiteralArraysCase16Flat = Array<`perm:${string}:${("read" | "write" | "execute")}`>;
+type TemplateLiteralArraysCase16Flat = Array<`perm:${string}:${(("read") | ("write") | ("execute"))}`>;
 
 // Similar to query parameters
-type TemplateLiteralArraysCase17Flat = Array<`?${string}=${(string | number)}`>;
+type TemplateLiteralArraysCase17Flat = Array<`?${string}=${((string) | (number))}`>;
 
 // Pattern from media queries
-type TemplateLiteralArraysCase18Flat = Array<`@media (${("min" | "max")}-width: ${number}px)`>;
+type TemplateLiteralArraysCase18Flat = Array<`@media (${(("min") | ("max"))}-width: ${number}px)`>;
 
 // Inspired by storage keys
-type TemplateLiteralArraysCase19Flat = Array<`ls_${Lowercase<(Array<("success" | "error")>)[number]>}`>;
+type TemplateLiteralArraysCase19Flat = Array<`ls_${Lowercase<("success") | ("error")>}`>;
 
 // Similar to authentication headers
 type TemplateLiteralArraysCase20Flat = Array<`Bearer ${string}`>;
@@ -130,45 +125,40 @@ type TemplateLiteralArraysCase22Flat = Array<`/${string}/gi${"m"}${"s"}${"i"}`>;
 type TemplateLiteralArraysCase23Flat = Array<`card_${number}-${number}-${number}-${number}`>;
 
 // Pattern from color formats
-type TemplateLiteralArraysCase24Flat = Array<(`#${string}` | `rgb(${number}, ${number}, ${number})`)>;
+type TemplateLiteralArraysCase24Flat = Array<((`#${string}`) | (`rgb(${number}, ${number}, ${number})`))>;
 
 // Inspired by XML namespaces
 type TemplateLiteralArraysCase25Flat = Array<`<${keyof ({
-  breakpoints: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  breakpoints: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  });
-  variants: ((Array<{
-    id: (string & {
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }));
+  variants: (((Array<{
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -177,45 +167,40 @@ type TemplateLiteralArraysCase25Flat = Array<`<${keyof ({
         ][]
       ]
     }
-  }> & {
+  }>) & ({
     timestamp: string
-  }))[]
-}[])[number]}>${string}</${keyof ({
-  breakpoints: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  })))[]
+})}>${string}</${keyof ({
+  breakpoints: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  });
-  variants: ((Array<{
-    id: (string & {
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }));
+  variants: (((Array<{
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -224,10 +209,10 @@ type TemplateLiteralArraysCase25Flat = Array<`<${keyof ({
         ][]
       ]
     }
-  }> & {
+  }>) & ({
     timestamp: string
-  }))[]
-}[])[number]}>`>;
+  })))[]
+})}>`>;
 
 
 assert<

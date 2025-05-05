@@ -37,11 +37,11 @@ type TupleArraysCase1Flat<T> = [
 // Similar to Redux action-reducer tuples
 type TupleArraysCase2Flat = [
   string,
-  ...(({
+  ...((({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[]
+  })))[]
 ];
 
 // Coordinate system pattern (GIS/CAD)
@@ -71,7 +71,7 @@ type TupleArraysCase5Flat = [
 
 // Network packet header pattern
 type TupleArraysCase6Flat = [
-  version: (4 | 6),
+  version: ((4) | (6)),
   ...Array<Array<boolean>>,
   metadata: number[]
 ];
@@ -105,7 +105,7 @@ type TupleArraysCase10Flat = Array<[
 
 // Pattern matching path segments
 type TupleArraysCase11Flat = [
-  ...pathParts: Array<(string | number)>,
+  ...pathParts: Array<((string) | (number))>,
   queryParams: Record<string, string>
 ][];
 
@@ -129,12 +129,12 @@ type TupleArraysCase13Flat = [
 
 // Game engine component pattern
 type TupleArraysCase14Flat = [
-  componentType: ("transform" | "render"),
-  data: ((({
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
 ][];
 
@@ -153,7 +153,7 @@ type TupleArraysCase15Flat = [
 type TupleArraysCase16Flat = [
   property: string,
   duration: number,
-  timingFunction: ("ease" | "linear")
+  timingFunction: (("ease") | ("linear"))
 ][];
 
 // Scientific measurement pattern
@@ -169,10 +169,10 @@ type TupleArraysCase17Flat = [
 // Authentication challenge pattern
 type TupleArraysCase18Flat = [
   nonce: string,
-  algorithm: ("SHA-256" | "HMAC"),
+  algorithm: (("SHA-256") | ("HMAC")),
   ...parameters: Array<[
     name: string,
-    value: (number | string)
+    value: ((number) | (string))
   ]>
 ][];
 
@@ -192,7 +192,7 @@ type TupleArraysCase20Flat = [
   bonds: Array<[
     from: number,
     to: number,
-    type: ("single" | "double")
+    type: (("single") | ("double"))
   ]>,
   charge?: number
 ][];
@@ -202,7 +202,7 @@ type TupleArraysCase21Flat = [
   ra: number,
   dec: number,
   ...magnitudes: Array<[
-    band: ("U" | "B" | "V"),
+    band: (("U") | ("B") | ("V")),
     value: number
   ]>
 ][];
@@ -217,8 +217,8 @@ type TupleArraysCase22Flat = [
 // Pattern for musical notation
 type TupleArraysCase23Flat = [
   note: string,
-  duration: ("whole" | "half" | "quarter"),
-  ...modifiers: Array<("sharp" | "flat")>
+  duration: (("whole") | ("half") | ("quarter")),
+  ...modifiers: Array<(("sharp") | ("flat"))>
 ][];
 
 // Genetic sequence pattern
@@ -226,7 +226,7 @@ type TupleArraysCase24Flat = [
   sequenceId: string,
   ...bases: Array<[
     position: number,
-    base: ("A" | "T" | "C" | "G")
+    base: (("A") | ("T") | ("C") | ("G"))
   ]>
 ][];
 
@@ -235,7 +235,7 @@ type TupleArraysCase25Flat = [
   qubitId: number,
   ...states: Array<[
     probability: number,
-    state: ("|0>" | "|1>" | "+" | "-")
+    state: (("|0>") | ("|1>") | ("+") | ("-"))
   ]>
 ][];
 

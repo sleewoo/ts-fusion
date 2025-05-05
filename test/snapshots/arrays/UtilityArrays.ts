@@ -29,30 +29,25 @@ import type {
 } from "@/fixtures/arrays/UtilityArrays.ts";
 
 // Inspired by partial form submissions
-type UtilityArraysCase1Flat = Array<Partial<(Array<{
-  id: (string & {
+type UtilityArraysCase1Flat = Array<Partial<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -61,48 +56,41 @@ type UtilityArraysCase1Flat = Array<Partial<(Array<{
       ][]
     ]
   }
-}>)[number]>>;
+}>>;
 
 // Similar to required API params
-type UtilityArraysCase2Flat = Array<Required<((Readonly<{
-  users: ReadonlyArray<{
+type UtilityArraysCase2Flat = Array<Required<{
     readonly id: string;
     permissions: readonly [
       string,
-      ...(({
+      ...((({
         a: number
-      } | {
+      }) | ({
         b: string
-      }))[]
+      })))[]
     ]
-  }>
-}>)["users"])[number]>>;
+  }>>;
 
 // Pattern from read-only configuration
-type UtilityArraysCase3Flat = ReadonlyArray<Readonly<(((Array<{
-  id: (string & {
+type UtilityArraysCase3Flat = ReadonlyArray<Readonly<(Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -111,35 +99,30 @@ type UtilityArraysCase3Flat = ReadonlyArray<Readonly<(((Array<{
       ][]
     ]
   }
-}> & {
+}>) & ({
   timestamp: string
-}))[])[number]>>;
+})>>;
 
 // Inspired by user profile pickers
-type UtilityArraysCase4Flat = Array<Pick<(Array<{
-  id: (string & {
+type UtilityArraysCase4Flat = Array<Pick<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -148,88 +131,56 @@ type UtilityArraysCase4Flat = Array<Pick<(Array<{
       ][]
     ]
   }
-}>)[number], ("id" | "pricing")>>;
+}, (("id") | ("pricing"))>>;
 
 // Similar to secure data omissions
-type UtilityArraysCase5Flat = Array<Omit<((Readonly<{
-  users: ReadonlyArray<{
+type UtilityArraysCase5Flat = Array<Omit<{
     readonly id: string;
     permissions: readonly [
       string,
-      ...(({
+      ...((({
         a: number
-      } | {
+      }) | ({
         b: string
-      }))[]
+      })))[]
     ]
-  }>
-}>)["users"])[number], "permissions">>;
+  }, "permissions">>;
 
 // Pattern from error record keeping
-type UtilityArraysCase6Flat = Array<(Record<("code" | "message"), string> & {
+type UtilityArraysCase6Flat = Array<((Record<(("code") | ("message")), string>) & ({
   timestamp: number
-})>;
+}))>;
 
 // Inspired by filtered null values
-type UtilityArraysCase7Flat = Array<NonNullable<((Array<{
-  id: (string & {
-    __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+type UtilityArraysCase7Flat = Array<NonNullable<  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
-  pricing: {
-    base: number;
-    currency: (Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number];
-    discounts?: [
-      key: `i18n_${string}`,
-      translations: [
-        string,
-        ((newValue: string) => void)
-      ][]
-    ]
-  }
-}>)[number])["variants"]>>;
+        })))[]
+      ]>>;
 
 // Similar to API response extraction
-type UtilityArraysCase8Flat = Array<Extract<(((Array<{
-  id: (string & {
+type UtilityArraysCase8Flat = Array<Extract<(Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -238,37 +189,32 @@ type UtilityArraysCase8Flat = Array<Extract<(((Array<{
       ][]
     ]
   }
-}> & {
+}>) & ({
   timestamp: string
-}))[])[number], {
+}), {
   timestamp: number
 }>>;
 
 // Pattern from excluded deprecated fields
-type UtilityArraysCase9Flat = Array<Exclude<keyof (Array<{
-  id: (string & {
+type UtilityArraysCase9Flat = Array<Exclude<keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -277,33 +223,28 @@ type UtilityArraysCase9Flat = Array<Exclude<keyof (Array<{
       ][]
     ]
   }
-}>)[number], "variants">>;
+}), "variants">>;
 
 // Inspired by function return logging
-type UtilityArraysCase10Flat = Array<ReturnType<((((Array<{
-  id: (string & {
+type UtilityArraysCase10Flat = Array<ReturnType<((Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -312,38 +253,33 @@ type UtilityArraysCase10Flat = Array<ReturnType<((((Array<{
       ][]
     ]
   }
-}> & {
+}>) & ({
   timestamp: string
-}))[])[number])["toString"]>>;
+}))["toString"]>>;
 
 // Similar to constructor parameter capture
 type UtilityArraysCase11Flat = Array<ConstructorParameters<typeof Date>>;
 
 // Pattern from promise resolution tracking
 type UtilityArraysCase12Flat = Array<Awaited<Promise<Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -355,152 +291,37 @@ type UtilityArraysCase12Flat = Array<Awaited<Promise<Array<{
 }>>>>;
 
 // Inspired by uppercase enum values
-type UtilityArraysCase13Flat = Array<Uppercase<(((Array<{
-  id: (string & {
-    __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
-        string,
-        ...(({
-          a: number
-        } | {
-          b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
-  pricing: {
-    base: number;
-    currency: (Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number];
-    discounts?: [
-      key: `i18n_${string}`,
-      translations: [
-        string,
-        ((newValue: string) => void)
-      ][]
-    ]
-  }
-}>)[number])["id"])["__brand"]>>;
+type UtilityArraysCase13Flat = Array<Uppercase< "ProductID">>;
 
 // Similar to lowercase route keys
-type UtilityArraysCase14Flat = Array<Lowercase<((((Array<{
-  id: (string & {
-    __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
-        string,
-        ...(({
-          a: number
-        } | {
-          b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
-  pricing: {
-    base: number;
-    currency: (Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number];
-    discounts?: [
-      key: `i18n_${string}`,
-      translations: [
-        string,
-        ((newValue: string) => void)
-      ][]
-    ]
-  }
-}> & {
-  timestamp: string
-}))[])[number])["timestamp"]>>;
+type UtilityArraysCase14Flat = Array<Lowercase< string>>;
 
 // Pattern from capitalized type names
-type UtilityArraysCase15Flat = Array<Capitalize<(((Readonly<{
-  users: ReadonlyArray<{
-    readonly id: string;
-    permissions: readonly [
-      string,
-      ...(({
-        a: number
-      } | {
-        b: string
-      }))[]
-    ]
-  }>
-}>)["users"])[number])["id"]>>;
+type UtilityArraysCase15Flat = Array<Capitalize< string>>;
 
 // Inspired by uncapitalized headers
-type UtilityArraysCase16Flat = Array<Uncapitalize<(Array<Uppercase<(((Array<{
-  id: (string & {
-    __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
-        string,
-        ...(({
-          a: number
-        } | {
-          b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
-  pricing: {
-    base: number;
-    currency: (Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number];
-    discounts?: [
-      key: `i18n_${string}`,
-      translations: [
-        string,
-        ((newValue: string) => void)
-      ][]
-    ]
-  }
-}>)[number])["id"])["__brand"]>>)[number]>>;
+type UtilityArraysCase16Flat = Array<Uncapitalize<Uppercase< "ProductID">>>;
 
 // Similar to parameter type inspection
-type UtilityArraysCase17Flat = Array<Parameters<((((Array<{
-  id: (string & {
+type UtilityArraysCase17Flat = Array<Parameters<((Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -509,38 +330,33 @@ type UtilityArraysCase17Flat = Array<Parameters<((((Array<{
       ][]
     ]
   }
-}> & {
+}>) & ({
   timestamp: string
-}))[])[number])["toString"]>>;
+}))["toString"]>>;
 
 // Pattern from instance type collections
 type UtilityArraysCase18Flat = Array<InstanceType<typeof Date>>;
 
 // Inspired by nested partial updates
-type UtilityArraysCase19Flat = Array<Partial<Record<keyof (Array<{
-  id: (string & {
+type UtilityArraysCase19Flat = Array<Partial<Record<keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -549,36 +365,31 @@ type UtilityArraysCase19Flat = Array<Partial<Record<keyof (Array<{
       ][]
     ]
   }
-}>)[number], ReadonlyArray<string>>>>;
+}), ReadonlyArray<string>>>>;
 
 // Similar to conditional type filtering
-type UtilityArraysCase20Flat<T> = Array<(T extends string ? `${T /** unresolved */}_id` : never)>;
+type UtilityArraysCase20Flat<T> = Array<((T) extends (string) ? (`${T /** unresolved */}_id`) : (never))>;
 
 // Pattern from mapped type modifiers
-type UtilityArraysCase21Flat = Array<{ -readonly [K in keyof (Array<{
-  id: (string & {
+type UtilityArraysCase21Flat = Array<{ -readonly [K in keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -587,30 +398,25 @@ type UtilityArraysCase21Flat = Array<{ -readonly [K in keyof (Array<{
       ][]
     ]
   }
-}>)[number]]: ((Array<{
-  id: (string & {
+})]: ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -619,36 +425,31 @@ type UtilityArraysCase21Flat = Array<{ -readonly [K in keyof (Array<{
       ][]
     ]
   }
-}>)[number])[K /** unresolved */] }>;
+})[K /** unresolved */] }>;
 
 // Inspired by template literal types
-type UtilityArraysCase22Flat = Array<`user_${(Array<("success" | "error")>)[number]}`>;
+type UtilityArraysCase22Flat = Array<`user_${("success") | ("error")}`>;
 
 // Similar to recursive partials
-type UtilityArraysCase23Flat = Array<Partial<(Array<Partial<Record<keyof (Array<{
-  id: (string & {
+type UtilityArraysCase23Flat = Array<Partial<Partial<Record<keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -657,50 +458,33 @@ type UtilityArraysCase23Flat = Array<Partial<(Array<Partial<Record<keyof (Array<
       ][]
     ]
   }
-}>)[number], ReadonlyArray<string>>>>)[number]>>;
+}), ReadonlyArray<string>>>>>;
 
 // Pattern from branded primitives
-type UtilityArraysCase24Flat = Array<((((Readonly<{
-  users: ReadonlyArray<{
-    readonly id: string;
-    permissions: readonly [
-      string,
-      ...(({
-        a: number
-      } | {
-        b: string
-      }))[]
-    ]
-  }>
-}>)["users"])[number])["id"] & {
+type UtilityArraysCase24Flat = Array<(( string) & ({
   __scope: "global"
-})>;
+}))>;
 
 // Inspired by type predicate arrays
-type UtilityArraysCase25Flat = Array<((value: unknown) => value is (Array<{
-  id: (string & {
+type UtilityArraysCase25Flat = Array<((value: unknown) => value is {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -709,7 +493,7 @@ type UtilityArraysCase25Flat = Array<((value: unknown) => value is (Array<{
       ][]
     ]
   }
-}>)[number])>;
+})>;
 
 
 assert<

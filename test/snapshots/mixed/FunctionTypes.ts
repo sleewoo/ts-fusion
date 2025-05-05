@@ -33,29 +33,24 @@ type FunctionTypesCase1Flat = ((event: unknown) => void);
 
 // Similar to Redux middleware signature
 type FunctionTypesCase2Flat = ((next: ((event: unknown) => void)) => ((action: Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -68,51 +63,46 @@ type FunctionTypesCase2Flat = ((next: ((event: unknown) => void)) => ((action: A
 
 // Pattern from Express.js route handlers
 type FunctionTypesCase3Flat = ((req: {
-  params: Array<(string & {
+  params: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 }, res: {
   json: ((data: unknown) => void)
 }) => Promise<void>);
 
 // Inspired by validation libraries
-type FunctionTypesCase4Flat = ((value: unknown) => value is ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type FunctionTypesCase4Flat = ((value: unknown) => value is (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}));
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+})));
 
 // Similar to observable subscriptions
 type FunctionTypesCase5Flat = ((value: Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -121,57 +111,25 @@ type FunctionTypesCase5Flat = ((value: Array<{
       ][]
     ]
   }
-}>) => (Array<(string & {
+}>) => (string) & ({
   __brand: "TransactionID"
-})>)[number]);
+}));
 
 // Pattern from financial calculators
-type FunctionTypesCase6Flat = ((principal: number, rate: (((Array<{
-  id: (string & {
-    __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
-        string,
-        ...(({
-          a: number
-        } | {
-          b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
-  pricing: {
-    base: number;
-    currency: (Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number];
-    discounts?: [
-      key: `i18n_${string}`,
-      translations: [
-        string,
-        ((newValue: string) => void)
-      ][]
-    ]
-  }
-}>)[number])["pricing"])["base"]) => number);
+type FunctionTypesCase6Flat = ((principal: number, rate:  number) => number);
 
 // Inspired by physics engines
-type FunctionTypesCase7Flat = ((vectors: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type FunctionTypesCase7Flat = ((vectors: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})[]) => {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))[]) => {
   magnitude: number;
   direction: number
 });
@@ -186,29 +144,24 @@ type FunctionTypesCase8Flat = ((input: unknown) => [
 type FunctionTypesCase9Flat = ((context: {
   commit: string;
   artifacts: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -224,52 +177,47 @@ type FunctionTypesCase9Flat = ((context: {
 
 // Inspired by game engine update loops
 type FunctionTypesCase10Flat = ((deltaTime: number) => {
-  positions: ([
-    componentType: ("transform" | "render"),
-    data: ((({
+  positions: (([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  })[];
-  states: Array<(string & {
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }))[];
+  states: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 });
 
 // Similar to cryptographic operations
-type FunctionTypesCase11Flat = ((data: Uint8Array, key: (Array<(string & {
+type FunctionTypesCase11Flat = ((data: Uint8Array, key: (string) & ({
   __brand: "TransactionID"
-})>)[number]) => Promise<ArrayBuffer>);
+})) => Promise<ArrayBuffer>);
 
 // Pattern from data transformation pipelines
-type FunctionTypesCase12Flat<T> = ((input: T) => (T extends Array<{
-  id: (string & {
+type FunctionTypesCase12Flat<T> = ((input: T) => ((T) extends (Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -278,40 +226,35 @@ type FunctionTypesCase12Flat<T> = ((input: T) => (T extends Array<{
       ][]
     ]
   }
-}> ? Array<(string & {
+}>) ? (Array<((string) & ({
   __brand: "TransactionID"
-})> : T));
+}))>) : (T)));
 
 // Inspired by machine learning activation functions
-type FunctionTypesCase13Flat = ((input: number) => (number & {
+type FunctionTypesCase13Flat = ((input: number) => ((number) & ({
   __brand: "ActivationOutput"
-}));
+})));
 
 // Similar to database seed functions
 type FunctionTypesCase14Flat = ((count: number) => Promise<Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -323,61 +266,56 @@ type FunctionTypesCase14Flat = ((count: number) => Promise<Array<{
 }>>);
 
 // Pattern from animation interpolators
-type FunctionTypesCase15Flat = ((progress: (number & {
+type FunctionTypesCase15Flat = ((progress: ((number) & ({
   __range: [
     0,
     1
   ]
-})) => ([
-  componentType: ("transform" | "render"),
-  data: ((({
+}))) => (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}));
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+})));
 
 // Inspired by quantum computing simulators
-type FunctionTypesCase16Flat = ((qubits: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type FunctionTypesCase16Flat = ((qubits: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})) => ReadonlyArray<number>);
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))) => ReadonlyArray<number>);
 
 // Similar to authorization middleware
-type FunctionTypesCase17Flat = ((user: (Array<{
-  id: (string & {
+type FunctionTypesCase17Flat = ((user: {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -386,40 +324,35 @@ type FunctionTypesCase17Flat = ((user: (Array<{
       ][]
     ]
   }
-}>)[number], resource: Array<(string & {
+}, resource: Array<((string) & ({
   __brand: "TransactionID"
-})>) => (boolean | never));
+}))>) => ((boolean) | (never)));
 
 // Pattern from file system watchers
-type FunctionTypesCase18Flat = ((event: ("add" | "change" | "delete"), path: (Array<(string & {
+type FunctionTypesCase18Flat = ((event: (("add") | ("change") | ("delete")), path: (string) & ({
   __brand: "TransactionID"
-})>)[number]) => void);
+})) => void);
 
 // Inspired by compilers/transpilers
 type FunctionTypesCase19Flat = ((ast: Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -437,22 +370,22 @@ type FunctionTypesCase19Flat = ((ast: Array<{
 type FunctionTypesCase20Flat = (<T>(source: T /** unresolved */[]) => ((predicate: ((value: T /** unresolved */) => boolean)) => T /** unresolved */[]));
 
 // Pattern from validation sanitizers
-type FunctionTypesCase21Flat = (<T extends string>(input: T /** unresolved */) => (T /** unresolved */ & {
+type FunctionTypesCase21Flat = (<T extends string>(input: T /** unresolved */) => ((T /** unresolved */) & ({
   __sanitized: true
-}));
+})));
 
 // Inspired by CAD software tools
-type FunctionTypesCase22Flat = ((shapes: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type FunctionTypesCase22Flat = ((shapes: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})) => {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))) => {
   area: number;
   volume: number
 });
@@ -461,43 +394,38 @@ type FunctionTypesCase22Flat = ((shapes: ([
 type FunctionTypesCase23Flat = ((buffer: Float32Array) => Promise<Float32Array>);
 
 // Pattern from IoT device handlers
-type FunctionTypesCase24Flat = ((sensor: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type FunctionTypesCase24Flat = ((sensor: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}), timestamp: number) => void);
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+})), timestamp: number) => void);
 
 // Inspired by genetic algorithms
 type FunctionTypesCase25Flat = ((population: Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -506,32 +434,27 @@ type FunctionTypesCase25Flat = ((population: Array<{
       ][]
     ]
   }
-}>, fitnessFn: ((input: number) => (number & {
+}>, fitnessFn: ((input: number) => ((number) & ({
   __brand: "ActivationOutput"
-}))) => Array<{
-  id: (string & {
+})))) => Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [

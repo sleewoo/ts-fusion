@@ -29,65 +29,28 @@ import type {
 } from "@/fixtures/mixed/IndexedAccessKeyofTypes.ts";
 
 // Inspired by deep API response navigation
-type IndexedAccessKeyofTypesCase1Flat = (((Array<{
-  id: (string & {
-    __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
-        string,
-        ...(({
-          a: number
-        } | {
-          b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
-  pricing: {
-    base: number;
-    currency: (Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number];
-    discounts?: [
-      key: `i18n_${string}`,
-      translations: [
-        string,
-        ((newValue: string) => void)
-      ][]
-    ]
-  }
-}>)[number])["pricing"])["base"];
+type IndexedAccessKeyofTypesCase1Flat =  number;
 
 // Similar to database schema key extraction
-type IndexedAccessKeyofTypesCase2Flat = keyof (Array<{
-  id: (string & {
+type IndexedAccessKeyofTypesCase2Flat = keyof ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -96,267 +59,149 @@ type IndexedAccessKeyofTypesCase2Flat = keyof (Array<{
       ][]
     ]
   }
-}>)[number];
+});
 
 // Pattern from validation framework paths
-type IndexedAccessKeyofTypesCase3Flat = (((Array<{
-  id: (string & {
-    __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+type IndexedAccessKeyofTypesCase3Flat = (  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
-  pricing: {
-    base: number;
-    currency: (Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number];
-    discounts?: [
-      key: `i18n_${string}`,
-      translations: [
-        string,
-        ((newValue: string) => void)
-      ][]
-    ]
-  }
-}>)[number])["variants"])[number];
+        })))[]
+      ])[number];
 
 // Inspired by type-safe utility functions
-type IndexedAccessKeyofTypesCase4Flat<T> = { [K in keyof T]: (T)[K /** unresolved */][] };
+type IndexedAccessKeyofTypesCase4Flat<T> = { [K in keyof (T)]: (T)[K /** unresolved */][] };
 
 // Similar to CSS-in-JS property access
-type IndexedAccessKeyofTypesCase5Flat = keyof CSSStyleDeclaration /** unresolved */;
+type IndexedAccessKeyofTypesCase5Flat = keyof (CSSStyleDeclaration /** unresolved */);
 
 // Pattern from authentication scope checks
-type IndexedAccessKeyofTypesCase6Flat = ((([
-  componentType: ("transform" | "render"),
-  data: ((({
-    a: number
-  } | {
-    b: string
-  }))[])[number],
-  ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}) & {
-  readonly __brand: "GeoCoordinate"
-}))["__brand"];
+type IndexedAccessKeyofTypesCase6Flat =  "GeoCoordinate";
 
 // Inspired by financial calculations
-type IndexedAccessKeyofTypesCase7Flat = ((Array<(string & {
-  __brand: "TransactionID"
-})>)[number])["__brand"];
+type IndexedAccessKeyofTypesCase7Flat =  "TransactionID";
 
 // Similar to recursive type navigation
-type IndexedAccessKeyofTypesCase8Flat<T> = (T extends Array<infer U> ? IndexedAccessKeyofTypesCase8<U /** unresolved */> : keyof T);
+type IndexedAccessKeyofTypesCase8Flat<T> = ((T) extends (Array<infer U>) ? (IndexedAccessKeyofTypesCase8<U /** unresolved */>) : (keyof (T)));
 
 // Pattern from physics engine components
-type IndexedAccessKeyofTypesCase9Flat = ((((Array<((string & {
+type IndexedAccessKeyofTypesCase9Flat = (((Array<((((string) & ({
   __brand: "id"
-}) | (number & {
+}))) | (((number) & ({
   __brand: "count"
-}))> & {
+}))))>) & ({
   expiration: Date
-}))[])[number] extends infer T ? (T /** unresolved */ extends Array<infer U> ? U /** unresolved */ : T /** unresolved */) : never);
+})) extends (infer T) ? (((T /** unresolved */) extends (Array<infer U>) ? (U /** unresolved */) : (T /** unresolved */))) : (never));
 
 // Inspired by type-safe API wrappers
-type IndexedAccessKeyofTypesCase10Flat = (ReturnType<((vectors: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type IndexedAccessKeyofTypesCase10Flat = (ReturnType<((vectors: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})[]) => {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))[]) => {
   magnitude: number;
   direction: number
-})>)[keyof ReturnType<((vectors: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+})>)[keyof (ReturnType<((vectors: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})[]) => {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))[]) => {
   magnitude: number;
   direction: number
-})>];
+})>)];
 
 // Similar to nested configuration access
-type IndexedAccessKeyofTypesCase11Flat = ((({
-  config: {
-    ui: {
-      theme: ("dark" | "light");
-      components: Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>
-    }
-  }
-})["config"])["ui"])["theme"];
+type IndexedAccessKeyofTypesCase11Flat =  (("dark") | ("light"));
 
 // Pattern from genetic data parsing
-type IndexedAccessKeyofTypesCase12Flat<T> = (T extends {
+type IndexedAccessKeyofTypesCase12Flat<T> = ((T) extends ({
   genome: infer G
-} ? (G /** unresolved */ extends Array<infer S> ? S /** unresolved */ : never) : never);
+}) ? (((G /** unresolved */) extends (Array<infer S>) ? (S /** unresolved */) : (never))) : (never));
 
 // Inspired by DOM element property maps
-type IndexedAccessKeyofTypesCase13Flat = (HTMLElement)[keyof HTMLElement];
+type IndexedAccessKeyofTypesCase13Flat = (HTMLElement)[keyof (HTMLElement)];
 
 // Similar to recursive key collection
-type IndexedAccessKeyofTypesCase14Flat<T> = (T extends object ? ({ [K in keyof T]: (K /** unresolved */ | IndexedAccessKeyofTypesCase14<(T)[K /** unresolved */]>) })[keyof T] : never);
+type IndexedAccessKeyofTypesCase14Flat<T> = ((T) extends (object) ? (({ [K in keyof (T)]: ((K /** unresolved */) | (IndexedAccessKeyofTypesCase14<(T)[K /** unresolved */]>)) })[keyof (T)]) : (never));
 
 // Pattern from type-safe translations
-type IndexedAccessKeyofTypesCase15Flat = (({
-  translations: {
+type IndexedAccessKeyofTypesCase15Flat = ( {
     home: {
       title: string
     };
     profile: {
       settings: string
     }
-  }
-})["translations"])[keyof ({
-  translations: {
+  })[keyof ( {
     home: {
       title: string
     };
     profile: {
       settings: string
     }
-  }
-})["translations"]];
+  })];
 
 // Inspired by quantum state properties
-type IndexedAccessKeyofTypesCase16Flat = (({
-  state: "|0>"
-} | {
-  state: "|1>"
-} | {
-  state: "+"
-} | {
-  state: "-"
-}))["state"];
+type IndexedAccessKeyofTypesCase16Flat =  ( "|0>" |  "|1>" |  "+" |  "-");
 
 // Similar to error code lookups
-type IndexedAccessKeyofTypesCase17Flat<T> = (T extends {
+type IndexedAccessKeyofTypesCase17Flat<T> = ((T) extends ({
   errors: infer E
-} ? (E /** unresolved */ extends Array<infer C> ? C /** unresolved */ : never) : never);
+}) ? (((E /** unresolved */) extends (Array<infer C>) ? (C /** unresolved */) : (never))) : (never));
 
 // Pattern from nested permissions
-type IndexedAccessKeyofTypesCase18Flat = keyof (({
-  user: string
-} & ({
-  role: "admin";
-  permissions: string[]
-} | {
-  role: "user";
-  lastLogin: Date
-})))["role"];
+type IndexedAccessKeyofTypesCase18Flat = keyof ( ( "admin" |  "user"));
 
 // Inspired to astronomy coordinate access
-type IndexedAccessKeyofTypesCase19Flat<T> = (T extends {
+type IndexedAccessKeyofTypesCase19Flat<T> = ((T) extends ({
   coordinates: infer C
-} ? (C /** unresolved */ extends ([
-  componentType: ("transform" | "render"),
-  data: ((({
+}) ? (((C /** unresolved */) extends ((([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}) ? (C /** unresolved */)[number] : never) : never);
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))) ? ((C /** unresolved */)[number]) : (never))) : (never));
 
 // Similar to type-safe path parameters
-type IndexedAccessKeyofTypesCase20Flat<T> = (T extends `/${string}/${infer P}` ? P /** unresolved */ : never);
+type IndexedAccessKeyofTypesCase20Flat<T> = ((T) extends (`/${string}/${infer P}`) ? (P /** unresolved */) : (never));
 
 // Pattern from financial instrument metadata
-type IndexedAccessKeyofTypesCase21Flat = (({
-  type: "stock";
-  symbol: string;
-  exchange: ("NYSE" | "NASDAQ")
-} | {
-  type: "crypto";
-  protocol: ("ERC20" | "BEP2")
-}))["type"];
+type IndexedAccessKeyofTypesCase21Flat =  ( "stock" |  "crypto");
 
 // Inspired by recursive UI components
-type IndexedAccessKeyofTypesCase22Flat = (({
-  children: (`(min-width: ${number}px)` | `(max-width: ${number}px)`)
-} & ({
-  variant: "primary"
-} | {
-  variant: "secondary";
-  outlined: boolean
-})))["variant"];
+type IndexedAccessKeyofTypesCase22Flat =  ( "primary" |  "secondary");
 
 // Similar to network protocol inspection
-type IndexedAccessKeyofTypesCase23Flat = (({
-  protocol: "TCP";
-  sequence: number
-} | {
-  protocol: "UDP";
-  checksum: string
-}))["protocol"];
+type IndexedAccessKeyofTypesCase23Flat =  ( "TCP" |  "UDP");
 
 // Pattern from authentication token claims
-type IndexedAccessKeyofTypesCase24Flat<T> = (T extends {
+type IndexedAccessKeyofTypesCase24Flat<T> = ((T) extends ({
   claims: infer C
-} ? keyof C /** unresolved */ : never);
+}) ? (keyof (C /** unresolved */)) : (never));
 
 // Inspired by machine learning features
-type IndexedAccessKeyofTypesCase25Flat<T> = (T extends {
+type IndexedAccessKeyofTypesCase25Flat<T> = ((T) extends ({
   features: infer F
-} ? (F /** unresolved */ extends Array<infer V> ? V /** unresolved */ : never) : never);
+}) ? (((F /** unresolved */) extends (Array<infer V>) ? (V /** unresolved */) : (never))) : (never));
 
 
 assert<

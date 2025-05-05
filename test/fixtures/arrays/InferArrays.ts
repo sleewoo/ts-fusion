@@ -2,7 +2,7 @@
 // Contains AI-generated test patterns
 
 import type { ComplexObjectArraysCase1 } from "./ComplexObjectArrays";
-import type { FunctionArraysCase3 } from "./FunctionArrays";
+import type { FunctionArraysCase1 } from "./FunctionArrays";
 import type { HybridArraysCase7 } from "./HybridArrays";
 
 // Inspired by API response unwrapping
@@ -102,7 +102,7 @@ export type InferArraysCase21 = Array<
 
 // Inspired by function array parameter inference
 export type InferArraysCase22 = Array<
-  FunctionArraysCase3[number] extends (...args: infer P) => void ? P : never
+  FunctionArraysCase1[number] extends (...args: infer P) => void ? P : never
 >;
 
 // Similar to nested object value inference

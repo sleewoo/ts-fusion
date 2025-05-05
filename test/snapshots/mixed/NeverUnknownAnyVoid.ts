@@ -32,39 +32,34 @@ import type {
 type NeverUnknownAnyVoidCase1Flat = (() => never);
 
 // Similar to exhaustive type checking
-type NeverUnknownAnyVoidCase2Flat<T> = (T extends string ? T : never);
+type NeverUnknownAnyVoidCase2Flat<T> = ((T) extends (string) ? (T) : (never));
 
 // Pattern from third-party library boundaries
-type NeverUnknownAnyVoidCase3Flat = (unknown & {
+type NeverUnknownAnyVoidCase3Flat = ((unknown) & ({
   __fromExternal: true
-});
+}));
 
 // Inspired by dynamic data handling
 // biome-ignore lint:
-type NeverUnknownAnyVoidCase4Flat = (any | Array<{
-  id: (string & {
+type NeverUnknownAnyVoidCase4Flat = ((any) | (Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -73,46 +68,46 @@ type NeverUnknownAnyVoidCase4Flat = (any | Array<{
       ][]
     ]
   }
-}>);
+}>));
 
 // Similar to event handler returns
 type NeverUnknownAnyVoidCase5Flat = ((event: Event) => void);
 
 // Pattern from impossible type combinations
-type NeverUnknownAnyVoidCase6Flat = (string & number);
+type NeverUnknownAnyVoidCase6Flat = ((string) & (number));
 
 // Inspired by type assertion escapes
-type NeverUnknownAnyVoidCase7Flat = (Array<(string & {
+type NeverUnknownAnyVoidCase7Flat = (string) & ({
   __brand: "TransactionID"
-})>)[number];
+});
 
 // Similar to bottom-type propagation
-type NeverUnknownAnyVoidCase8Flat = (never[] | never);
+type NeverUnknownAnyVoidCase8Flat = ((never[]) | (never));
 
 // Pattern from untyped callback parameters
 // biome-ignore lint:
 type NeverUnknownAnyVoidCase9Flat = ((cb: ((result: any) => void)) => void);
 
 // Inspired by recursive termination
-type NeverUnknownAnyVoidCase10Flat<T> = (T extends never ? T : T[]);
+type NeverUnknownAnyVoidCase10Flat<T> = ((T) extends (never) ? (T) : (T[]));
 
 // Similar to unsafe type assertions
 // biome-ignore lint:
-type NeverUnknownAnyVoidCase11Flat = (any extends infer T ? T /** unresolved */ : never);
+type NeverUnknownAnyVoidCase11Flat = ((any) extends (infer T) ? (T /** unresolved */) : (never));
 
 // Pattern from type-safe void operations
 type NeverUnknownAnyVoidCase12Flat = {
   log: ((message: string) => void);
   /** biome-ignore lint: */
-  value: (void extends true ? never : unknown)
+  value: ((void) extends (true) ? (never) : (unknown))
 };
 
 // Inspired by impossible conditions
 // biome-ignore lint:
-type NeverUnknownAnyVoidCase13Flat = (never extends infer T ? T /** unresolved */ : any);
+type NeverUnknownAnyVoidCase13Flat = ((never) extends (infer T) ? (T /** unresolved */) : (any));
 
 // Similar to JSON parse results
-type NeverUnknownAnyVoidCase14Flat = (unknown | never);
+type NeverUnknownAnyVoidCase14Flat = ((unknown) | (never));
 
 // Pattern from function type compatibility
 type NeverUnknownAnyVoidCase15Flat = ((...args: unknown[]) => void);
@@ -125,33 +120,33 @@ type NeverUnknownAnyVoidCase16Flat = {
 
 // Similar to impossible intersections
 // biome-ignore lint:
-type NeverUnknownAnyVoidCase17Flat = (void & {
+type NeverUnknownAnyVoidCase17Flat = ((void) & ({
   value: never
-});
+}));
 
 // Pattern from generic constraints
 // biome-ignore lint:
 type NeverUnknownAnyVoidCase18Flat<T extends unknown> = T;
 
 // Inspired by type predicate narrowing
-type NeverUnknownAnyVoidCase19Flat = ((value: unknown) => value is (Array<(string & {
+type NeverUnknownAnyVoidCase19Flat = ((value: unknown) => value is (string) & ({
   __brand: "TransactionID"
-})>)[number]);
+}));
 
 // Similar to async operation fallbacks
-type NeverUnknownAnyVoidCase20Flat = (Promise<never> | Promise<unknown>);
+type NeverUnknownAnyVoidCase20Flat = ((Promise<never>) | (Promise<unknown>));
 
 // Pattern from recursive type bottoms
-type NeverUnknownAnyVoidCase21Flat<T> = (T extends never ? T : [
+type NeverUnknownAnyVoidCase21Flat<T> = ((T) extends (never) ? (T) : ([
   T
-]);
+]));
 
 // Inspired by type-safe voids
 type NeverUnknownAnyVoidCase22Flat = {
   action: ((req: {
-    params: Array<(string & {
+    params: Array<((string) & ({
       __brand: "TransactionID"
-    })>
+    }))>
   }, res: {
     json: ((data: unknown) => void)
   }) => Promise<void>);
@@ -162,33 +157,28 @@ type NeverUnknownAnyVoidCase22Flat = {
 type NeverUnknownAnyVoidCase23Flat = { [K in never]: K /** unresolved */ };
 
 // Pattern from error propagation
-type NeverUnknownAnyVoidCase24Flat = (Error | never);
+type NeverUnknownAnyVoidCase24Flat = ((Error) | (never));
 
 // Inspired by top-type conversions
-type NeverUnknownAnyVoidCase25Flat = (unknown extends infer T ? (T /** unresolved */ extends Array<{
-  id: (string & {
+type NeverUnknownAnyVoidCase25Flat = ((unknown) extends (infer T) ? (((T /** unresolved */) extends (Array<{
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -197,7 +187,7 @@ type NeverUnknownAnyVoidCase25Flat = (unknown extends infer T ? (T /** unresolve
       ][]
     ]
   }
-}> ? T /** unresolved */ : Record<string, T /** unresolved */>) : never);
+}>) ? (T /** unresolved */) : (Record<string, T /** unresolved */>))) : (never));
 
 
 assert<

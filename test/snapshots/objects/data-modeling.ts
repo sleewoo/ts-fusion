@@ -47,70 +47,70 @@ type DataModelingTest2Flat<T extends {
   relations: never[]
 }> = {
   metadata: T;
-  find: ((criteria: Partial<({ [K in (((T)["columns"])[number])["name"]]: never } & { [K in (((T)["relations"])[number])["target"]]?: never })>) => Promise<({ [K in (((T)["columns"])[number])["name"]]: never } & { [K in (((T)["relations"])[number])["target"]]?: never })[]>);
-  save: ((entity: ({ [K in (((T)["columns"])[number])["name"]]: never } & { [K in (((T)["relations"])[number])["target"]]?: never })) => Promise<void>)
+  find: ((criteria: Partial<(({ [K in (((T)["columns"])[number])["name"]]: never }) & ({ [K in (((T)["relations"])[number])["target"]]?: never }))>) => Promise<(({ [K in (((T)["columns"])[number])["name"]]: never }) & ({ [K in (((T)["relations"])[number])["target"]]?: never }))[]>);
+  save: ((entity: (({ [K in (((T)["columns"])[number])["name"]]: never }) & ({ [K in (((T)["relations"])[number])["target"]]?: never }))) => Promise<void>)
 };
 
 // 3. Polymorphic product type
-type DataModelingTest3Flat = ({
+type DataModelingTest3Flat = (({
   sku: "";
   price: number;
   variants: {
     color: string;
-    size: ("S" | "M" | "L")
+    size: (("S") | ("M") | ("L"))
   }[]
-} & {
+}) & ({
   digitalAsset?: string;
   physicalDimensions?: {
     weight: number;
     height: number
   }
-});
+}));
 
 // 4. TypeORM-style active record pattern
-type DataModelingTest4Flat = ({
+type DataModelingTest4Flat = (({
   id: string;
   save: (() => Promise<void>);
   remove: (() => Promise<void>);
   reload: (() => Promise<void>)
-} & {
+}) & ({
   id: string;
   name: string;
   email?: string;
   readonly createdAt: Date
-});
+}));
 
 // 5. Zod-like schema definition
 type DataModelingTest5Flat<T> = {
   _shape: T;
   parse: ((input: unknown) => T);
-  safeParse: ((input: unknown) => ({
+  safeParse: ((input: unknown) => (({
     success: true;
     data: T
-  } | {
+  }) | ({
     success: false;
     error: {
       code: string;
       message: string;
-      path: ((string | number))[]
+      path: (((string) | (number)))[]
     }
-  }))
+  })))
 };
 
 // 6. Prisma-style filtered result
 type DataModelingTest6Flat<T> = {
   where: Partial<T>;
-  include?: { [K in keyof T]?: boolean };
-  orderBy?: { [K in keyof T]?: ("asc" | "desc") }
+  include?: { [K in keyof (T)]?: boolean };
+  orderBy?: { [K in keyof (T)]?: (("asc") | ("desc")) }
 };
 
 // 7. MongoDB-style document structure
-type DataModelingTest7Flat<T> = (T & {
+type DataModelingTest7Flat<T> = ((T) & ({
   _id: string;
   __v: number;
   createdAt: Date;
   updatedAt: Date
-});
+}));
 
 // 8. GraphQL resolver type
 type DataModelingTest8Flat<TArgs, TReturn> = {
@@ -128,7 +128,7 @@ type DataModelingTest8Flat<TArgs, TReturn> = {
         price: number;
         variants: {
           color: string;
-          size: ("S" | "M" | "L")
+          size: (("S") | ("M") | ("L"))
         }[]
       }[];
       users: {
@@ -147,7 +147,7 @@ type DataModelingTest9Flat = {
   mappings: {
     properties: {
       [k: string]: {
-        type: ("text" | "keyword" | "long" | "date");
+        type: (("text") | ("keyword") | ("long") | ("date"));
         index?: boolean;
         analyzer?: string
       }
@@ -162,7 +162,7 @@ type DataModelingTest9Flat = {
 // 10. Redis hash structure
 type DataModelingTest10Flat = {
   key: string;
-  fields: Record<string, (string | number)>;
+  fields: Record<string, ((string) | (number))>;
   ttl?: number
 };
 
@@ -173,13 +173,13 @@ type DataModelingTest11Flat<T> = {
   attributes: T;
   relationships?: {
     [k: string]: {
-      data: ({
+      data: (({
         type: string;
         id: string
-      } | Array<{
+      }) | (Array<{
         type: string;
         id: string
-      }>)
+      }>))
     }
   }
 };
@@ -198,27 +198,27 @@ type DataModelingTest13Flat = {
   required: string[];
   properties: {
     [k: string]: {
-      type: ("string" | "number" | "boolean" | "object");
-      format?: ("date-time" | "email" | "uri");
+      type: (("string") | ("number") | ("boolean") | ("object"));
+      format?: (("date-time") | ("email") | ("uri"));
       enum?: string[]
     }
   }
 };
 
 // 14. Firebase Firestore document
-type DataModelingTest14Flat<T> = (T & {
+type DataModelingTest14Flat<T> = ((T) & ({
   __firestore: {
     path: string;
     createTime: Date;
     updateTime: Date
   }
-});
+}));
 
 // 15. Protocol Buffers message
 type DataModelingTest15Flat = {
   fields: {
     [k: string]: {
-      type: ("string" | "int32" | "double" | "bool" | "message");
+      type: (("string") | ("int32") | ("double") | ("bool") | ("message"));
       repeated?: boolean;
       optional?: boolean
     }
@@ -250,7 +250,7 @@ type DataModelingTest17Flat = {
 type DataModelingTest18Flat<T> = {
   define: ((modelName: string, attributes: {
     [k: string]: {
-      type: ("STRING" | "INTEGER" | "DATE" | "BOOLEAN");
+      type: (("STRING") | ("INTEGER") | ("DATE") | ("BOOLEAN"));
       allowNull?: boolean;
       primaryKey?: boolean
     }
@@ -260,7 +260,7 @@ type DataModelingTest18Flat<T> = {
   });
   associations: {
     [k: string]: {
-      associationType: ("BelongsTo" | "HasMany" | "BelongsToMany");
+      associationType: (("BelongsTo") | ("HasMany") | ("BelongsToMany"));
       target: {
         new (): never;
         findAll: ((options?: never) => Promise<never[]>)
@@ -270,18 +270,18 @@ type DataModelingTest18Flat<T> = {
 };
 
 // 19. JWT payload structure
-type DataModelingTest19Flat = ({
+type DataModelingTest19Flat = (({
   id: string;
   name: string;
   email?: string;
   readonly createdAt: Date
-} & {
+}) & ({
   iat: number;
   exp: number;
   aud: string;
   iss: string;
   sub: string
-});
+}));
 
 // 20. ABAC policy object
 type DataModelingTest20Flat = {
@@ -294,15 +294,15 @@ type DataModelingTest20Flat = {
 };
 
 // 21. Data transfer object (DTO)
-type DataModelingTest21Flat = (Omit<{
+type DataModelingTest21Flat = ((Omit<{
   id: string;
   name: string;
   email?: string;
   readonly createdAt: Date
-}, ("createdAt" | "updatedAt")> & {
+}, (("createdAt") | ("updatedAt"))>) & ({
   passwordHash: string;
   lastLogin?: Date
-});
+}));
 
 // 22. Redis sorted set member
 type DataModelingTest22Flat = {
@@ -350,9 +350,9 @@ type DataModelingTest24Flat = {
 
 // 25. Complex validation error type
 type DataModelingTest25Flat = {
-  path: ((string | number))[];
+  path: (((string) | (number)))[];
   message: string;
-  code: ("invalid_type" | "custom" | "too_small");
+  code: (("invalid_type") | ("custom") | ("too_small"));
   expected?: string;
   received?: string
 };

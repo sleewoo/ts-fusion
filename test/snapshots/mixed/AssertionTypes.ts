@@ -15,30 +15,25 @@ import type {
 
 // Zod-like parser
 type AssertionTypesCase1Flat = {
-  parse: ((input: unknown) => input is (Array<{
-    id: (string & {
+  parse: ((input: unknown) => input is {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -47,29 +42,29 @@ type AssertionTypesCase1Flat = {
         ][]
       ]
     }
-  }>)[number])
+  })
 };
 
 // Numeric literal check
-type AssertionTypesCase4Flat = ((value: unknown) => value is (0 | 1 | 2 | 3 | 4 | 5));
+type AssertionTypesCase4Flat = ((value: unknown) => value is ((0) | (1) | (2) | (3) | (4) | (5)));
 
 // Precision branded type
-type AssertionTypesCase6Flat = (number & {
+type AssertionTypesCase6Flat = ((number) & ({
   __precision: 2
-});
+}));
 
 // Physics unit check
-type AssertionTypesCase10Flat = (number & {
+type AssertionTypesCase10Flat = ((number) & ({
   __unit: "m/s²"
-});
+}));
 
 // Recursive validator
-type AssertionTypesCase12Flat<T> = (T extends object ? {
+type AssertionTypesCase12Flat<T> = ((T) extends (object) ? ({
   validate: ((obj: unknown) => obj is T)
-} : never);
+}) : (never));
 
 // Uppercase enum check
-type AssertionTypesCase13Flat = { [K in ("get" | "post")]: Uppercase<K /** unresolved */> };
+type AssertionTypesCase13Flat = { [K in (("get") | ("post"))]: Uppercase<K /** unresolved */> };
 
 // Mathematical operation tuple
 type AssertionTypesCase16Flat = readonly [
@@ -79,21 +74,21 @@ type AssertionTypesCase16Flat = readonly [
 ];
 
 // Astronomy coordinate check
-type AssertionTypesCase17Flat = (number & {
+type AssertionTypesCase17Flat = ((number) & ({
   __range: [
     0,
     360
   ]
-});
+}));
 
 // Composable validator
 type AssertionTypesCase22Flat<T> = {
   /** @ts-expect-error */
-  and: (<U>(other: ((v: T) => v is U /** unresolved */)) => ((v: unknown) => v is (T & U /** unresolved */)))
+  and: (<U>(other: ((v: T) => v is U /** unresolved */)) => ((v: unknown) => v is ((T) & (U /** unresolved */))))
 };
 
 // Recursive JSON check
-type AssertionTypesCase24Flat<T> = (T extends object ? { [K in keyof T]: AssertionTypesCase24<(T)[K /** unresolved */]> } : ((value: unknown) => value is T));
+type AssertionTypesCase24Flat<T> = ((T) extends (object) ? ({ [K in keyof (T)]: AssertionTypesCase24<(T)[K /** unresolved */]> }) : (((value: unknown) => value is T)));
 
 
 assert<

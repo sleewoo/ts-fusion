@@ -30,7 +30,7 @@ import type {
 
 // 1. Webpack-style bundler config
 type ConfigurationTest1Flat = {
-  entry: (string | string[] | Record<string, string>);
+  entry: ((string) | (string[]) | (Record<string, string>));
   output: {
     path: string;
     filename: string;
@@ -48,33 +48,33 @@ type ConfigurationTest1Flat = {
     options?: Record<string, unknown>;
     enabled?: boolean
   }[];
-  mode: ("development" | "production")
+  mode: (("development") | ("production"))
 };
 
 // 2. Babel transpiler config
 type ConfigurationTest2Flat = {
-  presets: Array<(string | [
+  presets: Array<((string) | ([
     string,
     Record<string, unknown>
-  ])>;
-  plugins: Array<(string | [
+  ]))>;
+  plugins: Array<((string) | ([
     string,
     symbol
-  ])>;
+  ]))>;
   env?: Record<string, unknown>;
-  targets?: (string | Record<string, string>)
+  targets?: ((string) | (Record<string, string>))
 };
 
 // 3. TypeORM database config
-type ConfigurationTest3Flat = ({
-  type: ("postgres" | "mysql" | "sqlite");
+type ConfigurationTest3Flat = (({
+  type: (("postgres") | ("mysql") | ("sqlite"));
   host: string;
   port: number;
   username: string;
   password: string;
   database: string;
   ssl?: boolean
-} & {
+}) & ({
   entities: {
     name: string;
     columns: {
@@ -86,9 +86,9 @@ type ConfigurationTest3Flat = ({
     relations: never[]
   }[];
   migrations: string[];
-  logging: (boolean | (("query" | "error"))[]);
+  logging: ((boolean) | (((("query") | ("error")))[]));
   synchronize: boolean
-});
+}));
 
 // 4. Jest test runner config
 type ConfigurationTest4Flat = {
@@ -109,7 +109,7 @@ type ConfigurationTest4Flat = {
 type ConfigurationTest5Flat = {
   extends: string[];
   plugins: string[];
-  rules: Record<string, ("off" | "warn" | "error")>;
+  rules: Record<string, (("off") | ("warn") | ("error"))>;
   overrides: Array<{
     files: string[];
     rules: Record<string, unknown>
@@ -173,9 +173,9 @@ type ConfigurationTest10Flat = Record<string, {
 // 11. Logging config
 type ConfigurationTest11Flat = {
   transports: Array<{
-    type: ("console" | "file" | "http");
-    level: ("error" | "warn" | "info" | "debug");
-    format: ("json" | "text")
+    type: (("console") | ("file") | ("http"));
+    level: (("error") | ("warn") | ("info") | ("debug"));
+    format: (("json") | ("text"))
   }>;
   redact: string[];
   sampling?: {
@@ -193,7 +193,7 @@ type ConfigurationTest12Flat = {
   alerts: Array<{
     condition: string;
     channels: string[];
-    severity: ("critical" | "warning")
+    severity: (("critical") | ("warning"))
   }>
 };
 
@@ -201,7 +201,7 @@ type ConfigurationTest12Flat = {
 type ConfigurationTest13Flat = {
   ttl: number;
   staleWhileRevalidate?: number;
-  type: ("memory" | "redis" | "memcached");
+  type: (("memory") | ("redis") | ("memcached"));
   clusters?: Array<{
     host: string;
     port: number
@@ -215,7 +215,7 @@ type ConfigurationTest14Flat = {
   locales: string[];
   loaders: Array<{
     pattern: string;
-    format: ("json" | "yaml" | "po")
+    format: (("json") | ("yaml") | ("po"))
   }>;
   fallback: Record<string, string>
 };
@@ -241,7 +241,7 @@ type ConfigurationTest15Flat = {
 type ConfigurationTest16Flat = {
   endpoints: Array<{
     path: string;
-    method: ("GET" | "POST" | "PUT" | "DELETE");
+    method: (("GET") | ("POST") | ("PUT") | ("DELETE"));
     cache?: {
       ttl: number;
       headers: string[]
@@ -271,7 +271,7 @@ type ConfigurationTest17Flat = {
 
 // 18. Queue system config
 type ConfigurationTest18Flat = {
-  driver: ("redis" | "sqs" | "rabbitmq");
+  driver: (("redis") | ("sqs") | ("rabbitmq"));
   queues: Record<string, {
     timeout: number;
     retries: number;
@@ -282,7 +282,7 @@ type ConfigurationTest18Flat = {
 
 // 19. Storage provider config
 type ConfigurationTest19Flat = {
-  default: ("s3" | "gcs" | "local");
+  default: (("s3") | ("gcs") | ("local"));
   buckets: Record<string, {
     driver: string;
     region?: string;
@@ -306,7 +306,7 @@ type ConfigurationTest20Flat = {
 // 21. Error tracking config
 type ConfigurationTest21Flat = {
   dsn: string;
-  environment: ("production" | "staging");
+  environment: (("production") | ("staging"));
   release: string;
   tracing: {
     sampleRate: number;
@@ -319,7 +319,7 @@ type ConfigurationTest22Flat = {
   targets: Record<string, {
     include: string[];
     exclude: string[];
-    format: ("esm" | "cjs" | "umd");
+    format: (("esm") | ("cjs") | ("umd"));
     minify?: boolean;
     sourcemap: boolean
   }>
@@ -328,7 +328,7 @@ type ConfigurationTest22Flat = {
 // 23. Validation schema config
 type ConfigurationTest23Flat = {
   schemas: Record<string, {
-    type: ("object" | "array");
+    type: (("object") | ("array"));
     fields: Record<string, {
       type: string;
       required: boolean;
@@ -349,16 +349,14 @@ type ConfigurationTest25Flat = {
   plugins: Array<{
     id: string;
     entryPoint: string;
-    configSchema?: ({
-      schemas: Record<string, {
-        type: ("object" | "array");
+    configSchema?:  Record<string, {
+        type: (("object") | ("array"));
         fields: Record<string, {
           type: string;
           required: boolean;
           validate?: ((value: unknown) => boolean)
         }>
-      }>
-    })["schemas"];
+      }>;
     dependencies?: string[]
   }>;
   registry: Record<string, {

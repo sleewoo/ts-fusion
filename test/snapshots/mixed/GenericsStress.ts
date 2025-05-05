@@ -30,62 +30,57 @@ import type {
 } from "@/fixtures/mixed/GenericsStress.ts";
 
 // Inspired by API response wrapper pattern
-type GenericsStressCase1Flat<T> = ({
+type GenericsStressCase1Flat<T> = (({
   data: T;
   error: null
-} | {
+}) | ({
   data: null;
   error: string
-});
+}));
 
 // Similar to type-safe registry pattern
 type GenericsStressCase2Flat<T extends Record<string, ((req: {
-  params: Array<(string & {
+  params: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 }, res: {
   json: ((data: unknown) => void)
-}) => Promise<void>)>> = { [K in keyof T]: ReturnType<(T)[K /** unresolved */]> };
+}) => Promise<void>)>> = { [K in keyof (T)]: ReturnType<(T)[K /** unresolved */]> };
 
 // Pattern from state management systems
-type GenericsStressCase3Flat<T, U extends keyof T /** unresolved */> = {
+type GenericsStressCase3Flat<T, U extends keyof (T /** unresolved */)> = {
   state: T;
   create: new <V>(key: U /** unresolved */, value: V /** unresolved */) => never;
   update: ((key: U, value: (T)[U]) => void)
 };
 
-type GenericsStressCase3_1Flat<T, U extends keyof T /** unresolved */> = {
+type GenericsStressCase3_1Flat<T, U extends keyof (T /** unresolved */)> = {
   new <V>(key: U, value: V /** unresolved */): never
 };
 
 // Inspired by database ORM patterns
-type GenericsStressCase4Flat<T extends object> = { [K in keyof T]: ((T)[K /** unresolved */] extends Array<infer U> ? U /** unresolved */ : never) }[];
+type GenericsStressCase4Flat<T extends object> = { [K in keyof (T)]: (((T)[K /** unresolved */]) extends (Array<infer U>) ? (U /** unresolved */) : (never)) }[];
 
 // Similar to validation framework types
-type GenericsStressCase5Flat<T> = (T extends (Array<{
-  id: (string & {
+type GenericsStressCase5Flat<T> = ((T) extends ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -94,39 +89,39 @@ type GenericsStressCase5Flat<T> = (T extends (Array<{
       ][]
     ]
   }
-}>)[number] ? {
+}) ? ({
   valid: true;
   value: T
-} : {
+}) : ({
   valid: false;
   errors: string[]
-});
+}));
 
 // Pattern from dependency injection containers
-type GenericsStressCase6Flat<T extends new (...args: unknown[]) => never> = (InstanceType<T> & {
-  dependencies: Array<(Array<(string & {
+type GenericsStressCase6Flat<T extends new (...args: unknown[]) => never> = ((InstanceType<T>) & ({
+  dependencies: Array<(string) & ({
     __brand: "TransactionID"
-  })>)[number]>
-});
+  })>
+}));
 
 // Inspired by mathematical operations
-type GenericsStressCase7Flat<T extends (number | string)> = (T extends number ? T[] : (T extends string ? (T)["length"] : never));
+type GenericsStressCase7Flat<T extends ((number) | (string))> = ((T) extends (number) ? (T[]) : (((T) extends (string) ? ((T)["length"]) : (never))));
 
 // Similar to recursive data structures
-type GenericsStressCase8Flat<T> = (T extends object ? { [K in keyof T]: GenericsStressCase8<(T)[K /** unresolved */]> } : T);
+type GenericsStressCase8Flat<T> = ((T) extends (object) ? ({ [K in keyof (T)]: GenericsStressCase8<(T)[K /** unresolved */]> }) : (T));
 
 // Pattern from API pagination systems
 type GenericsStressCase9Flat<T> = {
   results: T[];
-  nextPage: (GenericsStressCase9<T> | null);
-  prevPage: (GenericsStressCase9<T> | null)
+  nextPage: ((GenericsStressCase9<T>) | (null));
+  prevPage: ((GenericsStressCase9<T>) | (null))
 };
 
 // Inspired by CSS-in-JS prop handling
-type GenericsStressCase10Flat<T> = { [K in keyof T as `$${string}`]: ((T)[K /** unresolved */] extends string ? (T)[K /** unresolved */] : never) };
+type GenericsStressCase10Flat<T> = { [K in keyof (T) as `$${string}`]: (((T)[K /** unresolved */]) extends (string) ? ((T)[K /** unresolved */]) : (never)) };
 
 // Similar to financial calculations
-type GenericsStressCase11Flat<T extends number, U extends number> = ((principal: T, rate: U) => (T extends U ? number : never));
+type GenericsStressCase11Flat<T extends number, U extends number> = ((principal: T, rate: U) => ((T) extends (U) ? (number) : (never)));
 
 // Pattern from observable patterns
 type GenericsStressCase12Flat<T> = {
@@ -135,31 +130,31 @@ type GenericsStressCase12Flat<T> = {
 };
 
 // Inspired by authentication systems
-type GenericsStressCase13Flat<T> = (T extends {
+type GenericsStressCase13Flat<T> = ((T) extends ({
   permissions: string[]
-} ? ((required: string) => T) : never);
+}) ? (((required: string) => T)) : (never));
 
 // Similar to recursive type utilities
-type GenericsStressCase14Flat<T> = (T extends Array<infer U> ? GenericsStressCase14<U /** unresolved */> : T);
+type GenericsStressCase14Flat<T> = ((T) extends (Array<infer U>) ? (GenericsStressCase14<U /** unresolved */>) : (T));
 
 // Pattern from internationalization systems
 type GenericsStressCase15Flat<T extends Record<string, string>> = {
-  t: (<K extends keyof T>(key: K /** unresolved */) => (T)[K /** unresolved */]);
-  locales: Array<keyof T>
+  t: (<K extends keyof (T)>(key: K /** unresolved */) => (T)[K /** unresolved */]);
+  locales: Array<keyof (T)>
 };
 
 // Inspired by physics engine types
-type GenericsStressCase16Flat<T extends ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type GenericsStressCase16Flat<T extends (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})> = {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))> = {
   position: T;
   velocity: T;
   update: ((delta: number) => GenericsStressCase16<T>)
@@ -167,23 +162,23 @@ type GenericsStressCase16Flat<T extends ([
 
 // Similar to type-safe builders
 type GenericsStressCase17Flat<T, U> = {
-  with<K extends string, V>(key: K /** unresolved */, value: V /** unresolved */): GenericsStressCase17<T, (U & Record<K /** unresolved */, V /** unresolved */>)>;
-  build(): (U & T)
+  with<K extends string, V>(key: K /** unresolved */, value: V /** unresolved */): GenericsStressCase17<T, ((U) & (Record<K /** unresolved */, V /** unresolved */>))>;
+  build(): ((U) & (T))
 };
 
 // Pattern from validation frameworks
-type GenericsStressCase18Flat<T> = { [K in keyof T]: ((T)[K /** unresolved */] extends string ? {
+type GenericsStressCase18Flat<T> = { [K in keyof (T)]: (((T)[K /** unresolved */]) extends (string) ? ({
   minLength: number;
   maxLength: number
-} : {
+}) : ({
   min: number;
   max: number
-}) };
+})) };
 
 // Inspired by graph traversal algorithms
-type GenericsStressCase19Flat<T> = (T extends {
+type GenericsStressCase19Flat<T> = ((T) extends ({
   neighbors: Array<infer U>
-} ? Array<GenericsStressCase19<U /** unresolved */>> : T);
+}) ? (Array<GenericsStressCase19<U /** unresolved */>>) : (T));
 
 // Similar to quantum state operations
 type GenericsStressCase20Flat<T> = {
@@ -201,19 +196,19 @@ type GenericsStressCase21Flat<TProps, TState> = {
 
 // Inspired by type-safe routers
 type GenericsStressCase22Flat<T extends Record<string, ((req: {
-  params: Array<(string & {
+  params: Array<((string) & ({
     __brand: "TransactionID"
-  })>
+  }))>
 }, res: {
   json: ((data: unknown) => void)
 }) => Promise<void>)>> = {
   routes: T;
-  navigate: (<K extends keyof T>(route: K /** unresolved */, params: (Parameters<(T)[K /** unresolved */]>)[0]) => void)
+  navigate: (<K extends keyof (T)>(route: K /** unresolved */, params: (Parameters<(T)[K /** unresolved */]>)[0]) => void)
 };
 
 // Similar to cryptographic operations
-type GenericsStressCase23Flat<T extends (string | ArrayBuffer)> = {
-  algorithm: ("SHA-256" | "AES-GCM");
+type GenericsStressCase23Flat<T extends ((string) | (ArrayBuffer))> = {
+  algorithm: (("SHA-256") | ("AES-GCM"));
   hash: ((data: T) => ArrayBuffer);
   encrypt: ((data: T) => GenericsStressCase23<T>)
 };
@@ -226,17 +221,17 @@ type GenericsStressCase24Flat<T> = {
 };
 
 // Inspired by astronomy calculations
-type GenericsStressCase25Flat<T extends ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type GenericsStressCase25Flat<T extends (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})> = {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))> = {
   coordinates: T;
   magnitude: number;
   calculateDistance: ((other: T) => GenericsStressCase25<T>)

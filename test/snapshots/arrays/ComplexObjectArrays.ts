@@ -30,29 +30,24 @@ import type {
 
 // Inspired by e-commerce product listings
 type ComplexObjectArraysCase1Flat = Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -65,31 +60,14 @@ type ComplexObjectArraysCase1Flat = Array<{
 
 // Similar to CMS content blocks pattern
 type ComplexObjectArraysCase2Flat = Array<{
-  type: ("hero" | "cta" | "text");
-  content: ((Array<{
-    id: (string & {
-      __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
-          string,
-          ...(({
-            a: number
-          } | {
-            b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
-    pricing: {
+  type: (("hero") | ("cta") | ("text"));
+  content:  {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -97,43 +75,37 @@ type ComplexObjectArraysCase2Flat = Array<{
           ((newValue: string) => void)
         ][]
       ]
-    }
-  }>)[number])["pricing"];
-  meta: Partial<(Array<((string & {
+    };
+  meta: Partial<(((string) & ({
     __brand: "id"
-  }) | (number & {
+  }))) | (((number) & ({
     __brand: "count"
-  }))>)[number]>;
+  })))>;
   readonly _version: number
 }>;
 
 // Pattern from social media graphs
 type ComplexObjectArraysCase3Flat = Array<{
   node: string;
-  properties: { [K in keyof (Array<{
-    id: (string & {
+  properties: { [K in keyof ({
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -142,30 +114,25 @@ type ComplexObjectArraysCase3Flat = Array<{
         ][]
       ]
     }
-  }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-    id: (string & {
+  })]?: ((K /** unresolved */) extends ("id") ? (never) : (({
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -174,7 +141,7 @@ type ComplexObjectArraysCase3Flat = Array<{
         ][]
       ]
     }
-  }>)[number])[K /** unresolved */]) }
+  })[K /** unresolved */])) }
 }>;
 
 // Inspired by IoT device configurations
@@ -187,9 +154,9 @@ type ComplexObjectArraysCase4Flat = Array<{
       number,
       (number)?
     ][]>;
-    readonly sensorId: (string & {
+    readonly sensorId: ((string) & ({
       __brand: "SensorID"
-    })
+    }))
   }>>;
   readonly firmware: {
     version: [
@@ -197,83 +164,24 @@ type ComplexObjectArraysCase4Flat = Array<{
       minor: number,
       patch: number
     ];
-    checksum: (string & {
+    checksum: ((string) & ({
       __length: 40
-    })
+    }))
   }
 }>;
 
 // Similar to medical records structure
 type ComplexObjectArraysCase5Flat = Array<{
-  patientId: ((Array<{
-    id: (string & {
+  patientId:  ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
-          string,
-          ...(({
-            a: number
-          } | {
-            b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
-    pricing: {
-      base: number;
-      currency: (Array<((string & {
-        __brand: "id"
-      }) | (number & {
-        __brand: "count"
-      }))>)[number];
-      discounts?: [
-        key: `i18n_${string}`,
-        translations: [
-          string,
-          ((newValue: string) => void)
-        ][]
-      ]
-    }
-  }>)[number])["id"];
+    }));
   history: {
-    visitDate: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"];
-    readings: ((((Array<{
-      deviceId: `dev_${string}`;
-      sensors: ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
+    visitDate:  number;
+    readings:  Readonly<[
           number,
           number,
           (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>;
-      readonly firmware: {
-        version: [
-          major: number,
-          minor: number,
-          patch: number
-        ];
-        checksum: (string & {
-          __length: 40
-        })
-      }
-    }>)[number])["sensors"])[number])["values"]
+        ][]>
   }[];
   emergencyContacts: [
     key: `i18n_${string}`,
@@ -286,41 +194,22 @@ type ComplexObjectArraysCase5Flat = Array<{
 
 // Pattern from 3D scene graphs
 type ComplexObjectArraysCase6Flat = Array<{
-  mesh: ((({
+  mesh: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number];
+  });
   transform: {
     position: [
       number,
       number,
       (number)?
     ][];
-    rotation: (((Array<{
-      deviceId: `dev_${string}`;
-      sensors: ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>;
-      readonly firmware: {
-        version: [
+    rotation:  [
           major: number,
           minor: number,
           patch: number
-        ];
-        checksum: (string & {
-          __length: 40
-        })
-      }
-    }>)[number])["firmware"])["version"]
+        ]
   };
   children: []
 }>;
@@ -328,66 +217,19 @@ type ComplexObjectArraysCase6Flat = Array<{
 // Inspired by financial portfolios
 type ComplexObjectArraysCase7Flat = Array<{
   holdings: {
-    asset: ((Array<{
-      id: (string & {
+    asset:  ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
-      pricing: {
-        base: number;
-        currency: (Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number];
-        discounts?: [
-          key: `i18n_${string}`,
-          translations: [
-            string,
-            ((newValue: string) => void)
-          ][]
-        ]
-      }
-    }>)[number])["id"];
-    quantity: (number & {
+      }));
+    quantity: ((number) & ({
       __minimum: 0
-    });
-    value: ((Array<{
-      id: (string & {
-        __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
-      pricing: {
+    }));
+    value:  {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -396,79 +238,23 @@ type ComplexObjectArraysCase7Flat = Array<{
           ][]
         ]
       }
-    }>)[number])["pricing"]
   }[];
-  riskProfile: ((ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-    readonly type: "LOGIN";
-    payload: ((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
-          string,
-          ...(({
-            a: number
-          } | {
-            b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number]
-  } | {
-    readonly type: "LOGOUT";
-    timestamp: number
-  })>)[number])["type"]]: string }>>)[number])[keyof (ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-    readonly type: "LOGIN";
-    payload: ((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
-          string,
-          ...(({
-            a: number
-          } | {
-            b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number]
-  } | {
-    readonly type: "LOGOUT";
-    timestamp: number
-  })>)[number])["type"]]: string }>>)[number]]
+  riskProfile: (Readonly<{ [K in  ( "LOGIN" |  "LOGOUT")]: string }>)[keyof (Readonly<{ [K in  ( "LOGIN" |  "LOGOUT")]: string }>)]
 }>;
 
 // Similar to versioned document stores
 type ComplexObjectArraysCase8Flat = Array<{
-  documentId: (string & {
+  documentId: ((string) & ({
     __brand: "DocumentID"
-  });
+  }));
   revisions: {
-    content: ((Array<{
-      type: ("hero" | "cta" | "text");
-      content: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
+    content:   {
           base: number;
-          currency: (Array<((string & {
+          currency: (((string) & ({
             __brand: "id"
-          }) | (number & {
+          }))) | (((number) & ({
             __brand: "count"
-          }))>)[number];
+          })));
           discounts?: [
             key: `i18n_${string}`,
             translations: [
@@ -476,39 +262,9 @@ type ComplexObjectArraysCase8Flat = Array<{
               ((newValue: string) => void)
             ][]
           ]
-        }
-      }>)[number])["pricing"];
-      meta: Partial<(Array<((string & {
-        __brand: "id"
-      }) | (number & {
-        __brand: "count"
-      }))>)[number]>;
-      readonly _version: number
-    }>)[number])["content"];
-    author: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
-          string,
-          ...(({
-            a: number
-          } | {
-            b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["id"];
-    timestamp: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"]
+        };
+    author:  string;
+    timestamp:  number
   }[]
 }>;
 
@@ -516,218 +272,53 @@ type ComplexObjectArraysCase8Flat = Array<{
 type ComplexObjectArraysCase9Flat = Array<{
   experimentId: `exp_${number}`;
   parameters: {
-    [k: `param_${string}`]: (number | ((Array<{
-      node: string;
-      properties: { [K in keyof (Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])[K /** unresolved */]) }
-    }>)[number])["node"])
+    [k: `param_${string}`]: ((number) | ( string))
   };
-  metrics: (((ReadonlyArray<Readonly<{
-    weights: ReadonlyArray<ReadonlyArray<({
+  metrics: ReadonlyArray<(({
       formula: string;
       value: never
-    } | {
+    }) | ({
       value: number;
       formula?: never
-    })>>;
-    activation: ("relu" | "sigmoid");
-    readonly bias: (Readonly<Array<{
-      readonly amount: number;
-      readonly currency: (string & {
-        __brand: "ISO4217"
-      })
-    }>>)[number]
-  }>>)[number])["weights"])[number];
-  dependencies: ((Array<{
-    deviceId: `dev_${string}`;
-    sensors: ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>;
-    readonly firmware: {
+    }))>;
+  dependencies:  {
       version: [
         major: number,
         minor: number,
         patch: number
       ];
-      checksum: (string & {
+      checksum: ((string) & ({
         __length: 40
-      })
+      }))
     }
-  }>)[number])["firmware"]
 }>;
 
 // Inspired by game character inventories
 type ComplexObjectArraysCase10Flat = Array<{
-  characterId: ((Array<{
-    documentId: (string & {
+  characterId:  ((string) & ({
       __brand: "DocumentID"
-    });
-    revisions: {
-      content: ((Array<{
-        type: ("hero" | "cta" | "text");
-        content: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"];
-        meta: Partial<(Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number]>;
-        readonly _version: number
-      }>)[number])["content"];
-      author: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["id"];
-      timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }[]
-  }>)[number])["documentId"];
+    }));
   equipment: {
-    slot: ("weapon" | "armor" | "accessory");
-    item: (Array<{
-      id: (string & {
+    slot: (("weapon") | ("armor") | ("accessory"));
+    item: {
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -736,355 +327,66 @@ type ComplexObjectArraysCase10Flat = Array<{
           ][]
         ]
       }
-    }>)[number];
-    modifiers: ((ReadonlyArray<ReadonlyArray<({
+    };
+    modifiers: ({
       formula: string;
       value: never
-    } | {
+    }) | ({
       value: number;
       formula?: never
-    })>>)[number])[number]
+    })
   }[];
-  skills: ((Array<{
-    holdings: {
-      asset: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])["id"];
-      quantity: (number & {
-        __minimum: 0
-      });
-      value: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])["pricing"]
-    }[];
-    riskProfile: ((ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-      readonly type: "LOGIN";
-      payload: ((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number]
-    } | {
-      readonly type: "LOGOUT";
-      timestamp: number
-    })>)[number])["type"]]: string }>>)[number])[keyof (ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-      readonly type: "LOGIN";
-      payload: ((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number]
-    } | {
-      readonly type: "LOGOUT";
-      timestamp: number
-    })>)[number])["type"]]: string }>>)[number]]
-  }>)[number])["riskProfile"][]
+  skills:  (Readonly<{ [K in  ( "LOGIN" |  "LOGOUT")]: string }>)[keyof (Readonly<{ [K in  ( "LOGIN" |  "LOGOUT")]: string }>)][]
 }>;
 
 // Pattern from smart contract ABIs
 type ComplexObjectArraysCase11Flat = Array<{
   method: `0x${string}`;
-  inputs: (ReadonlyArray<Readonly<{
-    previousHash: (string & {
+  inputs: Readonly<{
+    previousHash: ((string) & ({
       __brand: "SHA256"
-    });
+    }));
     nonce: number;
-    readonly timestamp: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"]
-  }>>)[number];
-  outputs: ((Array<{
-    experimentId: `exp_${number}`;
-    parameters: {
-      [k: `param_${string}`]: (number | ((Array<{
-        node: string;
-        properties: { [K in keyof (Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])[K /** unresolved */]) }
-      }>)[number])["node"])
-    };
-    metrics: (((ReadonlyArray<Readonly<{
-      weights: ReadonlyArray<ReadonlyArray<({
+    readonly timestamp:  number
+  }>;
+  outputs:  ReadonlyArray<(({
         formula: string;
         value: never
-      } | {
+      }) | ({
         value: number;
         formula?: never
-      })>>;
-      activation: ("relu" | "sigmoid");
-      readonly bias: (Readonly<Array<{
-        readonly amount: number;
-        readonly currency: (string & {
-          __brand: "ISO4217"
-        })
-      }>>)[number]
-    }>>)[number])["weights"])[number];
-    dependencies: ((Array<{
-      deviceId: `dev_${string}`;
-      sensors: ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>;
-      readonly firmware: {
-        version: [
-          major: number,
-          minor: number,
-          patch: number
-        ];
-        checksum: (string & {
-          __length: 40
-        })
-      }
-    }>)[number])["firmware"]
-  }>)[number])["metrics"];
-  constant: (((Array<{
-    type: ("hero" | "cta" | "text");
-    content: ((Array<{
-      id: (string & {
-        __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
-      pricing: {
-        base: number;
-        currency: (Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number];
-        discounts?: [
-          key: `i18n_${string}`,
-          translations: [
-            string,
-            ((newValue: string) => void)
-          ][]
-        ]
-      }
-    }>)[number])["pricing"];
-    meta: Partial<(Array<((string & {
-      __brand: "id"
-    }) | (number & {
-      __brand: "count"
-    }))>)[number]>;
-    readonly _version: number
-  }>)[number])["_version"] extends number ? boolean : never)
+      }))>;
+  constant: (( number) extends (number) ? (boolean) : (never))
 }>;
 
 // Similar to genomic data structures
 type ComplexObjectArraysCase12Flat = Array<{
-  genomeId: (string & {
+  genomeId: ((string) & ({
     __brand: "GenomeID"
-  });
+  }));
   sequences: {
     chromosome: `chr${number}`;
-    markers: ((((ReadonlyArray<Readonly<{
-      electrons: ReadonlyArray<Readonly<{
-        qubits: ReadonlyArray<Readonly<{
-          state: ("|0>" | "|1>" | "+" | "-");
-          probability: (number & {
-            __range: [
-              0,
-              1
-            ]
-          })
-        }>>
-      }>>;
-      orbitals: ReadonlyArray<Readonly<{
-        energy: number;
-        shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>
-    }>>)[number])["orbitals"])[number])["energy"][]
+    markers:  number[]
   }[];
-  variations: ((Array<{
-    node: string;
-    properties: { [K in keyof (Array<{
-      id: (string & {
+  variations:  { [K in keyof ({
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -1093,30 +395,25 @@ type ComplexObjectArraysCase12Flat = Array<{
           ][]
         ]
       }
-    }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-      id: (string & {
+    })]?: ((K /** unresolved */) extends ("id") ? (never) : (({
+      id: ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
+      }));
+      variants:  readonly [
             string,
-            ...(({
+            ...((({
               a: number
-            } | {
+            }) | ({
               b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
+            })))[]
+          ];
       pricing: {
         base: number;
-        currency: (Array<((string & {
+        currency: (((string) & ({
           __brand: "id"
-        }) | (number & {
+        }))) | (((number) & ({
           __brand: "count"
-        }))>)[number];
+        })));
         discounts?: [
           key: `i18n_${string}`,
           translations: [
@@ -1125,477 +422,72 @@ type ComplexObjectArraysCase12Flat = Array<{
           ][]
         ]
       }
-    }>)[number])[K /** unresolved */]) }
-  }>)[number])["properties"]
+    })[K /** unresolved */])) }
 }>;
 
 // Inspired by CAD assembly structures
 type ComplexObjectArraysCase13Flat = Array<{
-  assemblyId: ((Array<{
-    documentId: (string & {
+  assemblyId:  ((string) & ({
       __brand: "DocumentID"
-    });
-    revisions: {
-      content: ((Array<{
-        type: ("hero" | "cta" | "text");
-        content: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"];
-        meta: Partial<(Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number]>;
-        readonly _version: number
-      }>)[number])["content"];
-      author: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["id"];
-      timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }[]
-  }>)[number])["documentId"];
-  components: (((Array<{
-    mesh: ((({
+    }));
+  components: ((({
+    mesh: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number];
+    });
     transform: {
       position: [
         number,
         number,
         (number)?
       ][];
-      rotation: (((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
+      rotation:  [
             major: number,
             minor: number,
             patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"])["version"]
+          ]
     };
     children: []
-  }>)[number] & {
+  }) & ({
     material: {
-      density: ((Array<{
-        experimentId: `exp_${number}`;
-        parameters: {
-          [k: `param_${string}`]: (number | ((Array<{
-            node: string;
-            properties: { [K in keyof (Array<{
-              id: (string & {
-                __brand: "ProductID"
-              });
-              variants: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["permissions"];
-              pricing: {
-                base: number;
-                currency: (Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number];
-                discounts?: [
-                  key: `i18n_${string}`,
-                  translations: [
-                    string,
-                    ((newValue: string) => void)
-                  ][]
-                ]
-              }
-            }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-              id: (string & {
-                __brand: "ProductID"
-              });
-              variants: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["permissions"];
-              pricing: {
-                base: number;
-                currency: (Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number];
-                discounts?: [
-                  key: `i18n_${string}`,
-                  translations: [
-                    string,
-                    ((newValue: string) => void)
-                  ][]
-                ]
-              }
-            }>)[number])[K /** unresolved */]) }
-          }>)[number])["node"])
-        };
-        metrics: (((ReadonlyArray<Readonly<{
-          weights: ReadonlyArray<ReadonlyArray<({
+      density:  ReadonlyArray<(({
             formula: string;
             value: never
-          } | {
+          }) | ({
             value: number;
             formula?: never
-          })>>;
-          activation: ("relu" | "sigmoid");
-          readonly bias: (Readonly<Array<{
-            readonly amount: number;
-            readonly currency: (string & {
-              __brand: "ISO4217"
-            })
-          }>>)[number]
-        }>>)[number])["weights"])[number];
-        dependencies: ((Array<{
-          deviceId: `dev_${string}`;
-          sensors: ReadonlyArray<Readonly<{
-            timestamp: number;
-            values: Readonly<[
-              number,
-              number,
-              (number)?
-            ][]>;
-            readonly sensorId: (string & {
-              __brand: "SensorID"
-            })
-          }>>;
-          readonly firmware: {
-            version: [
-              major: number,
-              minor: number,
-              patch: number
-            ];
-            checksum: (string & {
-              __length: 40
-            })
-          }
-        }>)[number])["firmware"]
-      }>)[number])["metrics"];
-      texture: ((ReadonlyArray<Readonly<{
-        breakpoints: Readonly<[
+          }))>;
+      texture:  Readonly<[
           number,
           number,
           number
-        ]>;
-        colors: Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>
-      }>>)[number])["breakpoints"]
+        ]>
     }
-  }))[];
-  constraints: ((ReadonlyArray<Readonly<{
-    commit: (string & {
-      __brand: "SHA1"
-    });
-    diff: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-  }>>)[number])["diff"]
+  })))[];
+  constraints:  Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>
 }>;
 
 // Pattern from astrophysics catalogs
 type ComplexObjectArraysCase14Flat = Array<{
   celestialId: `cel_${number}`;
-  coordinates: ((ReadonlyArray<Readonly<{
-    coordinates: Readonly<[
+  coordinates:  Readonly<[
       number,
       number,
       (number)?
     ][]>;
-    velocity: Readonly<[
-      number,
-      number,
-      (number)?
-    ][]>;
-    readonly timestamp: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"]
-  }>>)[number])["coordinates"];
   magnitudes: {
-    band: (((((ReadonlyArray<Readonly<{
-      electrons: ReadonlyArray<Readonly<{
-        qubits: ReadonlyArray<Readonly<{
-          state: ("|0>" | "|1>" | "+" | "-");
-          probability: (number & {
-            __range: [
-              0,
-              1
-            ]
-          })
-        }>>
-      }>>;
-      orbitals: ReadonlyArray<Readonly<{
-        energy: number;
-        shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>
-    }>>)[number])["orbitals"])[number])["shape"])[number];
+    band: ReadonlyArray<(("X") | ("O") | (null))>;
     value: number
   }[];
-  discoveries: ((((Array<{
-    documentId: (string & {
-      __brand: "DocumentID"
-    });
-    revisions: {
-      content: ((Array<{
-        type: ("hero" | "cta" | "text");
-        content: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"];
-        meta: Partial<(Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number]>;
-        readonly _version: number
-      }>)[number])["content"];
-      author: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["id"];
-      timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }[]
-  }>)[number])["revisions"])[number])["author"][]
+  discoveries:   string[]
 }>;
 
 // Similar to legal case management
 type ComplexObjectArraysCase15Flat = Array<{
-  caseId: ((Array<{
-    genomeId: (string & {
+  caseId:  ((string) & ({
       __brand: "GenomeID"
-    });
-    sequences: {
-      chromosome: `chr${number}`;
-      markers: ((((ReadonlyArray<Readonly<{
-        electrons: ReadonlyArray<Readonly<{
-          qubits: ReadonlyArray<Readonly<{
-            state: ("|0>" | "|1>" | "+" | "-");
-            probability: (number & {
-              __range: [
-                0,
-                1
-              ]
-            })
-          }>>
-        }>>;
-        orbitals: ReadonlyArray<Readonly<{
-          energy: number;
-          shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-        }>>
-      }>>)[number])["orbitals"])[number])["energy"][]
-    }[];
-    variations: ((Array<{
-      node: string;
-      properties: { [K in keyof (Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])[K /** unresolved */]) }
-    }>)[number])["properties"]
-  }>)[number])["genomeId"];
+    }));
   parties: [
     key: `i18n_${string}`,
     translations: [
@@ -1604,37 +496,18 @@ type ComplexObjectArraysCase15Flat = Array<{
     ][]
   ];
   documents: {
-    filing: (Array<{
-      documentId: (string & {
+    filing: {
+      documentId: ((string) & ({
         __brand: "DocumentID"
-      });
+      }));
       revisions: {
-        content: ((Array<{
-          type: ("hero" | "cta" | "text");
-          content: ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
+        content:   {
               base: number;
-              currency: (Array<((string & {
+              currency: (((string) & ({
                 __brand: "id"
-              }) | (number & {
+              }))) | (((number) & ({
                 __brand: "count"
-              }))>)[number];
+              })));
               discounts?: [
                 key: `i18n_${string}`,
                 translations: [
@@ -1642,514 +515,78 @@ type ComplexObjectArraysCase15Flat = Array<{
                   ((newValue: string) => void)
                 ][]
               ]
-            }
-          }>)[number])["pricing"];
-          meta: Partial<(Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number]>;
-          readonly _version: number
-        }>)[number])["content"];
-        author: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["id"];
-        timestamp: ((ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>)[number])["timestamp"]
+            };
+        author:  string;
+        timestamp:  number
       }[]
-    }>)[number];
-    evidence: ((ReadonlyArray<Readonly<{
-      clauseId: `section_${number}`;
-      text: string;
-      references: []
-    }>>)[number])["references"]
+    };
+    evidence:  []
   }[];
-  timeline: ((ReadonlyArray<Readonly<{
-    commit: (string & {
-      __brand: "SHA1"
-    });
-    diff: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-  }>>)[number])["diff"][]
+  timeline:  Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>[]
 }>;
 
 // Inspired by quantum experiment setups
 type ComplexObjectArraysCase16Flat = Array<{
-  experiment: (ReadonlyArray<Readonly<{
+  experiment: Readonly<{
     electrons: ReadonlyArray<Readonly<{
       qubits: ReadonlyArray<Readonly<{
-        state: ("|0>" | "|1>" | "+" | "-");
-        probability: (number & {
+        state: (("|0>") | ("|1>") | ("+") | ("-"));
+        probability: ((number) & ({
           __range: [
             0,
             1
           ]
-        })
+        }))
       }>>
     }>>;
     orbitals: ReadonlyArray<Readonly<{
       energy: number;
-      shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
+      shape: Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>
     }>>
-  }>>)[number];
+  }>;
   controls: {
-    parameter: (((Array<{
-      experimentId: `exp_${number}`;
-      parameters: {
-        [k: `param_${string}`]: (number | ((Array<{
-          node: string;
-          properties: { [K in keyof (Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])[K /** unresolved */]) }
-        }>)[number])["node"])
-      };
-      metrics: (((ReadonlyArray<Readonly<{
-        weights: ReadonlyArray<ReadonlyArray<({
-          formula: string;
-          value: never
-        } | {
-          value: number;
-          formula?: never
-        })>>;
-        activation: ("relu" | "sigmoid");
-        readonly bias: (Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>)[number]
-      }>>)[number])["weights"])[number];
-      dependencies: ((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
-            major: number,
-            minor: number,
-            patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"]
-    }>)[number])["parameters"])[keyof ((Array<{
-      experimentId: `exp_${number}`;
-      parameters: {
-        [k: `param_${string}`]: (number | ((Array<{
-          node: string;
-          properties: { [K in keyof (Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])[K /** unresolved */]) }
-        }>)[number])["node"])
-      };
-      metrics: (((ReadonlyArray<Readonly<{
-        weights: ReadonlyArray<ReadonlyArray<({
-          formula: string;
-          value: never
-        } | {
-          value: number;
-          formula?: never
-        })>>;
-        activation: ("relu" | "sigmoid");
-        readonly bias: (Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>)[number]
-      }>>)[number])["weights"])[number];
-      dependencies: ((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
-            major: number,
-            minor: number,
-            patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"]
-    }>)[number])["parameters"]];
-    range: (Readonly<[
+    parameter: ( {
+        [k: `param_${string}`]: ((number) | ( string))
+      })[keyof ( {
+        [k: `param_${string}`]: ((number) | ( string))
+      })];
+    range: [
       number,
       number,
       (number)?
-    ][]>)[number]
+    ]
   }[];
-  observations: ((Array<{
-    celestialId: `cel_${number}`;
-    coordinates: ((ReadonlyArray<Readonly<{
-      coordinates: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      velocity: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }>>)[number])["coordinates"];
-    magnitudes: {
-      band: (((((ReadonlyArray<Readonly<{
-        electrons: ReadonlyArray<Readonly<{
-          qubits: ReadonlyArray<Readonly<{
-            state: ("|0>" | "|1>" | "+" | "-");
-            probability: (number & {
-              __range: [
-                0,
-                1
-              ]
-            })
-          }>>
-        }>>;
-        orbitals: ReadonlyArray<Readonly<{
-          energy: number;
-          shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-        }>>
-      }>>)[number])["orbitals"])[number])["shape"])[number];
+  observations:  {
+      band: ReadonlyArray<(("X") | ("O") | (null))>;
       value: number
-    }[];
-    discoveries: ((((Array<{
-      documentId: (string & {
-        __brand: "DocumentID"
-      });
-      revisions: {
-        content: ((Array<{
-          type: ("hero" | "cta" | "text");
-          content: ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])["pricing"];
-          meta: Partial<(Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number]>;
-          readonly _version: number
-        }>)[number])["content"];
-        author: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["id"];
-        timestamp: ((ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>)[number])["timestamp"]
-      }[]
-    }>)[number])["revisions"])[number])["author"][]
-  }>)[number])["magnitudes"]
+    }[]
 }>;
 
 // Pattern from industrial IoT systems
 type ComplexObjectArraysCase17Flat = Array<{
   factoryId: `fac_${string}`;
   productionLines: {
-    lineId: ((Array<{
-      id: (string & {
+    lineId:  ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
-      pricing: {
-        base: number;
-        currency: (Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number];
-        discounts?: [
-          key: `i18n_${string}`,
-          translations: [
-            string,
-            ((newValue: string) => void)
-          ][]
-        ]
-      }
-    }>)[number])["id"];
-    sensors: ((Array<{
-      deviceId: `dev_${string}`;
-      sensors: ReadonlyArray<Readonly<{
+      }));
+    sensors:  ReadonlyArray<Readonly<{
         timestamp: number;
         values: Readonly<[
           number,
           number,
           (number)?
         ][]>;
-        readonly sensorId: (string & {
+        readonly sensorId: ((string) & ({
           __brand: "SensorID"
-        })
+        }))
       }>>;
-      readonly firmware: {
-        version: [
-          major: number,
-          minor: number,
-          patch: number
-        ];
-        checksum: (string & {
-          __length: 40
-        })
-      }
-    }>)[number])["sensors"];
-    throughput: ((((Array<{
-      holdings: {
-        asset: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
+    throughput:   {
             base: number;
-            currency: (Array<((string & {
+            currency: (((string) & ({
               __brand: "id"
-            }) | (number & {
+            }))) | (((number) & ({
               __brand: "count"
-            }))>)[number];
+            })));
             discounts?: [
               key: `i18n_${string}`,
               translations: [
@@ -2158,114 +595,15 @@ type ComplexObjectArraysCase17Flat = Array<{
               ][]
             ]
           }
-        }>)[number])["id"];
-        quantity: (number & {
-          __minimum: 0
-        });
-        value: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"]
-      }[];
-      riskProfile: ((ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]]: string }>>)[number])[keyof (ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]]: string }>>)[number]]
-    }>)[number])["holdings"])[number])["value"]
   }[];
-  maintenanceLogs: ((Array<{
-    documentId: (string & {
-      __brand: "DocumentID"
-    });
-    revisions: {
-      content: ((Array<{
-        type: ("hero" | "cta" | "text");
-        content: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
+  maintenanceLogs:  {
+      content:   {
             base: number;
-            currency: (Array<((string & {
+            currency: (((string) & ({
               __brand: "id"
-            }) | (number & {
+            }))) | (((number) & ({
               __brand: "count"
-            }))>)[number];
+            })));
             discounts?: [
               key: `i18n_${string}`,
               translations: [
@@ -2273,471 +611,65 @@ type ComplexObjectArraysCase17Flat = Array<{
                 ((newValue: string) => void)
               ][]
             ]
-          }
-        }>)[number])["pricing"];
-        meta: Partial<(Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number]>;
-        readonly _version: number
-      }>)[number])["content"];
-      author: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["id"];
-      timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
+          };
+      author:  string;
+      timestamp:  number
     }[]
-  }>)[number])["revisions"]
 }>;
 
 // Similar to climate data models
 type ComplexObjectArraysCase18Flat = Array<{
-  regionId: (((ReadonlyArray<Readonly<{
-    coordinates: Readonly<[
+  regionId: (( Readonly<[
       number,
       number,
       (number)?
-    ][]>;
-    velocity: Readonly<[
-      number,
-      number,
-      (number)?
-    ][]>;
-    readonly timestamp: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"]
-  }>>)[number])["coordinates"] extends infer C ? (C /** unresolved */ extends string[] ? `reg_${(C /** unresolved */)[0]}_${(C /** unresolved */)[1]}` : never) : never);
+    ][]>) extends (infer C) ? (((C /** unresolved */) extends (string[]) ? (`reg_${(C /** unresolved */)[0]}_${(C /** unresolved */)[1]}`) : (never))) : (never));
   measurements: {
     year: number;
-    temperature: ((Array<{
-      experimentId: `exp_${number}`;
-      parameters: {
-        [k: `param_${string}`]: (number | ((Array<{
-          node: string;
-          properties: { [K in keyof (Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])[K /** unresolved */]) }
-        }>)[number])["node"])
-      };
-      metrics: (((ReadonlyArray<Readonly<{
-        weights: ReadonlyArray<ReadonlyArray<({
+    temperature:  ReadonlyArray<(({
           formula: string;
           value: never
-        } | {
+        }) | ({
           value: number;
           formula?: never
-        })>>;
-        activation: ("relu" | "sigmoid");
-        readonly bias: (Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>)[number]
-      }>>)[number])["weights"])[number];
-      dependencies: ((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
-            major: number,
-            minor: number,
-            patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"]
-    }>)[number])["metrics"];
-    precipitation: ((Readonly<Array<{
-      readonly amount: number;
-      readonly currency: (string & {
-        __brand: "ISO4217"
-      })
-    }>>)[number])["amount"]
+        }))>;
+    precipitation:  number
   }[]
 }>;
 
 // Inspired by neural architecture search
 type ComplexObjectArraysCase19Flat = Array<{
-  architecture: (ReadonlyArray<Readonly<{
-    weights: ReadonlyArray<ReadonlyArray<({
+  architecture: Readonly<{
+    weights: ReadonlyArray<ReadonlyArray<(({
       formula: string;
       value: never
-    } | {
+    }) | ({
       value: number;
       formula?: never
-    })>>;
-    activation: ("relu" | "sigmoid");
-    readonly bias: (Readonly<Array<{
+    }))>>;
+    activation: (("relu") | ("sigmoid"));
+    readonly bias: {
       readonly amount: number;
-      readonly currency: (string & {
+      readonly currency: ((string) & ({
         __brand: "ISO4217"
-      })
-    }>>)[number]
-  }>>)[number];
+      }))
+    }
+  }>;
   performance: {
-    metric: ((Array<{
-      experimentId: `exp_${number}`;
-      parameters: {
-        [k: `param_${string}`]: (number | ((Array<{
-          node: string;
-          properties: { [K in keyof (Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])[K /** unresolved */]) }
-        }>)[number])["node"])
-      };
-      metrics: (((ReadonlyArray<Readonly<{
-        weights: ReadonlyArray<ReadonlyArray<({
+    metric:  ReadonlyArray<(({
           formula: string;
           value: never
-        } | {
+        }) | ({
           value: number;
           formula?: never
-        })>>;
-        activation: ("relu" | "sigmoid");
-        readonly bias: (Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>)[number]
-      }>>)[number])["weights"])[number];
-      dependencies: ((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
-            major: number,
-            minor: number,
-            patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"]
-    }>)[number])["metrics"];
-    value: ((((Array<{
-      regionId: (((ReadonlyArray<Readonly<{
-        coordinates: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        velocity: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly timestamp: ((ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>)[number])["timestamp"]
-      }>>)[number])["coordinates"] extends infer C ? (C /** unresolved */ extends string[] ? `reg_${(C /** unresolved */)[0]}_${(C /** unresolved */)[1]}` : never) : never);
-      measurements: {
-        year: number;
-        temperature: ((Array<{
-          experimentId: `exp_${number}`;
-          parameters: {
-            [k: `param_${string}`]: (number | ((Array<{
-              node: string;
-              properties: { [K in keyof (Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(({
-                        a: number
-                      } | {
-                        b: string
-                      }))[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(({
-                        a: number
-                      } | {
-                        b: string
-                      }))[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number])[K /** unresolved */]) }
-            }>)[number])["node"])
-          };
-          metrics: (((ReadonlyArray<Readonly<{
-            weights: ReadonlyArray<ReadonlyArray<({
+        }))>;
+    value:   ReadonlyArray<(({
               formula: string;
               value: never
-            } | {
+            }) | ({
               value: number;
               formula?: never
-            })>>;
-            activation: ("relu" | "sigmoid");
-            readonly bias: (Readonly<Array<{
-              readonly amount: number;
-              readonly currency: (string & {
-                __brand: "ISO4217"
-              })
-            }>>)[number]
-          }>>)[number])["weights"])[number];
-          dependencies: ((Array<{
-            deviceId: `dev_${string}`;
-            sensors: ReadonlyArray<Readonly<{
-              timestamp: number;
-              values: Readonly<[
-                number,
-                number,
-                (number)?
-              ][]>;
-              readonly sensorId: (string & {
-                __brand: "SensorID"
-              })
-            }>>;
-            readonly firmware: {
-              version: [
-                major: number,
-                minor: number,
-                patch: number
-              ];
-              checksum: (string & {
-                __length: 40
-              })
-            }
-          }>)[number])["firmware"]
-        }>)[number])["metrics"];
-        precipitation: ((Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>)[number])["amount"]
-      }[]
-    }>)[number])["measurements"])[number])["temperature"]
+            }))>
   };
   variants: []
 }>;
@@ -2747,255 +679,19 @@ type ComplexObjectArraysCase20Flat = Array<{
   compoundId: `cmpd_${string}`;
   structure: {
     smiles: string;
-    properties: ((((ReadonlyArray<Readonly<{
-      electrons: ReadonlyArray<Readonly<{
-        qubits: ReadonlyArray<Readonly<{
-          state: ("|0>" | "|1>" | "+" | "-");
-          probability: (number & {
+    properties:  ReadonlyArray<Readonly<{
+          state: (("|0>") | ("|1>") | ("+") | ("-"));
+          probability: ((number) & ({
             __range: [
               0,
               1
             ]
-          })
-        }>>
-      }>>;
-      orbitals: ReadonlyArray<Readonly<{
-        energy: number;
-        shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>
-    }>>)[number])["electrons"])[number])["qubits"][]
+          }))
+        }>>[]
   };
   trials: {
-    phase: ((Array<{
-      type: ("hero" | "cta" | "text");
-      content: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])["pricing"];
-      meta: Partial<(Array<((string & {
-        __brand: "id"
-      }) | (number & {
-        __brand: "count"
-      }))>)[number]>;
-      readonly _version: number
-    }>)[number])["type"];
-    results: ((Array<{
-      caseId: ((Array<{
-        genomeId: (string & {
-          __brand: "GenomeID"
-        });
-        sequences: {
-          chromosome: `chr${number}`;
-          markers: ((((ReadonlyArray<Readonly<{
-            electrons: ReadonlyArray<Readonly<{
-              qubits: ReadonlyArray<Readonly<{
-                state: ("|0>" | "|1>" | "+" | "-");
-                probability: (number & {
-                  __range: [
-                    0,
-                    1
-                  ]
-                })
-              }>>
-            }>>;
-            orbitals: ReadonlyArray<Readonly<{
-              energy: number;
-              shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-            }>>
-          }>>)[number])["orbitals"])[number])["energy"][]
-        }[];
-        variations: ((Array<{
-          node: string;
-          properties: { [K in keyof (Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])[K /** unresolved */]) }
-        }>)[number])["properties"]
-      }>)[number])["genomeId"];
-      parties: [
-        key: `i18n_${string}`,
-        translations: [
-          string,
-          ((newValue: string) => void)
-        ][]
-      ];
-      documents: {
-        filing: (Array<{
-          documentId: (string & {
-            __brand: "DocumentID"
-          });
-          revisions: {
-            content: ((Array<{
-              type: ("hero" | "cta" | "text");
-              content: ((Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(({
-                        a: number
-                      } | {
-                        b: string
-                      }))[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number])["pricing"];
-              meta: Partial<(Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number]>;
-              readonly _version: number
-            }>)[number])["content"];
-            author: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["id"];
-            timestamp: ((ReadonlyArray<Readonly<{
-              timestamp: number;
-              values: Readonly<[
-                number,
-                number,
-                (number)?
-              ][]>;
-              readonly sensorId: (string & {
-                __brand: "SensorID"
-              })
-            }>>)[number])["timestamp"]
-          }[]
-        }>)[number];
-        evidence: ((ReadonlyArray<Readonly<{
-          clauseId: `section_${number}`;
-          text: string;
-          references: []
-        }>>)[number])["references"]
-      }[];
-      timeline: ((ReadonlyArray<Readonly<{
-        commit: (string & {
-          __brand: "SHA1"
-        });
-        diff: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>)[number])["diff"][]
-    }>)[number])["timeline"]
+    phase:  (("hero") | ("cta") | ("text"));
+    results:   Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>[]
   }[]
 }>;
 
@@ -3003,141 +699,16 @@ type ComplexObjectArraysCase20Flat = Array<{
 type ComplexObjectArraysCase21Flat = Array<{
   missionId: `msn_${number}`;
   trajectory: {
-    waypoints: ((ReadonlyArray<Readonly<{
-      coordinates: Readonly<[
+    waypoints:  Readonly<[
         number,
         number,
         (number)?
-      ][]>;
-      velocity: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }>>)[number])["coordinates"][];
-    deltaV: ((((Array<{
-      holdings: {
-        asset: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["id"];
-        quantity: (number & {
+      ][]>[];
+    deltaV:  ((number) & ({
           __minimum: 0
-        });
-        value: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"]
-      }[];
-      riskProfile: ((ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]]: string }>>)[number])[keyof (ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]]: string }>>)[number]]
-    }>)[number])["holdings"])[number])["quantity"]
+        }))
   };
-  payloads: (((Array<{
+  payloads: ((({
     deviceId: `dev_${string}`;
     sensors: ReadonlyArray<Readonly<{
       timestamp: number;
@@ -3146,9 +717,9 @@ type ComplexObjectArraysCase21Flat = Array<{
         number,
         (number)?
       ][]>;
-      readonly sensorId: (string & {
+      readonly sensorId: ((string) & ({
         __brand: "SensorID"
-      })
+      }))
     }>>;
     readonly firmware: {
       version: [
@@ -3156,706 +727,58 @@ type ComplexObjectArraysCase21Flat = Array<{
         minor: number,
         patch: number
       ];
-      checksum: (string & {
+      checksum: ((string) & ({
         __length: 40
-      })
+      }))
     }
-  }>)[number] | (Array<{
+  }) | ({
     celestialId: `cel_${number}`;
-    coordinates: ((ReadonlyArray<Readonly<{
-      coordinates: Readonly<[
+    coordinates:  Readonly<[
         number,
         number,
         (number)?
       ][]>;
-      velocity: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }>>)[number])["coordinates"];
     magnitudes: {
-      band: (((((ReadonlyArray<Readonly<{
-        electrons: ReadonlyArray<Readonly<{
-          qubits: ReadonlyArray<Readonly<{
-            state: ("|0>" | "|1>" | "+" | "-");
-            probability: (number & {
-              __range: [
-                0,
-                1
-              ]
-            })
-          }>>
-        }>>;
-        orbitals: ReadonlyArray<Readonly<{
-          energy: number;
-          shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-        }>>
-      }>>)[number])["orbitals"])[number])["shape"])[number];
+      band: ReadonlyArray<(("X") | ("O") | (null))>;
       value: number
     }[];
-    discoveries: ((((Array<{
-      documentId: (string & {
-        __brand: "DocumentID"
-      });
-      revisions: {
-        content: ((Array<{
-          type: ("hero" | "cta" | "text");
-          content: ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])["pricing"];
-          meta: Partial<(Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number]>;
-          readonly _version: number
-        }>)[number])["content"];
-        author: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["id"];
-        timestamp: ((ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>)[number])["timestamp"]
-      }[]
-    }>)[number])["revisions"])[number])["author"][]
-  }>)[number]))[]
+    discoveries:   string[]
+  })))[]
 }>;
 
 // Similar to cybersecurity event logs
 type ComplexObjectArraysCase22Flat = Array<{
-  incidentId: ((Array<{
-    compoundId: `cmpd_${string}`;
-    structure: {
-      smiles: string;
-      properties: ((((ReadonlyArray<Readonly<{
-        electrons: ReadonlyArray<Readonly<{
-          qubits: ReadonlyArray<Readonly<{
-            state: ("|0>" | "|1>" | "+" | "-");
-            probability: (number & {
-              __range: [
-                0,
-                1
-              ]
-            })
-          }>>
-        }>>;
-        orbitals: ReadonlyArray<Readonly<{
-          energy: number;
-          shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-        }>>
-      }>>)[number])["electrons"])[number])["qubits"][]
-    };
-    trials: {
-      phase: ((Array<{
-        type: ("hero" | "cta" | "text");
-        content: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"];
-        meta: Partial<(Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number]>;
-        readonly _version: number
-      }>)[number])["type"];
-      results: ((Array<{
-        caseId: ((Array<{
-          genomeId: (string & {
-            __brand: "GenomeID"
-          });
-          sequences: {
-            chromosome: `chr${number}`;
-            markers: ((((ReadonlyArray<Readonly<{
-              electrons: ReadonlyArray<Readonly<{
-                qubits: ReadonlyArray<Readonly<{
-                  state: ("|0>" | "|1>" | "+" | "-");
-                  probability: (number & {
-                    __range: [
-                      0,
-                      1
-                    ]
-                  })
-                }>>
-              }>>;
-              orbitals: ReadonlyArray<Readonly<{
-                energy: number;
-                shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-              }>>
-            }>>)[number])["orbitals"])[number])["energy"][]
-          }[];
-          variations: ((Array<{
-            node: string;
-            properties: { [K in keyof (Array<{
-              id: (string & {
-                __brand: "ProductID"
-              });
-              variants: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["permissions"];
-              pricing: {
-                base: number;
-                currency: (Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number];
-                discounts?: [
-                  key: `i18n_${string}`,
-                  translations: [
-                    string,
-                    ((newValue: string) => void)
-                  ][]
-                ]
-              }
-            }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-              id: (string & {
-                __brand: "ProductID"
-              });
-              variants: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["permissions"];
-              pricing: {
-                base: number;
-                currency: (Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number];
-                discounts?: [
-                  key: `i18n_${string}`,
-                  translations: [
-                    string,
-                    ((newValue: string) => void)
-                  ][]
-                ]
-              }
-            }>)[number])[K /** unresolved */]) }
-          }>)[number])["properties"]
-        }>)[number])["genomeId"];
-        parties: [
-          key: `i18n_${string}`,
-          translations: [
-            string,
-            ((newValue: string) => void)
-          ][]
-        ];
-        documents: {
-          filing: (Array<{
-            documentId: (string & {
-              __brand: "DocumentID"
-            });
-            revisions: {
-              content: ((Array<{
-                type: ("hero" | "cta" | "text");
-                content: ((Array<{
-                  id: (string & {
-                    __brand: "ProductID"
-                  });
-                  variants: (((Readonly<{
-                    users: ReadonlyArray<{
-                      readonly id: string;
-                      permissions: readonly [
-                        string,
-                        ...(({
-                          a: number
-                        } | {
-                          b: string
-                        }))[]
-                      ]
-                    }>
-                  }>)["users"])[number])["permissions"];
-                  pricing: {
-                    base: number;
-                    currency: (Array<((string & {
-                      __brand: "id"
-                    }) | (number & {
-                      __brand: "count"
-                    }))>)[number];
-                    discounts?: [
-                      key: `i18n_${string}`,
-                      translations: [
-                        string,
-                        ((newValue: string) => void)
-                      ][]
-                    ]
-                  }
-                }>)[number])["pricing"];
-                meta: Partial<(Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number]>;
-                readonly _version: number
-              }>)[number])["content"];
-              author: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["id"];
-              timestamp: ((ReadonlyArray<Readonly<{
-                timestamp: number;
-                values: Readonly<[
-                  number,
-                  number,
-                  (number)?
-                ][]>;
-                readonly sensorId: (string & {
-                  __brand: "SensorID"
-                })
-              }>>)[number])["timestamp"]
-            }[]
-          }>)[number];
-          evidence: ((ReadonlyArray<Readonly<{
-            clauseId: `section_${number}`;
-            text: string;
-            references: []
-          }>>)[number])["references"]
-        }[];
-        timeline: ((ReadonlyArray<Readonly<{
-          commit: (string & {
-            __brand: "SHA1"
-          });
-          diff: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-        }>>)[number])["diff"][]
-      }>)[number])["timeline"]
-    }[]
-  }>)[number])["compoundId"];
+  incidentId:  `cmpd_${string}`;
   timeline: {
-    detected: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"];
-    severity: ((Array<{
-      type: ("hero" | "cta" | "text");
-      content: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])["pricing"];
-      meta: Partial<(Array<((string & {
-        __brand: "id"
-      }) | (number & {
-        __brand: "count"
-      }))>)[number]>;
-      readonly _version: number
-    }>)[number])["_version"];
-    indicators: ((ReadonlyArray<Readonly<{
-      previousHash: (string & {
-        __brand: "SHA256"
-      });
-      nonce: number;
-      readonly timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }>>)[number])["nonce"][]
+    detected:  number;
+    severity:  number;
+    indicators:  number[]
   }[];
-  mitigation: ((Array<{
-    method: `0x${string}`;
-    inputs: (ReadonlyArray<Readonly<{
-      previousHash: (string & {
-        __brand: "SHA256"
-      });
-      nonce: number;
-      readonly timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }>>)[number];
-    outputs: ((Array<{
-      experimentId: `exp_${number}`;
-      parameters: {
-        [k: `param_${string}`]: (number | ((Array<{
-          node: string;
-          properties: { [K in keyof (Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])[K /** unresolved */]) }
-        }>)[number])["node"])
-      };
-      metrics: (((ReadonlyArray<Readonly<{
-        weights: ReadonlyArray<ReadonlyArray<({
+  mitigation:   ReadonlyArray<(({
           formula: string;
           value: never
-        } | {
+        }) | ({
           value: number;
           formula?: never
-        })>>;
-        activation: ("relu" | "sigmoid");
-        readonly bias: (Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>)[number]
-      }>>)[number])["weights"])[number];
-      dependencies: ((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
-            major: number,
-            minor: number,
-            patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"]
-    }>)[number])["metrics"];
-    constant: (((Array<{
-      type: ("hero" | "cta" | "text");
-      content: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])["pricing"];
-      meta: Partial<(Array<((string & {
-        __brand: "id"
-      }) | (number & {
-        __brand: "count"
-      }))>)[number]>;
-      readonly _version: number
-    }>)[number])["_version"] extends number ? boolean : never)
-  }>)[number])["outputs"]
+        }))>
 }>;
 
 // Pattern from augmented reality scenes
 type ComplexObjectArraysCase23Flat = Array<{
   sceneId: `scn_${string}`;
   anchors: {
-    position: (((Array<{
-      mesh: ((({
-        a: number
-      } | {
-        b: string
-      }))[])[number];
-      transform: {
-        position: [
+    position:  [
           number,
           number,
           (number)?
         ][];
-        rotation: (((Array<{
-          deviceId: `dev_${string}`;
-          sensors: ReadonlyArray<Readonly<{
-            timestamp: number;
-            values: Readonly<[
-              number,
-              number,
-              (number)?
-            ][]>;
-            readonly sensorId: (string & {
-              __brand: "SensorID"
-            })
-          }>>;
-          readonly firmware: {
-            version: [
-              major: number,
-              minor: number,
-              patch: number
-            ];
-            checksum: (string & {
-              __length: 40
-            })
-          }
-        }>)[number])["firmware"])["version"]
-      };
-      children: []
-    }>)[number])["transform"])["position"];
-    content: ((Array<{
-      type: ("hero" | "cta" | "text");
-      content: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
+    content:   {
           base: number;
-          currency: (Array<((string & {
+          currency: (((string) & ({
             __brand: "id"
-          }) | (number & {
+          }))) | (((number) & ({
             __brand: "count"
-          }))>)[number];
+          })));
           discounts?: [
             key: `i18n_${string}`,
             translations: [
@@ -3864,472 +787,44 @@ type ComplexObjectArraysCase23Flat = Array<{
             ][]
           ]
         }
-      }>)[number])["pricing"];
-      meta: Partial<(Array<((string & {
-        __brand: "id"
-      }) | (number & {
-        __brand: "count"
-      }))>)[number]>;
-      readonly _version: number
-    }>)[number])["content"]
   }[];
   physics: {
-    gravity: (Readonly<[
+    gravity: [
       number,
       number,
       (number)?
-    ][]>)[number];
-    collisions: ((((Array<{
-      experiment: (ReadonlyArray<Readonly<{
-        electrons: ReadonlyArray<Readonly<{
-          qubits: ReadonlyArray<Readonly<{
-            state: ("|0>" | "|1>" | "+" | "-");
-            probability: (number & {
-              __range: [
-                0,
-                1
-              ]
-            })
-          }>>
-        }>>;
-        orbitals: ReadonlyArray<Readonly<{
-          energy: number;
-          shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-        }>>
-      }>>)[number];
-      controls: {
-        parameter: (((Array<{
-          experimentId: `exp_${number}`;
-          parameters: {
-            [k: `param_${string}`]: (number | ((Array<{
-              node: string;
-              properties: { [K in keyof (Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(({
-                        a: number
-                      } | {
-                        b: string
-                      }))[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(({
-                        a: number
-                      } | {
-                        b: string
-                      }))[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number])[K /** unresolved */]) }
-            }>)[number])["node"])
-          };
-          metrics: (((ReadonlyArray<Readonly<{
-            weights: ReadonlyArray<ReadonlyArray<({
-              formula: string;
-              value: never
-            } | {
-              value: number;
-              formula?: never
-            })>>;
-            activation: ("relu" | "sigmoid");
-            readonly bias: (Readonly<Array<{
-              readonly amount: number;
-              readonly currency: (string & {
-                __brand: "ISO4217"
-              })
-            }>>)[number]
-          }>>)[number])["weights"])[number];
-          dependencies: ((Array<{
-            deviceId: `dev_${string}`;
-            sensors: ReadonlyArray<Readonly<{
-              timestamp: number;
-              values: Readonly<[
-                number,
-                number,
-                (number)?
-              ][]>;
-              readonly sensorId: (string & {
-                __brand: "SensorID"
-              })
-            }>>;
-            readonly firmware: {
-              version: [
-                major: number,
-                minor: number,
-                patch: number
-              ];
-              checksum: (string & {
-                __length: 40
-              })
-            }
-          }>)[number])["firmware"]
-        }>)[number])["parameters"])[keyof ((Array<{
-          experimentId: `exp_${number}`;
-          parameters: {
-            [k: `param_${string}`]: (number | ((Array<{
-              node: string;
-              properties: { [K in keyof (Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(({
-                        a: number
-                      } | {
-                        b: string
-                      }))[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(({
-                        a: never /** maxDepth exceeded */
-                      } | {
-                        b: never /** maxDepth exceeded */
-                      }))[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number])[K /** unresolved */]) }
-            }>)[number])["node"])
-          };
-          metrics: (((ReadonlyArray<Readonly<{
-            weights: ReadonlyArray<ReadonlyArray<({
-              formula: string;
-              value: never
-            } | {
-              value: number;
-              formula?: never
-            })>>;
-            activation: ("relu" | "sigmoid");
-            readonly bias: (Readonly<Array<{
-              readonly amount: number;
-              readonly currency: (string & {
-                __brand: "ISO4217"
-              })
-            }>>)[number]
-          }>>)[number])["weights"])[number];
-          dependencies: ((Array<{
-            deviceId: `dev_${string}`;
-            sensors: ReadonlyArray<Readonly<{
-              timestamp: number;
-              values: Readonly<[
-                number,
-                number,
-                (number)?
-              ][]>;
-              readonly sensorId: (string & {
-                __brand: "SensorID"
-              })
-            }>>;
-            readonly firmware: {
-              version: [
-                major: number,
-                minor: number,
-                patch: number
-              ];
-              checksum: (string & {
-                __length: 40
-              })
-            }
-          }>)[number])["firmware"]
-        }>)[number])["parameters"]];
-        range: (Readonly<[
+    ];
+    collisions:  [
           number,
           number,
           (number)?
-        ][]>)[number]
-      }[];
-      observations: ((Array<{
-        celestialId: `cel_${number}`;
-        coordinates: ((ReadonlyArray<Readonly<{
-          coordinates: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          velocity: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly timestamp: ((ReadonlyArray<Readonly<{
-            timestamp: number;
-            values: Readonly<[
-              number,
-              number,
-              (number)?
-            ][]>;
-            readonly sensorId: (string & {
-              __brand: "SensorID"
-            })
-          }>>)[number])["timestamp"]
-        }>>)[number])["coordinates"];
-        magnitudes: {
-          band: (((((ReadonlyArray<Readonly<{
-            electrons: ReadonlyArray<Readonly<{
-              qubits: ReadonlyArray<Readonly<{
-                state: ("|0>" | "|1>" | "+" | "-");
-                probability: (number & {
-                  __range: [
-                    0,
-                    1
-                  ]
-                })
-              }>>
-            }>>;
-            orbitals: ReadonlyArray<Readonly<{
-              energy: number;
-              shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-            }>>
-          }>>)[number])["orbitals"])[number])["shape"])[number];
-          value: number
-        }[];
-        discoveries: ((((Array<{
-          documentId: (string & {
-            __brand: "DocumentID"
-          });
-          revisions: {
-            content: ((Array<{
-              type: ("hero" | "cta" | "text");
-              content: ((Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(never /** maxDepth exceeded */)[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number])["pricing"];
-              meta: Partial<(Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number]>;
-              readonly _version: number
-            }>)[number])["content"];
-            author: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["id"];
-            timestamp: ((ReadonlyArray<Readonly<{
-              timestamp: number;
-              values: Readonly<[
-                number,
-                number,
-                (number)?
-              ][]>;
-              readonly sensorId: (string & {
-                __brand: "SensorID"
-              })
-            }>>)[number])["timestamp"]
-          }[]
-        }>)[number])["revisions"])[number])["author"][]
-      }>)[number])["magnitudes"]
-    }>)[number])["controls"])[number])["range"]
+        ]
   }
 }>;
 
 // Inspired by blockchain transaction graphs
 type ComplexObjectArraysCase24Flat = Array<{
-  block: (ReadonlyArray<Readonly<{
-    previousHash: (string & {
+  block: Readonly<{
+    previousHash: ((string) & ({
       __brand: "SHA256"
-    });
+    }));
     nonce: number;
-    readonly timestamp: ((ReadonlyArray<Readonly<{
-      timestamp: number;
-      values: Readonly<[
-        number,
-        number,
-        (number)?
-      ][]>;
-      readonly sensorId: (string & {
-        __brand: "SensorID"
-      })
-    }>>)[number])["timestamp"]
-  }>>)[number];
+    readonly timestamp:  number
+  }>;
   transactions: {
-    from: ((Array<{
-      id: (string & {
+    from:  ((string) & ({
         __brand: "ProductID"
-      });
-      variants: (((Readonly<{
-        users: ReadonlyArray<{
-          readonly id: string;
-          permissions: readonly [
-            string,
-            ...(({
-              a: number
-            } | {
-              b: string
-            }))[]
-          ]
-        }>
-      }>)["users"])[number])["permissions"];
-      pricing: {
-        base: number;
-        currency: (Array<((string & {
-          __brand: "id"
-        }) | (number & {
-          __brand: "count"
-        }))>)[number];
-        discounts?: [
-          key: `i18n_${string}`,
-          translations: [
-            string,
-            ((newValue: string) => void)
-          ][]
-        ]
-      }
-    }>)[number])["id"];
+      }));
     to: [
       "previousHash"
     ];
-    value: ((((Array<{
-      holdings: {
-        asset: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
+    value:   {
             base: number;
-            currency: (Array<((string & {
+            currency: (((string) & ({
               __brand: "id"
-            }) | (number & {
+            }))) | (((number) & ({
               __brand: "count"
-            }))>)[number];
+            })));
             discounts?: [
               key: `i18n_${string}`,
               translations: [
@@ -4338,627 +833,20 @@ type ComplexObjectArraysCase24Flat = Array<{
               ][]
             ]
           }
-        }>)[number])["id"];
-        quantity: (number & {
-          __minimum: 0
-        });
-        value: ((Array<{
-          id: (string & {
-            __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["pricing"]
-      }[];
-      riskProfile: ((ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]]: string }>>)[number])[keyof (ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]]: string }>>)[number]]
-    }>)[number])["holdings"])[number])["value"]
   }[];
-  smartContracts: ((Array<{
-    method: `0x${string}`;
-    inputs: (ReadonlyArray<Readonly<{
-      previousHash: (string & {
-        __brand: "SHA256"
-      });
-      nonce: number;
-      readonly timestamp: ((ReadonlyArray<Readonly<{
-        timestamp: number;
-        values: Readonly<[
-          number,
-          number,
-          (number)?
-        ][]>;
-        readonly sensorId: (string & {
-          __brand: "SensorID"
-        })
-      }>>)[number])["timestamp"]
-    }>>)[number];
-    outputs: ((Array<{
-      experimentId: `exp_${number}`;
-      parameters: {
-        [k: `param_${string}`]: (number | ((Array<{
-          node: string;
-          properties: { [K in keyof (Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])[K /** unresolved */]) }
-        }>)[number])["node"])
-      };
-      metrics: (((ReadonlyArray<Readonly<{
-        weights: ReadonlyArray<ReadonlyArray<({
-          formula: string;
-          value: never
-        } | {
-          value: number;
-          formula?: never
-        })>>;
-        activation: ("relu" | "sigmoid");
-        readonly bias: (Readonly<Array<{
-          readonly amount: number;
-          readonly currency: (string & {
-            __brand: "ISO4217"
-          })
-        }>>)[number]
-      }>>)[number])["weights"])[number];
-      dependencies: ((Array<{
-        deviceId: `dev_${string}`;
-        sensors: ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>;
-        readonly firmware: {
-          version: [
-            major: number,
-            minor: number,
-            patch: number
-          ];
-          checksum: (string & {
-            __length: 40
-          })
-        }
-      }>)[number])["firmware"]
-    }>)[number])["metrics"];
-    constant: (((Array<{
-      type: ("hero" | "cta" | "text");
-      content: ((Array<{
-        id: (string & {
-          __brand: "ProductID"
-        });
-        variants: (((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number])["permissions"];
-        pricing: {
-          base: number;
-          currency: (Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number];
-          discounts?: [
-            key: `i18n_${string}`,
-            translations: [
-              string,
-              ((newValue: string) => void)
-            ][]
-          ]
-        }
-      }>)[number])["pricing"];
-      meta: Partial<(Array<((string & {
-        __brand: "id"
-      }) | (number & {
-        __brand: "count"
-      }))>)[number]>;
-      readonly _version: number
-    }>)[number])["_version"] extends number ? boolean : never)
-  }>)[number])["constant"][]
+  smartContracts:  (( number) extends (number) ? (boolean) : (never))[]
 }>;
 
 // Pattern from quantum cryptography
 type ComplexObjectArraysCase25Flat = Array<{
-  protocol: ("BB84" | "E91");
+  protocol: (("BB84") | ("E91"));
   participants: {
-    publicKey: ((((Array<{
-      block: (ReadonlyArray<Readonly<{
-        previousHash: (string & {
-          __brand: "SHA256"
-        });
-        nonce: number;
-        readonly timestamp: ((ReadonlyArray<Readonly<{
-          timestamp: number;
-          values: Readonly<[
-            number,
-            number,
-            (number)?
-          ][]>;
-          readonly sensorId: (string & {
-            __brand: "SensorID"
-          })
-        }>>)[number])["timestamp"]
-      }>>)[number];
-      transactions: {
-        from: ((Array<{
-          id: (string & {
+    publicKey:   ((string) & ({
             __brand: "ProductID"
-          });
-          variants: (((Readonly<{
-            users: ReadonlyArray<{
-              readonly id: string;
-              permissions: readonly [
-                string,
-                ...(({
-                  a: number
-                } | {
-                  b: string
-                }))[]
-              ]
-            }>
-          }>)["users"])[number])["permissions"];
-          pricing: {
-            base: number;
-            currency: (Array<((string & {
-              __brand: "id"
-            }) | (number & {
-              __brand: "count"
-            }))>)[number];
-            discounts?: [
-              key: `i18n_${string}`,
-              translations: [
-                string,
-                ((newValue: string) => void)
-              ][]
-            ]
-          }
-        }>)[number])["id"];
-        to: [
-          "previousHash"
-        ];
-        value: ((((Array<{
-          holdings: {
-            asset: ((Array<{
-              id: (string & {
-                __brand: "ProductID"
-              });
-              variants: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["permissions"];
-              pricing: {
-                base: number;
-                currency: (Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number];
-                discounts?: [
-                  key: `i18n_${string}`,
-                  translations: [
-                    string,
-                    ((newValue: string) => void)
-                  ][]
-                ]
-              }
-            }>)[number])["id"];
-            quantity: (number & {
-              __minimum: 0
-            });
-            value: ((Array<{
-              id: (string & {
-                __brand: "ProductID"
-              });
-              variants: (((Readonly<{
-                users: ReadonlyArray<{
-                  readonly id: string;
-                  permissions: readonly [
-                    string,
-                    ...(({
-                      a: number
-                    } | {
-                      b: string
-                    }))[]
-                  ]
-                }>
-              }>)["users"])[number])["permissions"];
-              pricing: {
-                base: number;
-                currency: (Array<((string & {
-                  __brand: "id"
-                }) | (number & {
-                  __brand: "count"
-                }))>)[number];
-                discounts?: [
-                  key: `i18n_${string}`,
-                  translations: [
-                    string,
-                    ((newValue: string) => void)
-                  ][]
-                ]
-              }
-            }>)[number])["pricing"]
-          }[];
-          riskProfile: ((ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-            readonly type: "LOGIN";
-            payload: ((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number]
-          } | {
-            readonly type: "LOGOUT";
-            timestamp: number
-          })>)[number])["type"]]: string }>>)[number])[keyof (ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-            readonly type: "LOGIN";
-            payload: ((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number]
-          } | {
-            readonly type: "LOGOUT";
-            timestamp: number
-          })>)[number])["type"]]: string }>>)[number]]
-        }>)[number])["holdings"])[number])["value"]
-      }[];
-      smartContracts: ((Array<{
-        method: `0x${string}`;
-        inputs: (ReadonlyArray<Readonly<{
-          previousHash: (string & {
-            __brand: "SHA256"
-          });
-          nonce: number;
-          readonly timestamp: ((ReadonlyArray<Readonly<{
-            timestamp: number;
-            values: Readonly<[
-              number,
-              number,
-              (number)?
-            ][]>;
-            readonly sensorId: (string & {
-              __brand: "SensorID"
-            })
-          }>>)[number])["timestamp"]
-        }>>)[number];
-        outputs: ((Array<{
-          experimentId: `exp_${number}`;
-          parameters: {
-            [k: `param_${string}`]: (number | ((Array<{
-              node: string;
-              properties: { [K in keyof (Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...(never /** maxDepth exceeded */)[]
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number]]?: (K /** unresolved */ extends "id" ? never : ((Array<{
-                id: (string & {
-                  __brand: "ProductID"
-                });
-                variants: (((Readonly<{
-                  users: ReadonlyArray<{
-                    readonly id: string;
-                    permissions: readonly [
-                      string,
-                      ...never /** maxDepth exceeded */
-                    ]
-                  }>
-                }>)["users"])[number])["permissions"];
-                pricing: {
-                  base: number;
-                  currency: (Array<((string & {
-                    __brand: "id"
-                  }) | (number & {
-                    __brand: "count"
-                  }))>)[number];
-                  discounts?: [
-                    key: `i18n_${string}`,
-                    translations: [
-                      string,
-                      ((newValue: string) => void)
-                    ][]
-                  ]
-                }
-              }>)[number])[K /** unresolved */]) }
-            }>)[number])["node"])
-          };
-          metrics: (((ReadonlyArray<Readonly<{
-            weights: ReadonlyArray<ReadonlyArray<({
-              formula: string;
-              value: never
-            } | {
-              value: number;
-              formula?: never
-            })>>;
-            activation: ("relu" | "sigmoid");
-            readonly bias: (Readonly<Array<{
-              readonly amount: number;
-              readonly currency: (string & {
-                __brand: "ISO4217"
-              })
-            }>>)[number]
-          }>>)[number])["weights"])[number];
-          dependencies: ((Array<{
-            deviceId: `dev_${string}`;
-            sensors: ReadonlyArray<Readonly<{
-              timestamp: number;
-              values: Readonly<[
-                number,
-                number,
-                (number)?
-              ][]>;
-              readonly sensorId: (string & {
-                __brand: "SensorID"
-              })
-            }>>;
-            readonly firmware: {
-              version: [
-                major: number,
-                minor: number,
-                patch: number
-              ];
-              checksum: (string & {
-                __length: 40
-              })
-            }
-          }>)[number])["firmware"]
-        }>)[number])["metrics"];
-        constant: (((Array<{
-          type: ("hero" | "cta" | "text");
-          content: ((Array<{
-            id: (string & {
-              __brand: "ProductID"
-            });
-            variants: (((Readonly<{
-              users: ReadonlyArray<{
-                readonly id: string;
-                permissions: readonly [
-                  string,
-                  ...(({
-                    a: number
-                  } | {
-                    b: string
-                  }))[]
-                ]
-              }>
-            }>)["users"])[number])["permissions"];
-            pricing: {
-              base: number;
-              currency: (Array<((string & {
-                __brand: "id"
-              }) | (number & {
-                __brand: "count"
-              }))>)[number];
-              discounts?: [
-                key: `i18n_${string}`,
-                translations: [
-                  string,
-                  ((newValue: string) => void)
-                ][]
-              ]
-            }
-          }>)[number])["pricing"];
-          meta: Partial<(Array<((string & {
-            __brand: "id"
-          }) | (number & {
-            __brand: "count"
-          }))>)[number]>;
-          readonly _version: number
-        }>)[number])["_version"] extends number ? boolean : never)
-      }>)[number])["constant"][]
-    }>)[number])["transactions"])[number])["from"];
-    basis: (((((ReadonlyArray<Readonly<{
-      electrons: ReadonlyArray<Readonly<{
-        qubits: ReadonlyArray<Readonly<{
-          state: ("|0>" | "|1>" | "+" | "-");
-          probability: (number & {
-            __range: [
-              0,
-              1
-            ]
-          })
-        }>>
-      }>>;
-      orbitals: ReadonlyArray<Readonly<{
-        energy: number;
-        shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
-      }>>
-    }>>)[number])["orbitals"])[number])["shape"])[number]
+          }));
+    basis: ReadonlyArray<(("X") | ("O") | (null))>
   }[];
-  exchange: ((((ReadonlyArray<Readonly<{
-    qubits: ReadonlyArray<Readonly<{
-      state: ("|0>" | "|1>" | "+" | "-");
-      probability: (number & {
-        __range: [
-          0,
-          1
-        ]
-      })
-    }>>
-  }>>)[number])["qubits"])[number])["state"][]
+  exchange:  (("|0>") | ("|1>") | ("+") | ("-"))[]
 }>;
 
 

@@ -29,35 +29,30 @@ import type {
 } from "@/fixtures/mixed/TypePredicates.ts";
 
 // Valid type predicate syntax
-type TypePredicatesCase1Flat = ((value: unknown) => value is (Array<(string & {
+type TypePredicatesCase1Flat = ((value: unknown) => value is (string) & ({
   __brand: "TransactionID"
-})>)[number]);
+}));
 
 // Proper union type check
 type TypePredicatesCase2Flat = ((res: unknown) => res is Array<{
-  id: (string & {
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -69,7 +64,7 @@ type TypePredicatesCase2Flat = ((res: unknown) => res is Array<{
 }>);
 
 // Numeric literal type guard
-type TypePredicatesCase3Flat = ((n: unknown) => n is (0 | 1 | 2 | 3 | 4 | 5));
+type TypePredicatesCase3Flat = ((n: unknown) => n is ((0) | (1) | (2) | (3) | (4) | (5)));
 
 // DOM type guard with proper return type
 type TypePredicatesCase4Flat = ((el: unknown) => el is HTMLElement);
@@ -84,22 +79,22 @@ type TypePredicatesCase6Flat = ((value: unknown) => asserts value is Error);
 type TypePredicatesCase7Flat = ((version: string) => version is `v${number}.${number}`);
 
 // Coordinate type guard
-type TypePredicatesCase8Flat = ((coord: unknown) => coord is ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type TypePredicatesCase8Flat = ((coord: unknown) => coord is (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}));
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+})));
 
 // Branded type predicate
-type TypePredicatesCase9Flat = ((amount: unknown) => amount is (number & {
+type TypePredicatesCase9Flat = ((amount: unknown) => amount is ((number) & ({
   __currency: "USD"
-}));
+})));
 
 // Generic type predicate
 type TypePredicatesCase10Flat<T> = ((obj: unknown) => obj is T);
@@ -108,7 +103,7 @@ type TypePredicatesCase10Flat<T> = ((obj: unknown) => obj is T);
 type TypePredicatesCase11Flat = ((data: unknown) => data is ArrayBuffer);
 
 // Union type narrowing
-type TypePredicatesCase12Flat = ((scope: unknown) => scope is ("read" | "write"));
+type TypePredicatesCase12Flat = ((scope: unknown) => scope is (("read") | ("write")));
 
 // CSS value check
 type TypePredicatesCase13Flat = ((value: unknown) => value is `${number}px`);
@@ -126,27 +121,27 @@ type TypePredicatesCase16Flat = ((state: unknown) => state is `|${number}⟩`);
 type TypePredicatesCase17Flat = ((path: unknown) => path is `/${string}.ts`);
 
 // Range-checked number
-type TypePredicatesCase18Flat = ((mag: unknown) => mag is (number & {
+type TypePredicatesCase18Flat = ((mag: unknown) => mag is ((number) & ({
   __range: [
     0,
     20
   ]
-}));
+})));
 
 // Physics unit check
-type TypePredicatesCase19Flat = ((value: unknown) => value is (number & {
+type TypePredicatesCase19Flat = ((value: unknown) => value is ((number) & ({
   __unit: "m/s²"
-}));
+})));
 
 // Composable type guard
 type TypePredicatesCase20Flat<T> = {
   check: ((value: unknown) => value is T);
-  and: (<U>(other: TypePredicatesCase20<U /** unresolved */>) => TypePredicatesCase20<(T & U /** unresolved */)>)
+  and: (<U>(other: TypePredicatesCase20<U /** unresolved */>) => TypePredicatesCase20<((T) & (U /** unresolved */))>)
 };
 
 // Guard composer
 type TypePredicatesCase21Flat = (<T>(guard: ((v: unknown) => v is T /** unresolved */)) => {
-  and: (<U>(other: ((v: unknown) => v is U /** unresolved */)) => ((v: unknown) => v is (T /** unresolved */ & U /** unresolved */)))
+  and: (<U>(other: ((v: unknown) => v is U /** unresolved */)) => ((v: unknown) => v is ((T /** unresolved */) & (U /** unresolved */))))
 });
 
 // Error object check
@@ -159,10 +154,10 @@ type TypePredicatesCase22Flat = ((error: unknown) => error is {
 type TypePredicatesCase23Flat = ((token: unknown) => token is `Bearer ${string}`);
 
 // State machine guard
-type TypePredicatesCase24Flat = ((state: unknown) => state is ("loading" | "ready" | "error"));
+type TypePredicatesCase24Flat = ((state: unknown) => state is (("loading") | ("ready") | ("error")));
 
 // Recursive type guard
-type TypePredicatesCase25Flat<T> = (T extends object ? { [K in keyof T]: TypePredicatesCase25<(T)[K /** unresolved */]> } : ((v: unknown) => v is T));
+type TypePredicatesCase25Flat<T> = ((T) extends (object) ? ({ [K in keyof (T)]: TypePredicatesCase25<(T)[K /** unresolved */]> }) : (((v: unknown) => v is T)));
 
 
 assert<

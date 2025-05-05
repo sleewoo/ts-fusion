@@ -29,121 +29,116 @@ import type {
 } from "@/fixtures/mixed/ConditionalTypes.ts";
 
 // Inspired by API response discrimination
-type ConditionalTypesCase1Flat<T> = (T extends Error ? {
+type ConditionalTypesCase1Flat<T> = ((T) extends (Error) ? ({
   error: (T)["message"]
-} : {
+}) : ({
   data: T
-});
+}));
 
 // Similar to recursive promise unwrapping
-type ConditionalTypesCase2Flat<T> = (T extends Promise<infer U> ? ConditionalTypesCase2<U /** unresolved */> : T);
+type ConditionalTypesCase2Flat<T> = ((T) extends (Promise<infer U>) ? (ConditionalTypesCase2<U /** unresolved */>) : (T));
 
 // Pattern from authentication type guards
-type ConditionalTypesCase3Flat<T> = (T extends (Array<(string & {
+type ConditionalTypesCase3Flat<T> = ((T) extends ((string) & ({
   __brand: "TransactionID"
-})>)[number] ? {
+})) ? ({
   valid: true
-} : {
+}) : ({
   valid: false
-});
+}));
 
 // Inspired by physics engine type checks
-type ConditionalTypesCase4Flat<T> = (T extends ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type ConditionalTypesCase4Flat<T> = ((T) extends ((([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}) ? {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))) ? ({
   x: number;
   y: number
-} : never);
+}) : (never));
 
 // Similar to CSS property validation
-type ConditionalTypesCase5Flat<T> = (T extends keyof CSSStyleDeclaration /** unresolved */ ? (CSSStyleDeclaration /** unresolved */)[T] : never);
+type ConditionalTypesCase5Flat<T> = ((T) extends (keyof (CSSStyleDeclaration /** unresolved */)) ? ((CSSStyleDeclaration /** unresolved */)[T]) : (never));
 
 // Pattern from financial rounding logic
-type ConditionalTypesCase6Flat<T> = (T extends number ? (T extends 1 ? "unit" : number) : string);
+type ConditionalTypesCase6Flat<T> = ((T) extends (number) ? (((T) extends (1) ? ("unit") : (number))) : (string));
 
 // Inspired by type-safe path parameters
-type ConditionalTypesCase7Flat<T> = (T extends `/${infer Head}/${infer Tail}` ? [
+type ConditionalTypesCase7Flat<T> = ((T) extends (`/${infer Head}/${infer Tail}`) ? ([
   Head /** unresolved */,
   ...ConditionalTypesCase7<`/${Tail /** unresolved */}`>
-] : (T extends `/${infer Last}` ? [
+]) : (((T) extends (`/${infer Last}`) ? ([
   Last /** unresolved */
-] : never));
+]) : (never))));
 
 // Similar to recursive JSON parsing
-type ConditionalTypesCase8Flat<T> = (T extends object ? { [K in keyof T]: ConditionalTypesCase8<(T)[K /** unresolved */]> } : T);
+type ConditionalTypesCase8Flat<T> = ((T) extends (object) ? ({ [K in keyof (T)]: ConditionalTypesCase8<(T)[K /** unresolved */]> }) : (T));
 
 // Pattern from error handling chains
-type ConditionalTypesCase9Flat<T> = (T extends {
+type ConditionalTypesCase9Flat<T> = ((T) extends ({
   cause: infer C
-} ? ConditionalTypesCase9<C /** unresolved */> : T);
+}) ? (ConditionalTypesCase9<C /** unresolved */>) : (T));
 
 // Inspired by DOM event mapping
-type ConditionalTypesCase10Flat<T> = (T extends `on${infer Event}` ? Lowercase<Event> : never);
+type ConditionalTypesCase10Flat<T> = ((T) extends (`on${infer Event}`) ? (Lowercase<Event>) : (never));
 
 // Similar to type-safe builders
-type ConditionalTypesCase11Flat<T, U> = (T extends object ? { [K in keyof T]: ConditionalTypesCase11<(T)[K /** unresolved */], (U & { [P in K /** unresolved */]: (T)[K /** unresolved */] })> } : U);
+type ConditionalTypesCase11Flat<T, U> = ((T) extends (object) ? ({ [K in keyof (T)]: ConditionalTypesCase11<(T)[K /** unresolved */], ((U) & ({ [P in K /** unresolved */]: (T)[K /** unresolved */] }))> }) : (U));
 
 // Pattern from astronomy coordinate checks
-type ConditionalTypesCase12Flat<T> = (T extends ({
+type ConditionalTypesCase12Flat<T> = ((T) extends ((({
   system: "equatorial";
   ra: number;
   dec: number
-} | {
+}) | ({
   system: "galactic";
   l: number;
   b: number
-}) ? ((T)["system"] extends "equatorial" ? (T)["system"] : never) : never);
+}))) ? ((((T)["system"]) extends ("equatorial") ? ((T)["system"]) : (never))) : (never));
 
 // Inspired by genetic data validation
-type ConditionalTypesCase13Flat<T> = (T extends `rs${number}` ? {
+type ConditionalTypesCase13Flat<T> = ((T) extends (`rs${number}`) ? ({
   valid: true
-} : {
+}) : ({
   valid: false
-});
+}));
 
 // Similar to quantum state operations
-type ConditionalTypesCase14Flat<T> = (T extends {
+type ConditionalTypesCase14Flat<T> = ((T) extends ({
   state: infer S
-} ? (S /** unresolved */ extends ("|0>" | "|1>") ? S /** unresolved */ : never) : never);
+}) ? (((S /** unresolved */) extends ((("|0>") | ("|1>"))) ? (S /** unresolved */) : (never))) : (never));
 
 // Pattern from recursive UI components
-type ConditionalTypesCase15Flat<T> = (T extends {
+type ConditionalTypesCase15Flat<T> = ((T) extends ({
   children: infer C
-} ? ConditionalTypesCase15<C /** unresolved */> : T);
+}) ? (ConditionalTypesCase15<C /** unresolved */>) : (T));
 
 // Inspired by type-safe routing
-type ConditionalTypesCase16Flat<T> = (T extends (Array<{
-  id: (string & {
+type ConditionalTypesCase16Flat<T> = ((T) extends ({
+  id: ((string) & ({
     __brand: "ProductID"
-  });
-  variants: (((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
+  }));
+  variants:  readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number])["permissions"];
+        })))[]
+      ];
   pricing: {
     base: number;
-    currency: (Array<((string & {
+    currency: (((string) & ({
       __brand: "id"
-    }) | (number & {
+    }))) | (((number) & ({
       __brand: "count"
-    }))>)[number];
+    })));
     discounts?: [
       key: `i18n_${string}`,
       translations: [
@@ -152,57 +147,57 @@ type ConditionalTypesCase16Flat<T> = (T extends (Array<{
       ][]
     ]
   }
-}>)[number] ? `/${(T /** unresolved */)["id"]}` : never);
+}) ? (`/${(T /** unresolved */)["id"]}`) : (never));
 
 // Similar to mathematical operation resolution
-type ConditionalTypesCase17Flat<T> = (T extends [
+type ConditionalTypesCase17Flat<T> = ((T) extends ([
   "+",
   number,
   number
-] ? number : (T extends [
+]) ? (number) : (((T) extends ([
   "×",
   number,
   number
-] ? number : never));
+]) ? (number) : (never))));
 
 // Pattern from authentication flows
-type ConditionalTypesCase18Flat<T> = (T extends {
+type ConditionalTypesCase18Flat<T> = ((T) extends ({
   permissions: string[]
-} ? ((required: string) => boolean) : never);
+}) ? (((required: string) => boolean)) : (never));
 
 // Inspired by database ORM filters
-type ConditionalTypesCase19Flat<T> = (T extends object ? { [K in keyof T]: ((T)[K /** unresolved */] extends string ? {
+type ConditionalTypesCase19Flat<T> = ((T) extends (object) ? ({ [K in keyof (T)]: (((T)[K /** unresolved */]) extends (string) ? ({
   $like: string
-} : (T)[K /** unresolved */]) } : never);
+}) : ((T)[K /** unresolved */])) }) : (never));
 
 // Similar to recursive type limits
-type ConditionalTypesCase20Flat<T, D extends number> = (T extends Array<infer U> ? (D extends 3 ? T : ConditionalTypesCase20<U /** unresolved */, (D extends number ? D : never)>) : T);
+type ConditionalTypesCase20Flat<T, D extends number> = ((T) extends (Array<infer U>) ? (((D) extends (3) ? (T) : (ConditionalTypesCase20<U /** unresolved */, ((D) extends (number) ? (D) : (never))>))) : (T));
 
 // Pattern from financial instrument checks
-type ConditionalTypesCase21Flat<T> = (T extends {
+type ConditionalTypesCase21Flat<T> = ((T) extends ({
   type: "stock"
-} ? (T)["type"] : (T extends {
+}) ? ((T)["type"]) : (((T) extends ({
   type: "crypto"
-} ? (T)["type"] : never));
+}) ? ((T)["type"]) : (never))));
 
 // Inspired by type-safe CSS generation
-type ConditionalTypesCase22Flat<T> = (T extends number ? `${T /** unresolved */}px` : (T extends string ? T : never));
+type ConditionalTypesCase22Flat<T> = ((T) extends (number) ? (`${T /** unresolved */}px`) : (((T) extends (string) ? (T) : (never))));
 
 // Similar to recursive error unpacking
-type ConditionalTypesCase23Flat<T> = (T extends Error ? [
+type ConditionalTypesCase23Flat<T> = ((T) extends (Error) ? ([
   (T)["message"],
   ...ConditionalTypesCase23<(T)["cause"]>
-] : []);
+]) : ([]));
 
 // Pattern from API version handling
-type ConditionalTypesCase24Flat<T> = (T extends `v${infer V}` ? (V /** unresolved */ extends ("1" | "2") ? V /** unresolved */ : "latest") : never);
+type ConditionalTypesCase24Flat<T> = ((T) extends (`v${infer V}`) ? (((V /** unresolved */) extends ((("1") | ("2"))) ? (V /** unresolved */) : ("latest"))) : (never));
 
 // Inspired by quantum computing patterns
-type ConditionalTypesCase25Flat<T> = (T extends {
+type ConditionalTypesCase25Flat<T> = ((T) extends ({
   qubits: Array<infer Q>
-} ? (Q /** unresolved */ extends {
+}) ? (((Q /** unresolved */) extends ({
   state: infer S
-} ? S /** unresolved */ : never) : never);
+}) ? (S /** unresolved */) : (never))) : (never));
 
 
 assert<

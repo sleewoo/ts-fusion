@@ -29,52 +29,47 @@ import type {
 } from "@/fixtures/mixed/IntersectionUnionTypes.ts";
 
 // Inspired by authentication state patterns
-type IntersectionUnionTypesCase1Flat = ({
-  user: (Array<(string & {
+type IntersectionUnionTypesCase1Flat = (({
+  user: (string) & ({
     __brand: "TransactionID"
-  })>)[number];
+  });
   token: string
-} | {
+}) | ({
   guest: true;
   sessionId: string
-});
+}));
 
 // Similar to CSS property merging
-type IntersectionUnionTypesCase2Flat = ({
+type IntersectionUnionTypesCase2Flat = (({
   color: string
-} & {
+}) & ({
   size: number
-} & {
+}) & ({
   readonly __brand: "StyledComponent"
-});
+}));
 
 // Pattern from API response handling
-type IntersectionUnionTypesCase3Flat = ({
+type IntersectionUnionTypesCase3Flat = (({
   success: true;
   data: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -84,126 +79,121 @@ type IntersectionUnionTypesCase3Flat = ({
       ]
     }
   }>
-} | {
+}) | ({
   success: false;
   error: string
-});
+}));
 
 // Inspired by event handling systems
-type IntersectionUnionTypesCase4Flat = (((vectors: ([
-  componentType: ("transform" | "render"),
-  data: ((({
+type IntersectionUnionTypesCase4Flat = ((((vectors: (([
+  componentType: (("transform") | ("render")),
+  data: ({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number],
+  }),
   ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-})[]) => {
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))[]) => {
   magnitude: number;
   direction: number
-}) & {
+})) & ({
   metadata: {
     timestamp: number
   }
-});
-
-// Similar to status code unions
-type IntersectionUnionTypesCase5Flat = ("success" | "error" | "pending" | "idle");
-
-// Pattern from numeric range typing
-type IntersectionUnionTypesCase6Flat = (200 | 400 | 401 | 404 | 500);
-
-// Inspired by function overload patterns
-type IntersectionUnionTypesCase7Flat = (((x: string) => number) & ((x: number) => string));
-
-// Similar to branded coordinate types
-type IntersectionUnionTypesCase8Flat = (([
-  componentType: ("transform" | "render"),
-  data: ((({
-    a: number
-  } | {
-    b: string
-  }))[])[number],
-  ...dependencies: string[]
-][] & {
-  projection: ("WGS84" | "Mercator")
-}) & {
-  readonly __brand: "GeoCoordinate"
-});
-
-// Pattern from type-safe state machines
-type IntersectionUnionTypesCase9Flat = ({
-  state: "idle";
-  enable: (() => void)
-} | {
-  state: "running";
-  pause: (() => void)
-} | {
-  state: "paused";
-  resume: (() => void)
-});
-
-// Inspired by form validation results
-type IntersectionUnionTypesCase10Flat = ({
-  value: string
-} & ({
-  isValid: true
-} | {
-  isValid: false;
-  errors: string[]
 }));
 
+// Similar to status code unions
+type IntersectionUnionTypesCase5Flat = (("success") | ("error") | ("pending") | ("idle"));
+
+// Pattern from numeric range typing
+type IntersectionUnionTypesCase6Flat = ((200) | (400) | (401) | (404) | (500));
+
+// Inspired by function overload patterns
+type IntersectionUnionTypesCase7Flat = ((((x: string) => number)) & (((x: number) => string)));
+
+// Similar to branded coordinate types
+type IntersectionUnionTypesCase8Flat = (((([
+  componentType: (("transform") | ("render")),
+  data: ({
+    a: number
+  }) | ({
+    b: string
+  }),
+  ...dependencies: string[]
+][]) & ({
+  projection: (("WGS84") | ("Mercator"))
+}))) & ({
+  readonly __brand: "GeoCoordinate"
+}));
+
+// Pattern from type-safe state machines
+type IntersectionUnionTypesCase9Flat = (({
+  state: "idle";
+  enable: (() => void)
+}) | ({
+  state: "running";
+  pause: (() => void)
+}) | ({
+  state: "paused";
+  resume: (() => void)
+}));
+
+// Inspired by form validation results
+type IntersectionUnionTypesCase10Flat = (({
+  value: string
+}) & ((({
+  isValid: true
+}) | ({
+  isValid: false;
+  errors: string[]
+}))));
+
 // Similar to recursive comment structures
-type IntersectionUnionTypesCase11Flat = (string | {
+type IntersectionUnionTypesCase11Flat = ((string) | ({
   comment: string;
   replies: IntersectionUnionTypesCase11[]
-});
+}));
 
 // Pattern from physics engine components
-type IntersectionUnionTypesCase12Flat = ({
+type IntersectionUnionTypesCase12Flat = (({
   x: number
-} & {
+}) & ({
   y: number
-} & {
+}) & ({
   z?: number
-});
+}));
 
 // Inspired by type-safe configuration
-type IntersectionUnionTypesCase13Flat = (({
+type IntersectionUnionTypesCase13Flat = (((({
   env: "prod"
-} & {
-  apiKey: (Array<(string & {
+}) & ({
+  apiKey: (string) & ({
     __brand: "TransactionID"
-  })>)[number]
-}) | ({
+  })
+}))) | ((({
   env: "dev"
-} & {
+}) & ({
   mockData: Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -213,114 +203,114 @@ type IntersectionUnionTypesCase13Flat = (({
       ]
     }
   }>
-}));
+}))));
 
 // Similar to financial instrument types
-type IntersectionUnionTypesCase14Flat = ({
+type IntersectionUnionTypesCase14Flat = (({
   type: "stock";
   symbol: string;
-  exchange: ("NYSE" | "NASDAQ")
-} | {
+  exchange: (("NYSE") | ("NASDAQ"))
+}) | ({
   type: "crypto";
-  protocol: ("ERC20" | "BEP2")
-});
+  protocol: (("ERC20") | ("BEP2"))
+}));
 
 // Pattern from database query results
-type IntersectionUnionTypesCase15Flat = ({
+type IntersectionUnionTypesCase15Flat = (({
   data: unknown[]
-} & ({
+}) & ((({
   cached: true
-} | {
+}) | ({
   cached: false
-}));
+}))));
 
 // Inspired by UI component props
-type IntersectionUnionTypesCase16Flat = ({
-  children: (`(min-width: ${number}px)` | `(max-width: ${number}px)`)
-} & ({
+type IntersectionUnionTypesCase16Flat = (({
+  children: ((`(min-width: ${number}px)`) | (`(max-width: ${number}px)`))
+}) & ((({
   variant: "primary"
-} | {
+}) | ({
   variant: "secondary";
   outlined: boolean
-}));
+}))));
 
 // Similar to network packet types
-type IntersectionUnionTypesCase17Flat = ({
+type IntersectionUnionTypesCase17Flat = (({
   protocol: "TCP";
   sequence: number
-} | {
+}) | ({
   protocol: "UDP";
   checksum: string
-});
-
-// Pattern from authentication scopes
-type IntersectionUnionTypesCase18Flat = ({
-  user: string
-} & ({
-  role: "admin";
-  permissions: string[]
-} | {
-  role: "user";
-  lastLogin: Date
 }));
 
+// Pattern from authentication scopes
+type IntersectionUnionTypesCase18Flat = (({
+  user: string
+}) & ((({
+  role: "admin";
+  permissions: string[]
+}) | ({
+  role: "user";
+  lastLogin: Date
+}))));
+
 // Inspired by recursive JSON values
-type IntersectionUnionTypesCase19Flat = (string | number | boolean | null | IntersectionUnionTypesCase19[] | {
+type IntersectionUnionTypesCase19Flat = ((string) | (number) | (boolean) | (null) | (IntersectionUnionTypesCase19[]) | ({
   [k: string]: IntersectionUnionTypesCase19
-});
+}));
 
 // Similar to CSS media queries
-type IntersectionUnionTypesCase20Flat = (`(min-width: ${number}px)` | `(max-width: ${number}px)`);
+type IntersectionUnionTypesCase20Flat = ((`(min-width: ${number}px)`) | (`(max-width: ${number}px)`));
 
 // Pattern from mathematical operations
-type IntersectionUnionTypesCase21Flat = ({
+type IntersectionUnionTypesCase21Flat = (({
   op: "+";
   left: number;
   right: number
-} | {
+}) | ({
   op: "×";
   left: number;
   right: number
-} | {
+}) | ({
   op: "√";
   value: number
-});
+}));
 
 // Inspired by astronomy coordinate systems
-type IntersectionUnionTypesCase22Flat = ({
+type IntersectionUnionTypesCase22Flat = (({
   system: "equatorial";
   ra: number;
   dec: number
-} | {
+}) | ({
   system: "galactic";
   l: number;
   b: number
-});
-
-// Similar to type-safe error handling
-type IntersectionUnionTypesCase23Flat = ({
-  message: string
-} & ({
-  code: number;
-  severity: "high"
-} | {
-  code: string;
-  severity: ("medium" | "low")
 }));
 
+// Similar to type-safe error handling
+type IntersectionUnionTypesCase23Flat = (({
+  message: string
+}) & ((({
+  code: number;
+  severity: "high"
+}) | ({
+  code: string;
+  severity: (("medium") | ("low"))
+}))));
+
 // Pattern from genetic data structures
-type IntersectionUnionTypesCase24Flat = (`rs${number}` | `chr${number}:${number}-${number}`);
+type IntersectionUnionTypesCase24Flat = ((`rs${number}`) | (`chr${number}:${number}-${number}`));
 
 // Inspired by quantum state superpositions
-type IntersectionUnionTypesCase25Flat = ({
+type IntersectionUnionTypesCase25Flat = (({
   state: "|0>"
-} | {
+}) | ({
   state: "|1>"
-} | {
+}) | ({
   state: "+"
-} | {
+}) | ({
   state: "-"
-});
+}));
 
 
 assert<

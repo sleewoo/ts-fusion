@@ -36,29 +36,24 @@ type VariadicTuplesCase1Flat<T> = [
 type VariadicTuplesCase2Flat = [
   string,
   ...Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -72,16 +67,16 @@ type VariadicTuplesCase2Flat = [
 
 // Pattern from coordinate transformations
 type VariadicTuplesCase3Flat = [
-  ...Array<(string & {
+  ...Array<((string) & ({
     __brand: "TransactionID"
-  })>,
+  }))>,
   number
 ];
 
 // Inspired by database query parameters
 type VariadicTuplesCase4Flat = [
   string,
-  ...Array<(string | number)>
+  ...Array<((string) | (number))>
 ];
 
 // Similar to physics engine vectors
@@ -106,15 +101,15 @@ type VariadicTuplesCase7Flat = [
 
 // Similar to type-safe paths
 type VariadicTuplesCase8Flat = [
-  proto: ("http" | "https"),
+  proto: (("http") | ("https")),
   ...string[]
 ];
 
 // Pattern from financial transactions
 type VariadicTuplesCase9Flat = [
-  from: (Array<(string & {
+  from: (string) & ({
     __brand: "TransactionID"
-  })>)[number],
+  }),
   ...number[]
 ];
 
@@ -124,9 +119,9 @@ type VariadicTuplesCase10Flat = [
   ...Array<[
     number,
     ((req: {
-      params: Array<(string & {
+      params: Array<((string) & ({
         __brand: "TransactionID"
-      })>
+      }))>
     }, res: {
       json: ((data: unknown) => void)
     }) => Promise<void>)
@@ -138,14 +133,14 @@ type VariadicTuplesCase10Flat = [
 // Pattern from CSV parsing
 type VariadicTuplesCase12Flat = [
   header: string,
-  ...Array<(string | number)>
+  ...Array<((string) | (number))>
 ];
 
 // Inspired by astronomy coordinates
 type VariadicTuplesCase13Flat = [
-  ...Array<(string & {
+  ...Array<((string) & ({
     __brand: "TransactionID"
-  })>,
+  }))>,
   number,
   number
 ];
@@ -153,7 +148,7 @@ type VariadicTuplesCase13Flat = [
 // Similar to quantum state notation
 type VariadicTuplesCase14Flat = [
   "|0>",
-  ...Array<("|1>" | "+" | "-")>
+  ...Array<(("|1>") | ("+") | ("-"))>
 ];
 
 // Pattern from genetic sequences
@@ -183,29 +178,24 @@ type VariadicTuplesCase17Flat = [
 type VariadicTuplesCase18Flat = [
   timestamp: number,
   ...Array<{
-    id: (string & {
+    id: ((string) & ({
       __brand: "ProductID"
-    });
-    variants: (((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
+    }));
+    variants:  readonly [
           string,
-          ...(({
+          ...((({
             a: number
-          } | {
+          }) | ({
             b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number])["permissions"];
+          })))[]
+        ];
     pricing: {
       base: number;
-      currency: (Array<((string & {
+      currency: (((string) & ({
         __brand: "id"
-      }) | (number & {
+      }))) | (((number) & ({
         __brand: "count"
-      }))>)[number];
+      })));
       discounts?: [
         key: `i18n_${string}`,
         translations: [
@@ -234,38 +224,38 @@ type VariadicTuplesCase21Flat = [
 // Inspired by musical notation
 type VariadicTuplesCase22Flat = [
   tempo: number,
-  ...Array<("C" | "D" | "E")>
+  ...Array<(("C") | ("D") | ("E"))>
 ];
 
 // Similar to chess moves
 type VariadicTuplesCase23Flat = [
   from: string,
   to: string,
-  ...Array<("capture" | "check")>
+  ...Array<(("capture") | ("check"))>
 ];
 
 // Pattern from chemical formulas
 type VariadicTuplesCase24Flat = [
   symbol: string,
-  ...Array<(number | string)>
+  ...Array<((number) | (string))>
 ];
 
 // Inspired by astronomy catalogs
 type VariadicTuplesCase25Flat = [
-  id: (Array<(string & {
+  id: (string) & ({
     __brand: "TransactionID"
-  })>)[number],
-  ...([
-    componentType: ("transform" | "render"),
-    data: ((({
+  }),
+  ...(([
+    componentType: (("transform") | ("render")),
+    data: ({
       a: number
-    } | {
+    }) | ({
       b: string
-    }))[])[number],
+    }),
     ...dependencies: string[]
-  ][] & {
-    projection: ("WGS84" | "Mercator")
-  })
+  ][]) & ({
+    projection: (("WGS84") | ("Mercator"))
+  }))
 ];
 
 

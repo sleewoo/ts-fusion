@@ -33,11 +33,11 @@ type ReadonlyArraysCase1Flat = Readonly<number[]>;
 
 type ReadonlyArraysCase2Flat = readonly [
   string,
-  ...(({
+  ...((({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[]
+  })))[]
 ];
 
 // Similar to GIS coordinate locks
@@ -53,54 +53,52 @@ type ReadonlyArraysCase4Flat = Readonly<{
     readonly id: string;
     permissions: readonly [
       string,
-      ...(({
+      ...((({
         a: number
-      } | {
+      }) | ({
         b: string
-      }))[]
+      })))[]
     ]
   }>
 }>;
 
 // Inspired by Redux action history
-type ReadonlyArraysCase5Flat = ReadonlyArray<({
+type ReadonlyArraysCase5Flat = ReadonlyArray<(({
   readonly type: "LOGIN";
-  payload: ((Readonly<{
-    users: ReadonlyArray<{
+  payload: {
       readonly id: string;
       permissions: readonly [
         string,
-        ...(({
+        ...((({
           a: number
-        } | {
+        }) | ({
           b: string
-        }))[]
+        })))[]
       ]
-    }>
-  }>)["users"])[number]
-} | {
+    }
+}) | ({
   readonly type: "LOGOUT";
   timestamp: number
-})>;
+}))>;
 
 // Similar to financial transaction immutability
 type ReadonlyArraysCase6Flat = Readonly<Array<{
   readonly amount: number;
-  readonly currency: (string & {
+  readonly currency: ((string) & ({
     __brand: "ISO4217"
-  })
+  }))
 }>>;
 
 // Pattern from versioned API responses
 type ReadonlyArraysCase7Flat = Readonly<[
   version: number,
-  ...data: ReadonlyArray<Readonly<(((({
+  ...data: ReadonlyArray<Readonly<((({
     a: number
-  } | {
+  }) | ({
     b: string
-  }))[])[number] & {
+  })) & ({
     revision: number
-  })>>
+  }))>>
 ]>;
 
 // Inspired by CSS-in-JS theme contracts
@@ -112,9 +110,9 @@ type ReadonlyArraysCase8Flat = ReadonlyArray<Readonly<{
   ]>;
   colors: Readonly<Array<{
     readonly amount: number;
-    readonly currency: (string & {
+    readonly currency: ((string) & ({
       __brand: "ISO4217"
-    })
+    }))
   }>>
 }>>;
 
@@ -122,19 +120,9 @@ type ReadonlyArraysCase8Flat = ReadonlyArray<Readonly<{
 type ReadonlyArraysCase9Flat = Readonly<{
   breadcrumbs: ReadonlyArray<Readonly<{
     path: string;
-    label: ((((ReadonlyArray<Readonly<{
-      breakpoints: Readonly<[
-        number,
-        number,
-        number
-      ]>;
-      colors: Readonly<Array<{
-        readonly amount: number;
-        readonly currency: (string & {
+    label:  ((string) & ({
           __brand: "ISO4217"
-        })
-      }>>
-    }>>)[number])["colors"])[number])["currency"]
+        }))
   }>>
 }>;
 
@@ -146,130 +134,59 @@ type ReadonlyArraysCase10Flat = ReadonlyArray<Readonly<{
     number,
     (number)?
   ][]>;
-  readonly sensorId: (string & {
+  readonly sensorId: ((string) & ({
     __brand: "SensorID"
-  })
+  }))
 }>>;
 
 // Inspired by legal document versions
-type ReadonlyArraysCase11Flat = Readonly<(((Readonly<{
-  breadcrumbs: ReadonlyArray<Readonly<{
-    path: string;
-    label: ((((ReadonlyArray<Readonly<{
-      breakpoints: Readonly<[
-        number,
-        number,
-        number
-      ]>;
-      colors: Readonly<Array<{
-        readonly amount: number;
-        readonly currency: (string & {
+type ReadonlyArraysCase11Flat = Readonly<  ((string) & ({
           __brand: "ISO4217"
-        })
-      }>>
-    }>>)[number])["colors"])[number])["currency"]
-  }>>
-}>)["breadcrumbs"])[number])["label"][]>;
+        }))[]>;
 
 // Similar to type-safe translation tables
-type ReadonlyArraysCase12Flat = ReadonlyArray<Readonly<{ [K in ((ReadonlyArray<({
-  readonly type: "LOGIN";
-  payload: ((Readonly<{
-    users: ReadonlyArray<{
-      readonly id: string;
-      permissions: readonly [
-        string,
-        ...(({
-          a: number
-        } | {
-          b: string
-        }))[]
-      ]
-    }>
-  }>)["users"])[number]
-} | {
-  readonly type: "LOGOUT";
-  timestamp: number
-})>)[number])["type"]]: string }>>;
+type ReadonlyArraysCase12Flat = ReadonlyArray<Readonly<{ [K in  ( "LOGIN" |  "LOGOUT")]: string }>>;
 
 // Pattern from immutable AST nodes
 type ReadonlyArraysCase13Flat = Readonly<{
   children: ReadonlyArray<[]>;
-  nodeType: ((ReadonlyArray<({
-    readonly type: "LOGIN";
-    payload: ((Readonly<{
-      users: ReadonlyArray<{
-        readonly id: string;
-        permissions: readonly [
-          string,
-          ...(({
-            a: number
-          } | {
-            b: string
-          }))[]
-        ]
-      }>
-    }>)["users"])[number]
-  } | {
-    readonly type: "LOGOUT";
-    timestamp: number
-  })>)[number])["type"]
+  nodeType:  ( "LOGIN" |  "LOGOUT")
 }>;
 
 // Inspired by quantum computing state snapshots
 type ReadonlyArraysCase14Flat = ReadonlyArray<Readonly<{
   qubits: ReadonlyArray<Readonly<{
-    state: ("|0>" | "|1>" | "+" | "-");
-    probability: (number & {
+    state: (("|0>") | ("|1>") | ("+") | ("-"));
+    probability: ((number) & ({
       __range: [
         0,
         1
       ]
-    })
+    }))
   }>>
 }>>;
 
 // Similar to medical imaging slices
-type ReadonlyArraysCase15Flat = ReadonlyArray<((((ReadonlyArray<Readonly<{
-  qubits: ReadonlyArray<Readonly<{
-    state: ("|0>" | "|1>" | "+" | "-");
-    probability: (number & {
-      __range: [
-        0,
-        1
-      ]
-    })
-  }>>
-}>>)[number])["qubits"])[number])["state"][]>;
+type ReadonlyArraysCase15Flat = ReadonlyArray< (("|0>") | ("|1>") | ("+") | ("-"))[]>;
 
 // Pattern from immutable game boards
-type ReadonlyArraysCase16Flat = Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>;
+type ReadonlyArraysCase16Flat = Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>;
 
 // Inspired by version control history
 type ReadonlyArraysCase17Flat = ReadonlyArray<Readonly<{
-  commit: (string & {
+  commit: ((string) & ({
     __brand: "SHA1"
-  });
-  diff: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
+  }));
+  diff: Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>
 }>>;
 
 // Similar to cryptographic proof chains
 type ReadonlyArraysCase18Flat = ReadonlyArray<Readonly<{
-  previousHash: (string & {
+  previousHash: ((string) & ({
     __brand: "SHA256"
-  });
+  }));
   nonce: number;
-  readonly timestamp: ((ReadonlyArray<Readonly<{
-    timestamp: number;
-    values: Readonly<[
-      number,
-      number,
-      (number)?
-    ][]>;
-    readonly sensorId: (string & {
-      __brand: "SensorID"
-    })
-  }>>)[number])["timestamp"]
+  readonly timestamp:  number
 }>>;
 
 // Pattern from legal contract clauses
@@ -280,57 +197,39 @@ type ReadonlyArraysCase19Flat = ReadonlyArray<Readonly<{
 }>>;
 
 // Inspired by type-safe spreadsheet cells
-type ReadonlyArraysCase20Flat = ReadonlyArray<ReadonlyArray<({
+type ReadonlyArraysCase20Flat = ReadonlyArray<ReadonlyArray<(({
   formula: string;
   value: never
-} | {
+}) | ({
   value: number;
   formula?: never
-})>>;
+}))>>;
 
 // Similar to immutable musical scores
 type ReadonlyArraysCase21Flat = Readonly<{
   measures: ReadonlyArray<Readonly<{
     notes: ReadonlyArray<Readonly<{
       pitch: string;
-      duration: ((ReadonlyArray<({
-        readonly type: "LOGIN";
-        payload: ((Readonly<{
-          users: ReadonlyArray<{
-            readonly id: string;
-            permissions: readonly [
-              string,
-              ...(({
-                a: number
-              } | {
-                b: string
-              }))[]
-            ]
-          }>
-        }>)["users"])[number]
-      } | {
-        readonly type: "LOGOUT";
-        timestamp: number
-      })>)[number])["type"]
+      duration:  ( "LOGIN" |  "LOGOUT")
     }>>
   }>>
 }>;
 
 // Pattern from atomic design systems
 type ReadonlyArraysCase22Flat = ReadonlyArray<Readonly<{
-  atoms: ReadonlyArray<ReadonlyArray<({
+  atoms: ReadonlyArray<ReadonlyArray<(({
     formula: string;
     value: never
-  } | {
+  }) | ({
     value: number;
     formula?: never
-  })>>;
+  }))>>;
   molecules: unknown[];
   organisms: ReadonlyArray<Readonly<{
-    commit: (string & {
+    commit: ((string) & ({
       __brand: "SHA1"
-    });
-    diff: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
+    }));
+    diff: Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>
   }>>
 }>>;
 
@@ -346,53 +245,43 @@ type ReadonlyArraysCase23Flat = ReadonlyArray<Readonly<{
     number,
     (number)?
   ][]>;
-  readonly timestamp: ((ReadonlyArray<Readonly<{
-    timestamp: number;
-    values: Readonly<[
-      number,
-      number,
-      (number)?
-    ][]>;
-    readonly sensorId: (string & {
-      __brand: "SensorID"
-    })
-  }>>)[number])["timestamp"]
+  readonly timestamp:  number
 }>>;
 
 // Similar to immutable neural network layers
 type ReadonlyArraysCase24Flat = ReadonlyArray<Readonly<{
-  weights: ReadonlyArray<ReadonlyArray<({
+  weights: ReadonlyArray<ReadonlyArray<(({
     formula: string;
     value: never
-  } | {
+  }) | ({
     value: number;
     formula?: never
-  })>>;
-  activation: ("relu" | "sigmoid");
-  readonly bias: (Readonly<Array<{
+  }))>>;
+  activation: (("relu") | ("sigmoid"));
+  readonly bias: {
     readonly amount: number;
-    readonly currency: (string & {
+    readonly currency: ((string) & ({
       __brand: "ISO4217"
-    })
-  }>>)[number]
+    }))
+  }
 }>>;
 
 // Pattern from quantum chemistry simulations
 type ReadonlyArraysCase25Flat = ReadonlyArray<Readonly<{
   electrons: ReadonlyArray<Readonly<{
     qubits: ReadonlyArray<Readonly<{
-      state: ("|0>" | "|1>" | "+" | "-");
-      probability: (number & {
+      state: (("|0>") | ("|1>") | ("+") | ("-"));
+      probability: ((number) & ({
         __range: [
           0,
           1
         ]
-      })
+      }))
     }>>
   }>>;
   orbitals: ReadonlyArray<Readonly<{
     energy: number;
-    shape: Readonly<ReadonlyArray<ReadonlyArray<("X" | "O" | null)>>>
+    shape: Readonly<ReadonlyArray<ReadonlyArray<(("X") | ("O") | (null))>>>
   }>>
 }>>;
 

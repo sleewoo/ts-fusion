@@ -30,8 +30,8 @@ import type {
 
 // 1. Basic button props
 type UIComponentTest1Flat = {
-  variant: ("primary" | "secondary" | "ghost");
-  size: ("sm" | "md" | "lg");
+  variant: (("primary") | ("secondary") | ("ghost"));
+  size: (("sm") | ("md") | ("lg"));
   onClick: ((e: {
     target: {
       tagName: "BUTTON";
@@ -41,13 +41,13 @@ type UIComponentTest1Flat = {
     preventDefault: (() => void);
     stopPropagation: (() => void)
   }) => void);
-  children: (string | {
+  children: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>);
+  }>));
   disabled?: boolean
 };
 
@@ -56,7 +56,7 @@ type UIComponentTest2Flat<T> = {
   name: string;
   value: T;
   onChange: ((value: T) => void);
-  validate?: ((value: T) => (string | null));
+  validate?: ((value: T) => ((string) | (null)));
   label?: string;
   required?: boolean
 };
@@ -66,15 +66,15 @@ type UIComponentTest3Flat = {
   isOpen: boolean;
   onClose: (() => void);
   title: string;
-  children: (string | {
+  children: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>);
+  }>));
   overlayStyles?: {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   };
   portalTarget?: string
 };
@@ -84,48 +84,48 @@ type UIComponentTest4Flat<T> = {
   items: T[];
   itemHeight: number;
   containerHeight: number;
-  renderItem: ((item: T, index: number) => (string | {
+  renderItem: ((item: T, index: number) => ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>));
+  }>)));
   overscan?: number
 };
 
 // 5. Grid layout props
 type UIComponentTest5Flat = {
-  columns: (number | {
+  columns: ((number) | ({
     sm: number;
     md: number;
     lg: number
-  });
+  }));
   spacing: number;
-  children: (string | {
+  children: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>)[];
+  }>))[];
   breakpoints?: Record<string, number>
 };
 
 // 6. CSS-in-JS props
 type UIComponentTest6Flat = {
   sx?: {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   };
   css?: Record<string, {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   }>;
   variants?: {
-    size: Record<("sm" | "md" | "lg"), {
-      [k: string]: (string | number)
+    size: Record<(("sm") | ("md") | ("lg")), {
+      [k: string]: ((string) | (number))
     }>;
-    variant: Record<("primary" | "secondary"), {
-      [k: string]: (string | number)
+    variant: Record<(("primary") | ("secondary")), {
+      [k: string]: ((string) | (number))
     }>
   }
 };
@@ -134,72 +134,72 @@ type UIComponentTest6Flat = {
 type UIComponentTest7Flat<T> = {
   items: T[];
   onReorder: ((newOrder: T[]) => void);
-  renderDraggable: ((item: T, index: number) => (string | {
+  renderDraggable: ((item: T, index: number) => ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>));
+  }>)));
   dragHandle?: boolean;
-  axis?: ("x" | "y")
+  axis?: (("x") | ("y"))
 };
 
 // 8. Render props pattern
 type UIComponentTest8Flat<T> = {
   data: T[];
-  children: ((item: T, index: number) => (string | {
+  children: ((item: T, index: number) => ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>));
-  fallback?: (string | {
+  }>)));
+  fallback?: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>)
+  }>))
 };
 
 // 9. Compound component props
 type UIComponentTest9Flat = {
-  children: ((string | {
+  children: ((((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>) | [
+  }>))) | ([
     Header: ((props: {
       title: string
-    }) => (string | {
+    }) => ((string) | ({
       type: string;
       props: Record<string, unknown>
-    } | Array<{
+    }) | (Array<{
       type: string;
       props: Record<string, unknown>
-    }>)),
+    }>))),
     Body: ((props: {
       scrollable?: boolean
-    }) => (string | {
+    }) => ((string) | ({
       type: string;
       props: Record<string, unknown>
-    } | Array<{
+    }) | (Array<{
       type: string;
       props: Record<string, unknown>
-    }>)),
-    Footer?: ((props: never) => (string | {
+    }>))),
+    Footer?: ((props: never) => ((string) | ({
       type: string;
       props: Record<string, unknown>
-    } | Array<{
+    }) | (Array<{
       type: string;
       props: Record<string, unknown>
-    }>))
-  ]);
-  orientation?: ("vertical" | "horizontal")
+    }>)))
+  ]));
+  orientation?: (("vertical") | ("horizontal"))
 };
 
 // 10. Headless controller props
@@ -211,28 +211,28 @@ type UIComponentTest10Flat<T> = {
     isOpen: boolean;
     toggle: (() => void);
     selectedItems: T[]
-  }) => (string | {
+  }) => ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>))
+  }>)))
 };
 
 // 11. Animation config props
 type UIComponentTest11Flat = {
   enterFrom: {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   };
   enterTo: {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   };
   leaveFrom: {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   };
   leaveTo: {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   };
   duration?: number;
   easing?: string;
@@ -247,38 +247,38 @@ type UIComponentTest12Flat<T> = {
   lg?: T;
   xl?: T;
   apply: ((value: T) => {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   })
 };
 
 // 13. Slot-based component
 type UIComponentTest13Flat = {
   slots?: {
-    header?: ((props: never) => (string | {
+    header?: ((props: never) => ((string) | ({
       type: string;
       props: Record<string, unknown>
-    } | Array<{
+    }) | (Array<{
       type: string;
       props: Record<string, unknown>
-    }>));
+    }>)));
     body?: ((props: {
       scrollable: boolean
-    }) => (string | {
+    }) => ((string) | ({
       type: string;
       props: Record<string, unknown>
-    } | Array<{
+    }) | (Array<{
       type: string;
       props: Record<string, unknown>
-    }>));
+    }>)));
     footer?: ((props: {
-      align: ("left" | "right")
-    }) => (string | {
+      align: (("left") | ("right"))
+    }) => ((string) | ({
       type: string;
       props: Record<string, unknown>
-    } | Array<{
+    }) | (Array<{
       type: string;
       props: Record<string, unknown>
-    }>))
+    }>)))
   };
   classNames?: {
     container?: string;
@@ -289,8 +289,8 @@ type UIComponentTest13Flat = {
 
 // 14. Icon component props
 type UIComponentTest14Flat = {
-  name: ("check" | "chevron-right" | "user" | "search" | "settings" | (string & {}));
-  size?: (number | string);
+  name: (("check") | ("chevron-right") | ("user") | ("search") | ("settings") | (((string) & ({}))));
+  size?: ((number) | (string));
   color?: string;
   strokeWidth?: number;
   className?: string;
@@ -301,14 +301,14 @@ type UIComponentTest14Flat = {
 type UIComponentTest15Flat<T> = {
   columns: Array<{
     header: string;
-    accessor: keyof T;
-    render?: ((value: (T)[keyof T], row: T) => (string | {
+    accessor: keyof (T);
+    render?: ((value: (T)[keyof (T)], row: T) => ((string) | ({
       type: string;
       props: Record<string, unknown>
-    } | Array<{
+    }) | (Array<{
       type: string;
       props: Record<string, unknown>
-    }>))
+    }>)))
   }>;
   data: T[];
   pagination?: {
@@ -320,16 +320,16 @@ type UIComponentTest15Flat<T> = {
 
 // 16. Layout component props
 type UIComponentTest16Flat = {
-  direction: ("row" | "column");
-  align?: ("start" | "center" | "end");
-  justify?: ("start" | "center" | "between" | "around");
+  direction: (("row") | ("column"));
+  align?: (("start") | ("center") | ("end"));
+  justify?: (("start") | ("center") | ("between") | ("around"));
   wrap?: boolean;
-  gap?: (number | string)
+  gap?: ((number) | (string))
 };
 
 // 17. Theme-aware props
 type UIComponentTest17Flat = {
-  colorScheme?: ("light" | "dark");
+  colorScheme?: (("light") | ("dark"));
   theme?: {
     colors: Record<string, string>;
     spacing: Record<string, string>;
@@ -340,55 +340,55 @@ type UIComponentTest17Flat = {
 
 // 18. Error boundary props
 type UIComponentTest18Flat = {
-  fallback: ((error: Error, reset: (() => void)) => (string | {
+  fallback: ((error: Error, reset: (() => void)) => ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>));
+  }>)));
   onError?: ((error: Error, info: {
     componentStack: string
   }) => void);
-  children: (string | {
+  children: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>)
+  }>))
 };
 
 // 19. Portal component props
 type UIComponentTest19Flat = {
-  target?: (string | Element);
-  children: (string | {
+  target?: ((string) | (Element));
+  children: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>);
+  }>));
   wrapperStyles?: {
-    [k: string]: (string | number)
+    [k: string]: ((string) | (number))
   };
   preserveDOM?: boolean
 };
 
 // 20. Tooltip/popover props
 type UIComponentTest20Flat = {
-  content: (string | {
+  content: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>);
-  placement?: ("top" | "right" | "bottom" | "left");
+  }>));
+  placement?: (("top") | ("right") | ("bottom") | ("left"));
   offset?: number;
   showArrow?: boolean;
   interactive?: boolean;
-  trigger?: ("hover" | "click")
+  trigger?: (("hover") | ("click"))
 };
 
 // 21. Transition props
@@ -396,10 +396,10 @@ type UIComponentTest21Flat = {
   in: boolean;
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
-  timeout?: (number | {
+  timeout?: ((number) | ({
     enter: number;
     exit: number
-  });
+  }));
   onEnter?: (() => void);
   onExited?: (() => void)
 };
@@ -419,13 +419,13 @@ type UIComponentTest23Flat<T> = {
   items: T[];
   loadMore: (() => void);
   hasMore: boolean;
-  loader: (string | {
+  loader: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>);
+  }>));
   threshold?: number;
   scrollContainer?: string
 };
@@ -444,29 +444,29 @@ type UIComponentTest24Flat = {
     width: number;
     height: number
   };
-  directions?: (("left" | "right" | "top" | "bottom"))[];
+  directions?: ((("left") | ("right") | ("top") | ("bottom")))[];
   onResize?: ((size: {
     width: number;
     height: number
   }) => void);
-  handles?: (string | {
+  handles?: ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>)[]
+  }>))[]
 };
 
 // 25. HOC props
 type UIComponentTest25Flat<TOuter, TInner> = {
-  component: ((props: TInner) => (string | {
+  component: ((props: TInner) => ((string) | ({
     type: string;
     props: Record<string, unknown>
-  } | Array<{
+  }) | (Array<{
     type: string;
     props: Record<string, unknown>
-  }>));
+  }>)));
   transformProps: ((props: TOuter) => TInner);
   forwardRef?: boolean;
   displayName?: string
