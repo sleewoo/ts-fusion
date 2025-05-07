@@ -55,19 +55,38 @@ export type UserOptions = {
 };
 
 export type FlatDefinition = {
-  /** type name, same as exported alias in original file */
+  /**
+   * The name of the type, identical to the exported alias in the original file.
+   * */
   name: string;
-  /** type parameters, if any, eg:
-   * export type Entry<T, R = string> = { ... }
-   * will have following parameters:
-   * [ { name: "T", text: "T" }, { name: "R", text: "R = string" } ]
+
+  /**
+   * Type parameters declared on the original type, if any.
+   *
+   * Example:
+   *   export type Entry<T, R = string> = { ... }
+   * Will produce:
+   *   [
+   *     { name: "T", text: "T" },
+   *     { name: "R", text: "R = string" }
+   *   ]
    * */
   parameters: Array<{ name: string; text: string }>;
-  /** the type literal after flattening */
+
+  /**
+   * The flattened type body (object literal only), without name or parameters.
+   * */
   text: string;
-  /** full type after flattening, with name, parameters, comments etc. */
+
+  /**
+   * The full flattened type declaration,
+   * including name, type parameters, and leading comments.
+   * */
   fullText: string;
-  /** any comments, multi/single line,
-   * that preceeds type declaration in original file */
+
+  /**
+   * Any single-line or multi-line comments
+   * that immediately precede the original type declaration.
+   * */
   comments: Array<string>;
 };

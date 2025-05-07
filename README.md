@@ -185,18 +185,41 @@ This returns an array of `FlatDefinition` objects representing all exported type
 
 ```ts
 export type FlatDefinition = {
-  /** The exported type name */
+  /**
+   * The name of the type, identical to the exported alias in the original file.
+   * */
   name: string;
 
-  /** Type parameters (if any), e.g. T, R = string, etc. */
+  /**
+   * Type parameters declared on the original type, if any.
+   *
+   * Example:
+   *   export type Entry<T, R = string> = { ... }
+   * Will produce:
+   *   [
+   *     { name: "T", text: "T" },
+   *     { name: "R", text: "R = string" }
+   *   ]
+   * */
   parameters: Array<{ name: string; text: string }>;
 
-  /** Flattened type body as string */
+  /**
+   * The flattened type body (object literal only), without name or parameters.
+   * */
   text: string;
 
-  /** Preceding comments (single-line or block) from the original source */
+  /**
+   * The full flattened type declaration,
+   * including name, type parameters, and leading comments.
+   * */
+  fullText: string;
+
+  /**
+   * Any single-line or multi-line comments
+   * that immediately precede the original type declaration.
+   * */
   comments: Array<string>;
-};
+}
 ```
 
 > The output is plain text for now. If you want AST nodes, you can use `ts-morph` on the returned structure.
