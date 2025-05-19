@@ -15,7 +15,7 @@ both during development and in production.
 
 It's especially helpful when you're building tools, validators, or runtime contracts and want to speak one language — TypeScript — everywhere.
 
-## 🧹 What it is not!
+## 💡 What it is not!
 
 `ts-fusion` is NOT a replacement for schema libraries like Zod, TypeBox, or JSON Schema generators.
 
@@ -283,10 +283,9 @@ This is ideal when you're flattening multiple files in one session and want to a
 
 - **Performance:** This tool prioritizes type correctness over raw speed.
 It relies on the TypeScript compiler, which seems inherently slow for deep analysis.
-We'll talk performance once `tsc` gets rewritten in Rust. 😉
 
 - **Reliability:** `ts-fusion` is thoroughly tested, with over **40 test suites** and **1000+ individual tests**,
-covering everything from basic aliases to edge-case inferencing.
+covering most use-cases (but not all; some edge cases are printed as is).
 
 - **Disclaimer:** TypeScript is complex. Edge cases happen. Contributions and bug reports are welcome.
 
