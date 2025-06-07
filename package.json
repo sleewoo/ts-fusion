@@ -12,9 +12,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "pkg/*"
-  ],
+  "files": ["pkg/*"],
   "exports": {
     ".": {
       "types": "./pkg/index.d.ts",
@@ -40,11 +38,11 @@
     "@biomejs/biome": "^1.9.4",
     "@changesets/cli": "^2.29.4",
     "@libconfig/biome": "^0.0.2",
-    "@libconfig/typescript": "^0.0.3",
+    "@libconfig/typescript": "^0.0.4",
     "@libutil/esbuilder": "^0.0.7",
     "@libutil/render": "^0.0.1",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.15.29",
+    "@types/node": "^22.15.30",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
     "resolve-tspaths": "^0.8.23",
