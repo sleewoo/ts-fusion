@@ -86,7 +86,7 @@ type User = {
 type Post = {
   id: number;
   title: string;
-  tags: Array<{ id: string; name: string }>;
+  tags: { id: string; name: string }[];
   stats?: { views: number; likes: number };
 };
 
@@ -94,12 +94,10 @@ export type UserResponse = ApiResponse<User>;
 export type PostResponse = ApiResponse<Post>;
 ```
 
-Read the `api-response.ts` file and pass its contents to ts-fusion.<br>
-It will return an array of `FlatDefinition`s, like below.<br>
-Next you can pass these definitions to `@sinclair/typemap` or `ts-to-zod`.
+Just pass `api-response.ts` file to `ts-fusion`, it will return an array of `FlattenedLiteral` objects:
 
 ```ts
-type UserResponseFlat = {
+type UserResponse = {
   data: {
     id: number;
     profile: {
@@ -138,14 +136,14 @@ type UserResponseFlat = {
   }
 };
 
-type PostResponseFlat = {
+type PostResponse = {
   data: {
     id: number;
     title: string;
-    tags: Array<{
+    tags: {
       id: string;
       name: string
-    }>;
+    }[];
     stats?: {
       views: number;
       likes: number
@@ -170,8 +168,9 @@ Check `tests` folder for more examples.
 ## 📦 Install
 
 ```bash
-npm i ts-fusion
-# same for pnpm / yarn
+[p]npm i -D ts-fusion
+# or
+yarn add --dev ts-fusion
 ```
 
 > **Note:** `ts-fusion` is an ESM-only package and requires **Node.js 22** or higher.
@@ -186,10 +185,11 @@ import flattener from "ts-fusion";
 const flatDefs = flattener("./path/to/file.ts");
 ```
 
-This returns an array of `FlatDefinition` objects representing all exported types in the file.
+This returns an array of `FlattenedLiteral` objects representing all exported types in the file.
+Each flattened literal represents an expanded, serializable version of a TypeScript type — including its parameters, structure, and comments.
 
 ```ts
-export type FlatDefinition = {
+export type FlattenedLiteral = {
   /**
    * The name of the type, identical to the exported alias in the original file.
    * */
@@ -224,7 +224,7 @@ export type FlatDefinition = {
    * that immediately precede the original type declaration.
    * */
   comments: Array<string>;
-}
+};
 ```
 
 > The output is plain text for now. If you want AST nodes, you can use `ts-morph` on the returned structure.
@@ -288,7 +288,7 @@ export type UserOptions = {
 };
 ```
 
-### Advanced: working with ts-morph directly
+### Advanced: working with `ts-morph` directly
 
 If you already have a `ts-morph` `Project` and want to reuse it across files:
 
@@ -300,7 +300,7 @@ const flatDefs = flattener(existingProject, "./types/user.ts", options);
 
 ```ts
 // Signature:
-(project: Project, file: string | SourceFile, opts?: UserOptions) => FlatDefinition[];
+(project: Project, file: string | SourceFile, opts?: UserOptions) => FlattenedLiteral[];
 ```
 
 This is ideal when you're flattening multiple files in one session and want to avoid recreating the project each time.
@@ -322,5 +322,5 @@ No CLI yet — but one is planned if there's enough interest. Open an issue if t
 ## 🛠 Related
 
 - [`ts-morph`](https://github.com/dsherret/ts-morph) – core engine for AST inspection
-- [`typescript`](https://github.com/microsoft/TypeScript) – we talk to the beast directly
+- [`typescript`](https://github.com/microsoft/TypeScript) –  the official compiler powering all type resolution
 
