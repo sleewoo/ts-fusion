@@ -1,6 +1,6 @@
 {
   "extends": ["@libconfig/biome"],
   "files": {
-    "include": ["./*.json", "./src/**/*.ts", "./test/fixtures/**/*.ts"]
+    "include": ["./src/**/*.ts", "./test/fixtures/**/*.ts"]
   }
 }
