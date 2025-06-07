@@ -2,7 +2,7 @@
   "type": "module",
   "name": "ts-fusion",
   "description": "Flatten complex TypeScript types into readable, inspectable plaintext structures",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "node": "^22"
   },
@@ -12,7 +12,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["pkg/*"],
+  "files": [
+    "pkg/*"
+  ],
   "exports": {
     ".": {
       "types": "./pkg/index.d.ts",
