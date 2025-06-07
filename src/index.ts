@@ -2,7 +2,7 @@ import { format } from "node:util";
 
 import { type SourceFile, Project } from "ts-morph";
 
-import type { FlatDefinition, CycleSignature, UserOptions } from "./types";
+import type { FlattenedLiteral, CycleSignature, UserOptions } from "./types";
 import builtins from "./builtins";
 import { isPrimitive, renderTypeParameter } from "./utils";
 
@@ -27,6 +27,8 @@ import { handlerQualifier as tupleQualifier } from "./handlers/tuples";
 import { handlerQualifier as arrayQualifier } from "./handlers/arrays";
 import { handlerQualifier as callSignatureQualifier } from "./handlers/call-signatures";
 
+export type { FlattenedLiteral };
+
 export default (file: string, opts?: UserOptions) => {
   const project = new Project({ compilerOptions: { skipLibCheck: true } });
   const sourceFile = project.addSourceFileAtPath(file);
@@ -37,7 +39,7 @@ export const flattener = (
   project: Project,
   file: string | SourceFile,
   opts?: UserOptions,
-): Array<FlatDefinition> => {
+): Array<FlattenedLiteral> => {
   const sourceFile =
     typeof file === "string"
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)

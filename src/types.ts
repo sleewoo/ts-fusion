@@ -65,7 +65,7 @@ export type UserOptions = {
   escapeBackticks?: boolean;
 };
 
-export type FlatDefinition = {
+export type FlattenedLiteral = {
   /**
    * The name of the type, identical to the exported alias in the original file.
    * */
