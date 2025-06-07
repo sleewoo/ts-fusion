@@ -43,7 +43,7 @@ export const flattener = (
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
       : file;
 
-  const { typesFilter, maxDepth = 16 } = { ...opts };
+  const { typesFilter, escapeBackticks, maxDepth = 16 } = { ...opts };
 
   const overrides: Record<string, string> = {
     ...builtins,
@@ -150,7 +150,11 @@ export const flattener = (
           name: typeName,
           parameters: typeParameters,
           comments,
-          text,
+          get text() {
+            return escapeBackticks //
+              ? text.replace(/`/g, "\\`")
+              : text;
+          },
           get fullText() {
             return format(
               "%s\nexport type %s%s = %s",
@@ -159,7 +163,7 @@ export const flattener = (
               typeParameters.length
                 ? format("<%s>", typeParameters.map((e) => e.text).join(", "))
                 : "",
-              text,
+              this.text,
             ).trim();
           },
         },

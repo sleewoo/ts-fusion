@@ -28,7 +28,7 @@ export type UserOptions = {
   /**
    * by default all exported types will be processed.
    * use this filter to only process specific types.
-   */
+   * */
   typesFilter?: (typeName: string) => boolean;
 
   /**
@@ -50,8 +50,19 @@ export type UserOptions = {
 
   /**
    * limit recursion to this level depth.
-   * default: 16 */
+   * default: 16
+   * */
   maxDepth?: number;
+
+  /**
+   * By default, backticks are not escaped, assuming the result will be written
+   * to a file as a standalone type definition.
+   *
+   * However, if the resulting text is intended to be used within a string,
+   * especially one wrapped in backticks, it's safer to escape internal backticks
+   * to avoid syntax issues.
+   * */
+  escapeBackticks?: boolean;
 };
 
 export type FlatDefinition = {

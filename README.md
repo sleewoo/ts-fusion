@@ -243,22 +243,43 @@ const flatDefs = flattener("./path/to/file.ts", {
 ```ts
 export type UserOptions = {
   /**
-   * Filter which exported types to flatten.
-   * Defaults to all exported types.
-   */
+   * by default all exported types will be processed.
+   * use this filter to only process specific types.
+   * */
   typesFilter?: (typeName: string) => boolean;
 
   /**
-   * Override rendered type names.
-   * Useful for aliasing types like CustomPromise → Promise.
-   */
+   * a map of types to override default name for.
+   *
+   * eg. you have a CustomPromise type that should be rendered as native Promise:
+   *    import { CustomPromise } from "@/lib";
+   *    export type ResponseHandler = () => CustomPromise<...>
+   *
+   * then add CustomPromise to `overrides`:
+   *    overrides: {
+   *      CustomPromise: "Promise",
+   *    }
+   *
+   * and the flattened result will be:
+   *    export type ResponseHandler = () => Promise<...>
+   * */
   overrides?: Record<string, string>;
 
   /**
-   * Maximum recursion depth when flattening.
-   * Default is 16.
-   */
+   * limit recursion to this level depth.
+   * default: 16
+   * */
   maxDepth?: number;
+
+  /**
+   * By default, backticks are not escaped, assuming the result will be written
+   * to a file as a standalone type definition.
+   *
+   * However, if the resulting text is intended to be used within a string,
+   * especially one wrapped in backticks, it's safer to escape internal backticks
+   * to avoid syntax issues.
+   * */
+  escapeBackticks?: boolean;
 };
 ```
 
