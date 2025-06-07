@@ -21,7 +21,8 @@ It's especially helpful when you're building tools, validators, or runtime contr
 
 Instead, it acts as a **bridge layer**: it transforms complex TypeScript types into plain,
 fully-resolved structures, making them easier to **feed into existing schema generation tools** like
-[ts-to-zod](https://github.com/fabien0102/ts-to-zod) or [typebox-codegen](https://github.com/sinclairzx81/typebox-codegen).
+[@sinclair/typemap](https://github.com/sinclairzx81/typemap) or
+[ts-to-zod](https://github.com/fabien0102/ts-to-zod).
 
 Most TS-to-schema tools only handle simple, shallow types — and often choke on generics, intersections, aliases, or deep references.
 That's where `ts-fusion` comes in: it **flattens your types first**, so those tools can operate on clean, unfolded definitions.
@@ -34,6 +35,8 @@ That's where `ts-fusion` comes in: it **flattens your types first**, so those to
 
 
 ## ⚡ Example
+
+Your regular types, split across multiple files:
 
 `user.ts`:
 
@@ -91,7 +94,9 @@ export type UserResponse = ApiResponse<User>;
 export type PostResponse = ApiResponse<Post>;
 ```
 
-`schema.ts`:
+Read the `api-response.ts` file and pass its contents to ts-fusion.<br>
+It will return an array of `FlatDefinition`s, like below.<br>
+Next you can pass these definitions to `@sinclair/typemap` or `ts-to-zod`.
 
 ```ts
 type UserResponseFlat = {
