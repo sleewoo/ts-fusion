@@ -12,9 +12,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "pkg/*"
-  ],
+  "files": ["pkg/*"],
   "exports": {
     ".": {
       "types": "./pkg/index.d.ts",
