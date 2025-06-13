@@ -94,7 +94,7 @@ export type UserResponse = ApiResponse<User>;
 export type PostResponse = ApiResponse<Post>;
 ```
 
-Just pass `api-response.ts` file to `ts-fusion`, it will return an array of `FlattenedLiteral` objects:
+Just pass `api-response.ts` file to `ts-fusion`, it will return an array of `ResolvedType` objects:
 
 ```ts
 type UserResponse = {
@@ -185,11 +185,11 @@ import flattener from "ts-fusion";
 const flatDefs = flattener("./path/to/file.ts");
 ```
 
-This returns an array of `FlattenedLiteral` objects representing all exported types in the file.
+This returns an array of `ResolvedType` objects representing all exported types in the file.
 Each flattened literal represents an expanded, serializable version of a TypeScript type — including its parameters, structure, and comments.
 
 ```ts
-export type FlattenedLiteral = {
+export type ResolvedType = {
   /**
    * The name of the type, identical to the exported alias in the original file.
    * */
@@ -300,7 +300,7 @@ const flatDefs = flattener(existingProject, "./types/user.ts", options);
 
 ```ts
 // Signature:
-(project: Project, file: string | SourceFile, opts?: UserOptions) => FlattenedLiteral[];
+(project: Project, file: string | SourceFile, opts?: UserOptions) => ResolvedType[];
 ```
 
 This is ideal when you're flattening multiple files in one session and want to avoid recreating the project each time.
