@@ -6,7 +6,7 @@
   "engines": {
     "node": "^22"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.12.0",
   "author": "Slee Woo",
   "license": "MIT",
   "publishConfig": {
@@ -44,7 +44,7 @@
     "@libutil/esbuilder": "^0.0.7",
     "@libutil/render": "^0.0.1",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.15.30",
+    "@types/node": "^24.0.3",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
     "resolve-tspaths": "^0.8.23",
