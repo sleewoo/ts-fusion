@@ -23,10 +23,10 @@ const project = new Project({
   useInMemoryFileSystem: true,
 });
 
-export const handlerQualifier: HandlerQualifier = ({
-  typeNode,
-  typeParameters,
-}) => {
+export const handlerQualifier: HandlerQualifier = (
+  { typeNode, typeParameters },
+  opts,
+) => {
   return typeNode.isKind(SyntaxKind.IndexedAccessType)
     ? (next) => {
         const objTypeNode = typeNode.getObjectTypeNode();
@@ -80,8 +80,9 @@ export const handlerQualifier: HandlerQualifier = ({
           originTypeNode,
         );
 
-        // Preserve comments and formatting by using getFullText()
-        return targetTypeNode?.getFullText() || text;
+        return opts?.stripComments
+          ? targetTypeNode?.getText() || text
+          : targetTypeNode?.getFullText() || text;
       }
     : undefined;
 };

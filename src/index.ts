@@ -45,7 +45,12 @@ export const flattener = (
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
       : file;
 
-  const { typesFilter, escapeBackticks, maxDepth = 16 } = { ...opts };
+  const {
+    typesFilter,
+    escapeBackticks,
+    maxDepth = 16,
+    stripComments = false,
+  } = { ...opts };
 
   const overrides: Record<string, string> = {
     ...builtins,
@@ -84,7 +89,7 @@ export const flattener = (
     }
 
     for (const qualifier of handlerStack) {
-      const handler = qualifier(data);
+      const handler = qualifier(data, opts);
       if (handler) {
         return handler((next) => {
           return traverse(next, opts, depthLevel + 1);
@@ -111,21 +116,22 @@ export const flattener = (
       return [];
     }
 
-    const comments = typeAlias
-      .getLeadingCommentRanges()
-      .map((e) => e.getText());
-
     const typeName = typeAlias.getName();
 
     const type = typeAlias.getType();
 
     const opts = {
+      stripComments,
       overrides: {
         ...overrides,
         // overriding type to avoid recursing into itself
         [typeName]: typeName,
       },
     };
+
+    const comments = opts?.stripComments
+      ? []
+      : typeAlias.getLeadingCommentRanges().map((e) => e.getText());
 
     const typeParameters = typeAlias.getTypeParameters().map((param) => {
       return renderTypeParameter(param, (data) => traverse(data, opts));

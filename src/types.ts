@@ -22,7 +22,10 @@ export type Next = (data: CycleData) => string;
 
 export type Handler = (next: Next, opts: CycleOptions) => string;
 
-export type HandlerQualifier = (data: CycleData) => Handler | undefined;
+export type HandlerQualifier = (
+  data: CycleData,
+  opts?: UserOptions,
+) => Handler | undefined;
 
 export type UserOptions = {
   /**
@@ -50,9 +53,16 @@ export type UserOptions = {
 
   /**
    * limit recursion to this level depth.
-   * default: 16
+   * @default: 16
    * */
   maxDepth?: number;
+
+  /**
+   * If enabled, removes all comments from the generated output.
+   * Useful for producing clean, minimal artifacts.
+   * @default false
+   */
+  stripComments?: boolean;
 
   /**
    * By default, backticks are not escaped, assuming the result will be written

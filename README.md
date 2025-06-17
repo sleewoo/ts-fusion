@@ -272,9 +272,16 @@ export type UserOptions = {
 
   /**
    * limit recursion to this level depth.
-   * default: 16
+   * @default: 16
    * */
   maxDepth?: number;
+
+  /**
+   * If enabled, removes all comments from the generated output.
+   * Useful for producing clean, minimal artifacts.
+   * @default false
+   */
+  stripComments?: boolean;
 
   /**
    * By default, backticks are not escaped, assuming the result will be written

@@ -5,11 +5,10 @@ import { SyntaxKind } from "ts-morph";
 import type { HandlerQualifier } from "@/types";
 import { indent, renderCallSignatureAssets } from "@/utils";
 
-export const handlerQualifier: HandlerQualifier = ({
-  typeNode,
-  type,
-  typeParameters,
-}) => {
+export const handlerQualifier: HandlerQualifier = (
+  { typeNode, type, typeParameters },
+  opts,
+) => {
   return typeNode.isKind(SyntaxKind.TypeLiteral)
     ? (next) => {
         /**
@@ -65,9 +64,11 @@ export const handlerQualifier: HandlerQualifier = ({
           .getChildrenOfKind(SyntaxKind.MethodSignature)
           .flatMap((methodSignature) => {
             const name = methodSignature.getName();
-            const comments = methodSignature
-              .getLeadingCommentRanges()
-              .map((e) => e.getText().trim());
+            const comments = opts?.stripComments
+              ? []
+              : methodSignature
+                  .getLeadingCommentRanges()
+                  .map((e) => e.getText().trim());
             return methodSignature
               .getType()
               .getCallSignatures()
@@ -107,9 +108,11 @@ export const handlerQualifier: HandlerQualifier = ({
                     typeParameters,
                   })
                 : "unknown /** unknown property signature */",
-              comments: propertySignature
-                .getLeadingCommentRanges()
-                .map((e) => e.getText().trim()),
+              comments: opts?.stripComments
+                ? []
+                : propertySignature
+                    .getLeadingCommentRanges()
+                    .map((e) => e.getText().trim()),
             };
           });
 
