@@ -2,8 +2,8 @@
 // Contains AI-generated test patterns
 
 import type { ComplexObjectArraysCase1 } from "./ComplexObjectArrays";
-import type { ReadonlyArraysCase4 } from "./ReadonlyArrays";
 import type { HybridArraysCase2 } from "./HybridArrays";
+import type { ReadonlyArraysCase4 } from "./ReadonlyArrays";
 import type { UnionArraysCase5 } from "./UnionArrays";
 
 // Inspired by partial form submissions

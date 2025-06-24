@@ -2,11 +2,11 @@
 // Contains AI-generated test patterns
 
 import type {
-  TypesUser,
-  TypesProduct,
   TypesErrorResult,
-  TypesReducerAction,
   TypesMiddleware,
+  TypesProduct,
+  TypesReducerAction,
+  TypesUser,
   TypesValidator,
 } from "./types";
 

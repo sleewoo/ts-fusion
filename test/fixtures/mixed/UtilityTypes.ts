@@ -1,19 +1,20 @@
 // @license MIT
 // Contains AI-generated test patterns
 
+import type { BasicPrimitiveArraysCase22 } from "@/fixtures/arrays/BasicPrimitiveArrays";
+import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
+import type { MultidimensionalArraysCase8 } from "@/fixtures/arrays/MultidimensionalArrays";
+import type { UnionArraysCase5 } from "@/fixtures/arrays/UnionArrays";
 import type {
   DataModelingTest1,
+  DataModelingTest4,
+  DataModelingTest9,
   DataModelingTest16,
   DataModelingTest20,
   DataModelingTest21,
-  DataModelingTest4,
-  DataModelingTest9,
 } from "@/fixtures/objects/data-modeling";
-import type { BasicPrimitiveArraysCase22 } from "@/fixtures/arrays/BasicPrimitiveArrays";
-import type { UnionArraysCase5 } from "@/fixtures/arrays/UnionArrays";
-import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
 import type { DatabaseConnection, User } from "@/fixtures/objects/object-types";
-import type { MultidimensionalArraysCase8 } from "@/fixtures/arrays/MultidimensionalArrays";
+
 import type { FunctionTypesCase3 } from "./FunctionTypes";
 import type { VariadicTuplesCase16 } from "./VariadicTuples";
 

@@ -2,13 +2,13 @@
 // Contains AI-generated test patterns
 
 import type {
+  TypesErrorResult,
   TypesHttpMethod,
   TypesHttpResponse,
-  TypesProduct,
-  TypesErrorResult,
   TypesMiddleware,
-  TypesValidator,
+  TypesProduct,
   TypesUser,
+  TypesValidator,
 } from "./types";
 
 export type ApiHandlingTest1 = [

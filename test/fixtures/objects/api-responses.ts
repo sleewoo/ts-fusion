@@ -3,9 +3,9 @@
 
 import type {
   ErrorResult,
-  PaginationMeta,
-  HypermediaLink,
   FieldError,
+  HypermediaLink,
+  PaginationMeta,
 } from "./object-types";
 
 // 1. Basic REST success response

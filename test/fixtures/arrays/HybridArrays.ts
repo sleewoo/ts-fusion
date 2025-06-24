@@ -3,16 +3,16 @@
 
 import type {
   BasicPrimitiveArraysCase1,
-  BasicPrimitiveArraysCase19,
   BasicPrimitiveArraysCase6,
+  BasicPrimitiveArraysCase19,
 } from "./BasicPrimitiveArrays";
 import type {
   ComplexObjectArraysCase1,
+  ComplexObjectArraysCase4,
+  ComplexObjectArraysCase6,
   ComplexObjectArraysCase12,
   ComplexObjectArraysCase14,
   ComplexObjectArraysCase24,
-  ComplexObjectArraysCase4,
-  ComplexObjectArraysCase6,
 } from "./ComplexObjectArrays";
 import type { FunctionArraysCase3 } from "./FunctionArrays";
 import type { TupleArraysCase14 } from "./TupleArrays";

@@ -1,6 +1,6 @@
 import { format } from "node:util";
 
-import { type ArrayTypeNode, type TypeNode, SyntaxKind } from "ts-morph";
+import { type ArrayTypeNode, SyntaxKind, type TypeNode } from "ts-morph";
 
 import type { HandlerQualifier } from "@/types";
 

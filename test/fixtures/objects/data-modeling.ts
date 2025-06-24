@@ -1,7 +1,7 @@
 // @license MIT
 // Contains AI-generated test patterns
 
-import type { User, Product, EntityMetadata } from "./object-types";
+import type { EntityMetadata, Product, User } from "./object-types";
 
 // 1. Basic entity with timestamps
 export type DataModelingTest1 = {

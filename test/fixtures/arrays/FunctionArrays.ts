@@ -1,17 +1,18 @@
 // @license MIT
 // Contains AI-generated test patterns
 
+import type { Parameters } from "tsafe";
+
 import type { BasicPrimitiveArraysCase1 } from "./BasicPrimitiveArrays";
-import type { UnionArraysCase6 } from "./UnionArrays";
-import type { TupleArraysCase3 } from "./TupleArrays";
 import type {
   ComplexObjectArraysCase1,
-  ComplexObjectArraysCase12,
-  ComplexObjectArraysCase13,
   ComplexObjectArraysCase4,
   ComplexObjectArraysCase6,
+  ComplexObjectArraysCase12,
+  ComplexObjectArraysCase13,
 } from "./ComplexObjectArrays";
-import type { Parameters } from "tsafe";
+import type { TupleArraysCase3 } from "./TupleArrays";
+import type { UnionArraysCase6 } from "./UnionArrays";
 
 // Inspired by React event handler patterns
 export type FunctionArraysCase1 = Array<(event: unknown) => void>;

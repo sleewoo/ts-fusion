@@ -1,31 +1,30 @@
 import { format } from "node:util";
 
-import { type SourceFile, Project } from "ts-morph";
+import { Project, type SourceFile } from "ts-morph";
 
-import type { ResolvedType, CycleSignature, UserOptions } from "./types";
-import { isPrimitive, renderTypeParameter } from "./utils";
 import builtins from "./builtins";
-
-import { handlerQualifier as typeOperatorQualifier } from "./handlers/type-operators";
-import { handlerQualifier as symbolQualifier } from "./handlers/symbol-keyword";
-import { handlerQualifier as voidQualifier } from "./handlers/void-keyword";
-import { handlerQualifier as objectQualifier } from "./handlers/object-keyword";
-import { handlerQualifier as constructorTypeQualifier } from "./handlers/constructors";
-import { handlerQualifier as conditionalTypeQualifier } from "./handlers/conditional-types";
-import { handlerQualifier as optionalTypeQualifier } from "./handlers/optional-types";
-import { handlerQualifier as parenthesizedTypeQualifier } from "./handlers/parenthesized-types";
-import { handlerQualifier as indexedAccessTypeQualifier } from "./handlers/indexed-access";
-import { handlerQualifier as templateLiteralTypeQualifier } from "./handlers/template-literals";
-import { handlerQualifier as mappedTypeQualifier } from "./handlers/mapped-types";
-import { handlerQualifier as inferTypeQualifier } from "./handlers/infers";
-import { handlerQualifier as typeReferenceQualifier } from "./handlers/type-references";
-import { handlerQualifier as typeLiteralQualifier } from "./handlers/type-literals";
-import { handlerQualifier as typeQueryQualifier } from "./handlers/type-queries";
-import { handlerQualifier as unionQualifier } from "./handlers/unions";
-import { handlerQualifier as intersectionQualifier } from "./handlers/intersections";
-import { handlerQualifier as tupleQualifier } from "./handlers/tuples";
 import { handlerQualifier as arrayQualifier } from "./handlers/arrays";
 import { handlerQualifier as callSignatureQualifier } from "./handlers/call-signatures";
+import { handlerQualifier as conditionalTypeQualifier } from "./handlers/conditional-types";
+import { handlerQualifier as constructorTypeQualifier } from "./handlers/constructors";
+import { handlerQualifier as indexedAccessTypeQualifier } from "./handlers/indexed-access";
+import { handlerQualifier as inferTypeQualifier } from "./handlers/infers";
+import { handlerQualifier as intersectionQualifier } from "./handlers/intersections";
+import { handlerQualifier as mappedTypeQualifier } from "./handlers/mapped-types";
+import { handlerQualifier as objectQualifier } from "./handlers/object-keyword";
+import { handlerQualifier as optionalTypeQualifier } from "./handlers/optional-types";
+import { handlerQualifier as parenthesizedTypeQualifier } from "./handlers/parenthesized-types";
+import { handlerQualifier as symbolQualifier } from "./handlers/symbol-keyword";
+import { handlerQualifier as templateLiteralTypeQualifier } from "./handlers/template-literals";
+import { handlerQualifier as tupleQualifier } from "./handlers/tuples";
+import { handlerQualifier as typeLiteralQualifier } from "./handlers/type-literals";
+import { handlerQualifier as typeOperatorQualifier } from "./handlers/type-operators";
+import { handlerQualifier as typeQueryQualifier } from "./handlers/type-queries";
+import { handlerQualifier as typeReferenceQualifier } from "./handlers/type-references";
+import { handlerQualifier as unionQualifier } from "./handlers/unions";
+import { handlerQualifier as voidQualifier } from "./handlers/void-keyword";
+import type { CycleSignature, ResolvedType, UserOptions } from "./types";
+import { isPrimitive, renderTypeParameter } from "./utils";
 
 export type { ResolvedType };
 

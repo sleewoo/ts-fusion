@@ -2,7 +2,7 @@ import { format } from "node:util";
 
 import { SyntaxKind } from "ts-morph";
 
-import type { HandlerQualifier, CycleParameters } from "@/types";
+import type { CycleParameters, HandlerQualifier } from "@/types";
 
 export const handlerQualifier: HandlerQualifier = ({
   typeNode,

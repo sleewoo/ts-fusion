@@ -2,9 +2,9 @@
 // Contains AI-generated test patterns
 
 import type {
-  TypesValidator,
-  TypesTransformer,
   TypesComparator,
+  TypesTransformer,
+  TypesValidator,
 } from "./types";
 
 export type DataTransformationTest1<T, U> = [

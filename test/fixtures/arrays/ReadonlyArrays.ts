@@ -2,8 +2,8 @@
 // Contains AI-generated test patterns
 
 import type { BasicPrimitiveArraysCase1 } from "./BasicPrimitiveArrays";
-import type { UnionArraysCase6 } from "./UnionArrays";
 import type { TupleArraysCase3 } from "./TupleArrays";
+import type { UnionArraysCase6 } from "./UnionArrays";
 
 // Inspired by React state persistence patterns
 export type ReadonlyArraysCase1 = Readonly<BasicPrimitiveArraysCase1>;

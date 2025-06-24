@@ -1,7 +1,7 @@
 // @license MIT
 // Contains AI-generated test patterns
 
-import type { ValidationError, ValidationContext } from "./object-types";
+import type { ValidationContext, ValidationError } from "./object-types";
 
 // 1. Zod-like base schema
 export type ValidationSchemaTest1<T> = {

@@ -37,12 +37,12 @@
     "ts-morph": "^26.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@changesets/cli": "^2.29.4",
-    "@libconfig/biome": "^0.0.2",
+    "@biomejs/biome": "^2.0.5",
+    "@changesets/cli": "^2.29.5",
+    "@libconfig/biome": "^0.0.4",
     "@libconfig/typescript": "^0.0.4",
     "@libutil/esbuilder": "^0.0.7",
-    "@libutil/render": "^0.0.1",
+    "@libutil/render": "^0.0.4",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.0.3",
     "fast-glob": "^3.3.3",

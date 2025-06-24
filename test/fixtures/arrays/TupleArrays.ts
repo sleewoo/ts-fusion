@@ -2,8 +2,8 @@
 // Contains AI-generated test patterns
 
 import type { BasicPrimitiveArraysCase1 } from "./BasicPrimitiveArrays";
-import type { UnionArraysCase6 } from "./UnionArrays";
 import type { MultidimensionalArraysCase3 } from "./MultidimensionalArrays";
+import type { UnionArraysCase6 } from "./UnionArrays";
 
 // Inspired by React useState pattern
 export type TupleArraysCase1<T> = [T, (newValue: T) => void];

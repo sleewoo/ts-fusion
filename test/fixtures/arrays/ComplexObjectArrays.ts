@@ -2,6 +2,10 @@
 // Contains AI-generated test patterns
 
 import type {
+  ReadonlyArraysCase3,
+  ReadonlyArraysCase4,
+  ReadonlyArraysCase6,
+  ReadonlyArraysCase8,
   ReadonlyArraysCase10,
   ReadonlyArraysCase12,
   ReadonlyArraysCase14,
@@ -12,13 +16,9 @@ import type {
   ReadonlyArraysCase23,
   ReadonlyArraysCase24,
   ReadonlyArraysCase25,
-  ReadonlyArraysCase3,
-  ReadonlyArraysCase4,
-  ReadonlyArraysCase6,
-  ReadonlyArraysCase8,
 } from "./ReadonlyArrays";
 import type { TupleArraysCase3, TupleArraysCase5 } from "./TupleArrays";
-import type { UnionArraysCase14, UnionArraysCase6 } from "./UnionArrays";
+import type { UnionArraysCase6, UnionArraysCase14 } from "./UnionArrays";
 
 // Inspired by e-commerce product listings
 export type ComplexObjectArraysCase1 = Array<{

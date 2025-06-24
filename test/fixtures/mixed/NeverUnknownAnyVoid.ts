@@ -1,8 +1,9 @@
 // @license MIT
 // Contains AI-generated test patterns
 
-import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
 import type { BrandedArraysCase1 } from "@/fixtures/arrays/BrandedArrays";
+import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
+
 import type { FunctionTypesCase3 } from "./FunctionTypes";
 
 // Inspired by error handling patterns
@@ -15,7 +16,7 @@ export type NeverUnknownAnyVoidCase2<T> = T extends string ? T : never;
 export type NeverUnknownAnyVoidCase3 = unknown & { __fromExternal: true };
 
 // Inspired by dynamic data handling
-// biome-ignore lint:
+// biome-ignore lint: any
 export type NeverUnknownAnyVoidCase4 = any | ComplexObjectArraysCase1;
 
 // Similar to event handler returns
@@ -31,25 +32,25 @@ export type NeverUnknownAnyVoidCase7 = BrandedArraysCase1[number];
 export type NeverUnknownAnyVoidCase8 = never[] | never;
 
 // Pattern from untyped callback parameters
-// biome-ignore lint:
+// biome-ignore lint: any
 export type NeverUnknownAnyVoidCase9 = (cb: (result: any) => void) => void;
 
 // Inspired by recursive termination
 export type NeverUnknownAnyVoidCase10<T> = T extends never ? T : T[];
 
 // Similar to unsafe type assertions
-// biome-ignore lint:
+// biome-ignore lint: any
 export type NeverUnknownAnyVoidCase11 = any extends infer T ? T : never;
 
 // Pattern from type-safe void operations
 export type NeverUnknownAnyVoidCase12 = {
   log: (message: string) => void;
-  /** biome-ignore lint: */
+  // biome-ignore lint: void
   value: void extends true ? never : unknown;
 };
 
 // Inspired by impossible conditions
-// biome-ignore lint:
+// biome-ignore lint: any
 export type NeverUnknownAnyVoidCase13 = never extends infer T ? T : any;
 
 // Similar to JSON parse results
@@ -65,12 +66,11 @@ export type NeverUnknownAnyVoidCase16 = {
 };
 
 // Similar to impossible intersections
-// biome-ignore lint:
+// biome-ignore lint: void
 export type NeverUnknownAnyVoidCase17 = void & { value: never };
 
 // Pattern from generic constraints
-// biome-ignore lint:
-export type NeverUnknownAnyVoidCase18<T extends unknown> = T;
+export type NeverUnknownAnyVoidCase18<T> = T;
 
 // Inspired by type predicate narrowing
 export type NeverUnknownAnyVoidCase19 = (

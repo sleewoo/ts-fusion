@@ -2,12 +2,13 @@
 // Contains AI-generated test patterns
 
 import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
-import type { FunctionTypesCase7 } from "./FunctionTypes";
 import type {
+  UnionArraysCase5,
   UnionArraysCase19,
   UnionArraysCase22,
-  UnionArraysCase5,
 } from "@/fixtures/arrays/UnionArrays";
+
+import type { FunctionTypesCase7 } from "./FunctionTypes";
 
 // Inspired by REST API endpoint patterns
 export type TemplateLiteralTypesCase1 =

@@ -2,8 +2,8 @@
 // Contains AI-generated test patterns
 
 import type { ComplexObjectArraysCase1 } from "./ComplexObjectArrays";
-import type { UtilityArraysCase5 } from "./UtilityArrays";
 import type { HybridArraysCase7 } from "./HybridArrays";
+import type { UtilityArraysCase5 } from "./UtilityArrays";
 
 // Inspired by API response handling
 export type ConditionalArraysCase1<T> = Array<

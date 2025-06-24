@@ -1,7 +1,7 @@
 // @license MIT
 // Contains AI-generated test patterns
 
-import type { TreeNode, NumericRange } from "./object-types";
+import type { NumericRange, TreeNode } from "./object-types";
 
 // 1. Deep recursive type constraints
 export type TypeTortureTest1<T> = T extends object

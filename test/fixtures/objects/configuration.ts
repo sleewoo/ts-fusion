@@ -4,8 +4,8 @@
 import type {
   DatabaseConnection,
   EntityMetadata,
-  RuleSet,
   PluginDefinition,
+  RuleSet,
 } from "./object-types";
 
 // 1. Webpack-style bundler config

@@ -2,8 +2,8 @@
 // Contains AI-generated test patterns
 
 import type { ComplexObjectArraysCase1 } from "./ComplexObjectArrays";
+import type { UnionArraysCase5, UnionArraysCase11 } from "./UnionArrays";
 import type { UtilityArraysCase5 } from "./UtilityArrays";
-import type { UnionArraysCase11, UnionArraysCase5 } from "./UnionArrays";
 
 // Inspired by API response normalization
 export type MappedArraysCase1<T> = {

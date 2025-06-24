@@ -2,8 +2,8 @@
 // Contains AI-generated test patterns
 
 import type { ComplexObjectArraysCase1 } from "./ComplexObjectArrays";
-import type { TupleArraysCase3 } from "./TupleArrays";
 import type { HybridArraysCase4 } from "./HybridArrays";
+import type { TupleArraysCase3 } from "./TupleArrays";
 
 // Inspired by financial transaction IDs
 export type BrandedArraysCase1 = Array<string & { __brand: "TransactionID" }>;

@@ -3,7 +3,7 @@
 
 import type { ComplexObjectArraysCase1 } from "./ComplexObjectArrays";
 import type { HybridArraysCase17 } from "./HybridArrays";
-import type { UnionArraysCase22, UnionArraysCase5 } from "./UnionArrays";
+import type { UnionArraysCase5, UnionArraysCase22 } from "./UnionArrays";
 
 // Inspired by REST API endpoint patterns
 export type TemplateLiteralArraysCase1 = Array<`/api/v${number}/${string}`>;

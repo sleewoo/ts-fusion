@@ -1,8 +1,8 @@
 // @license MIT
 // Contains AI-generated test patterns
 
-import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
 import type { BrandedArraysCase1 } from "@/fixtures/arrays/BrandedArrays";
+import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
 import type { HybridArraysCase3 } from "@/fixtures/arrays/HybridArrays";
 
 // Zod-like parser

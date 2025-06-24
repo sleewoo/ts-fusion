@@ -1,20 +1,21 @@
 // @license MIT
 // Contains AI-generated test patterns
 
-import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
 import type { BrandedArraysCase1 } from "@/fixtures/arrays/BrandedArrays";
+import type { ComplexObjectArraysCase1 } from "@/fixtures/arrays/ComplexObjectArrays";
 import type {
   HybridArraysCase3,
   HybridArraysCase4,
 } from "@/fixtures/arrays/HybridArrays";
+
 import type { FunctionTypesCase7 } from "./FunctionTypes";
 import type {
+  IntersectionUnionTypesCase8,
   IntersectionUnionTypesCase14,
   IntersectionUnionTypesCase16,
   IntersectionUnionTypesCase17,
   IntersectionUnionTypesCase18,
   IntersectionUnionTypesCase25,
-  IntersectionUnionTypesCase8,
 } from "./IntersectionUnionTypes";
 
 // Inspired by deep API response navigation

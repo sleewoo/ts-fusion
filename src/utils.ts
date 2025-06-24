@@ -1,13 +1,13 @@
 import { format } from "node:util";
 
 import {
-  type ParameterDeclaration,
-  type Type,
   type CallSignatureDeclaration,
   type MethodDeclaration,
+  type ParameterDeclaration,
   type Signature,
-  type TypeParameterDeclaration,
   SyntaxKind,
+  type Type,
+  type TypeParameterDeclaration,
 } from "ts-morph";
 
 import type { Next } from "./types";

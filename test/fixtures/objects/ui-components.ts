@@ -1,7 +1,7 @@
 // @license MIT
 // Contains AI-generated test patterns
 
-import type { SyntheticEvent, CSSProperties, Dimension } from "./object-types";
+import type { CSSProperties, Dimension, SyntheticEvent } from "./object-types";
 
 // 1. Basic button props
 export type UIComponentTest1 = {

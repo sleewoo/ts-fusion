@@ -1,7 +1,7 @@
 // @license MIT
 // Contains AI-generated test patterns
 
-import type { TypesUser, TypesProduct } from "./types";
+import type { TypesProduct, TypesUser } from "./types";
 
 export type OptionalElementsTest1 = [string, number?];
 

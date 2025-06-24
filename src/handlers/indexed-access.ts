@@ -1,6 +1,6 @@
 import { format } from "node:util";
 
-import { type TypeNode, Project, SyntaxKind } from "ts-morph";
+import { Project, SyntaxKind, type TypeNode } from "ts-morph";
 
 import type { CycleParameters, HandlerQualifier } from "@/types";
 

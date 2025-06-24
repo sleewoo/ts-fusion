@@ -1,12 +1,13 @@
-import { format } from "node:util";
 import { resolve } from "node:path";
+import { format } from "node:util";
 
-import fsx from "fs-extra";
-import glob from "fast-glob";
 import { renderToFile } from "@libutil/render";
+import glob from "fast-glob";
+import fsx from "fs-extra";
 import { Project } from "ts-morph";
 
 import { flattener } from "@/index";
+
 import template from "./templates/tsafe.hbs";
 
 const srcDir = resolve(import.meta.dirname, "fixtures");

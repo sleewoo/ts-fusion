@@ -3,6 +3,7 @@
 
 import type { BrandedArraysCase1 } from "@/fixtures/arrays/BrandedArrays";
 import type { HybridArraysCase3 } from "@/fixtures/arrays/HybridArrays";
+
 import type { FunctionTypesCase7 } from "./FunctionTypes";
 import type { IntersectionUnionTypesCase3 } from "./IntersectionUnionTypes";
 
