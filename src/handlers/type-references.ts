@@ -3,6 +3,7 @@ import { format } from "node:util";
 import { SyntaxKind } from "ts-morph";
 
 import type { CycleParameters, HandlerQualifier } from "@/types";
+import { renderTypeParameter } from "@/utils";
 
 export const handlerQualifier: HandlerQualifier = ({
   typeNode,
@@ -67,9 +68,30 @@ export const handlerQualifier: HandlerQualifier = ({
             typeParameters: aliasDeclaration
               ?.getTypeParameters()
               .reduce((map: CycleParameters, param, i) => {
+                /**
+                 * Maps type parameters to their corresponding type arguments.
+                 *
+                 * If a type argument is explicitly provided at this index, it will be used.
+                 * Otherwise, the type parameter itself is resolved (e.g., using its default or constraint).
+                 *
+                 * Example:
+                 *   type Item = { ... };
+                 *   type Response<T = number> = ListResponse<T, I = Item>;
+                 *
+                 * When resolving `ListResponse<T, I>`, we check each type parameter:
+                 * - The first parameter (`T`) is resolved to `number`, because it's provided via `Response<T = number>`.
+                 * - The second parameter (`I`) has no matching argument at the given index,
+                 *   so we resolve the parameter itself, which falls back to its default: `Item`.
+                 *
+                 * Note: An empty string is considered a valid argument
+                 * and should not be treated as missing.
+                 *
+                 * */
                 map[param.getName()] =
-                  typeArguments[i] ?? // empty string is a valid value
-                  param.getDefault()?.getText();
+                  typeof typeArguments[i] === "string"
+                    ? typeArguments[i]
+                    : renderTypeParameter(param, next).text;
+
                 return map;
               }, {}),
           });

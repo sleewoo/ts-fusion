@@ -98,7 +98,7 @@ type ValidationSchemaTest5Flat<T> = {
 };
 
 // 6. io-ts codec
-type ValidationSchemaTest6Flat<T, U> = {
+type ValidationSchemaTest6Flat<T, U = T /** unresolved */> = {
   decode: ((input: U) => (({
     left: {
       [k: string]: unknown;

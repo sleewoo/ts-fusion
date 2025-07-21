@@ -92,7 +92,7 @@ type TypeTortureTest11Flat<N extends number> = ((([
 ])["length"]) : (never));
 
 // 12. Key path generation
-type TypeTortureTest12Flat<T, Path extends string> = ((T) extends (object) ? (({ [K in keyof (T)]: ((`${Path /** unresolved */}${((K /** unresolved */) & (string))}`) | (Record<`${Path /** unresolved */}${((K /** unresolved */) & (string))}.`, (T)[K /** unresolved */]>)) })[keyof (T)]) : (never));
+type TypeTortureTest12Flat<T, Path extends string = ""> = ((T) extends (object) ? (({ [K in keyof (T)]: ((`${Path /** unresolved */}${((K /** unresolved */) & (string))}`) | (Record<`${Path /** unresolved */}${((K /** unresolved */) & (string))}.`, (T)[K /** unresolved */]>)) })[keyof (T)]) : (never));
 
 // 13. Complex constraint inference
 type TypeTortureTest13Flat<T> = ((T) extends ((infer U)[]) ? (((U /** unresolved */) extends (object) ? (keyof (U /** unresolved */)) : (never))) : (never));

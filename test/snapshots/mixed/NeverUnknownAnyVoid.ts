@@ -40,7 +40,7 @@ type NeverUnknownAnyVoidCase3Flat = ((unknown) & ({
 }));
 
 // Inspired by dynamic data handling
-// biome-ignore lint:
+// biome-ignore lint: any
 type NeverUnknownAnyVoidCase4Flat = ((any) | (Array<{
   id: ((string) & ({
     __brand: "ProductID"
@@ -85,25 +85,25 @@ type NeverUnknownAnyVoidCase7Flat = (string) & ({
 type NeverUnknownAnyVoidCase8Flat = ((never[]) | (never));
 
 // Pattern from untyped callback parameters
-// biome-ignore lint:
+// biome-ignore lint: any
 type NeverUnknownAnyVoidCase9Flat = ((cb: ((result: any) => void)) => void);
 
 // Inspired by recursive termination
 type NeverUnknownAnyVoidCase10Flat<T> = ((T) extends (never) ? (T) : (T[]));
 
 // Similar to unsafe type assertions
-// biome-ignore lint:
+// biome-ignore lint: any
 type NeverUnknownAnyVoidCase11Flat = ((any) extends (infer T) ? (T /** unresolved */) : (never));
 
 // Pattern from type-safe void operations
 type NeverUnknownAnyVoidCase12Flat = {
   log: ((message: string) => void);
-  /** biome-ignore lint: */
+  // biome-ignore lint: void
   value: ((void) extends (true) ? (never) : (unknown))
 };
 
 // Inspired by impossible conditions
-// biome-ignore lint:
+// biome-ignore lint: any
 type NeverUnknownAnyVoidCase13Flat = ((never) extends (infer T) ? (T /** unresolved */) : (any));
 
 // Similar to JSON parse results
@@ -119,14 +119,13 @@ type NeverUnknownAnyVoidCase16Flat = {
 };
 
 // Similar to impossible intersections
-// biome-ignore lint:
+// biome-ignore lint: void
 type NeverUnknownAnyVoidCase17Flat = ((void) & ({
   value: never
 }));
 
 // Pattern from generic constraints
-// biome-ignore lint:
-type NeverUnknownAnyVoidCase18Flat<T extends unknown> = T;
+type NeverUnknownAnyVoidCase18Flat<T> = T;
 
 // Inspired by type predicate narrowing
 type NeverUnknownAnyVoidCase19Flat = ((value: unknown) => value is (string) & ({

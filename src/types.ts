@@ -92,7 +92,7 @@ export type ResolvedType = {
    *     { name: "R", text: "R = string" }
    *   ]
    * */
-  parameters: Array<{ name: string; text: string }>;
+  parameters: Array<{ name: string; text: string; fullText: string }>;
 
   /**
    * The flattened type body (object literal only), without name or parameters.

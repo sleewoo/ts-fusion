@@ -35,7 +35,7 @@ type UserFlat = {
   readonly createdAt: Date
 };
 
-type ProductFlat<T extends string> = {
+type ProductFlat<T extends string = string> = {
   sku: T;
   price: number;
   variants: {
@@ -126,7 +126,7 @@ type FieldErrorFlat = {
 };
 
 // Added UI-specific foundational types
-type SyntheticEventFlat<T> = {
+type SyntheticEventFlat<T = Element> = {
   target: T;
   preventDefault: (() => void);
   stopPropagation: (() => void)

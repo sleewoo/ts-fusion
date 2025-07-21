@@ -10,7 +10,7 @@ export const handlerQualifier: HandlerQualifier = ({ typeNode }) => {
     ? (next) => {
         const generics = typeNode
           .getChildrenOfKind(SyntaxKind.TypeParameter)
-          .map((param) => renderTypeParameter(param, next).text);
+          .map((param) => renderTypeParameter(param, next).fullText);
 
         const parameters = typeNode
           .getChildrenOfKind(SyntaxKind.Parameter)

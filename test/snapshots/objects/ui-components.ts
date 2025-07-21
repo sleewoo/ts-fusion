@@ -52,7 +52,7 @@ type UIComponentTest1Flat = {
 };
 
 // 2. Form input props
-type UIComponentTest2Flat<T> = {
+type UIComponentTest2Flat<T = string> = {
   name: string;
   value: T;
   onChange: ((value: T) => void);

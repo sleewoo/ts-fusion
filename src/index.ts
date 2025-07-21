@@ -168,7 +168,7 @@ export const flattener = (
               comments.join("\n"),
               typeName,
               typeParameters.length
-                ? format("<%s>", typeParameters.map((e) => e.text).join(", "))
+                ? `<${typeParameters.map((e) => e.fullText).join(", ")}>`
                 : "",
               this.text,
             ).trim();

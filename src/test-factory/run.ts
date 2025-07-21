@@ -1,5 +1,4 @@
 import { resolve } from "node:path";
-import { format } from "node:util";
 
 import { renderToFile } from "@libutil/render";
 import glob from "fast-glob";
@@ -32,10 +31,10 @@ for (const file of await glob("**/*.ts", {
       name,
       text,
       parameters: parameters.length
-        ? format("<%s>", parameters.map((e) => e.text).join(", "))
+        ? `<${parameters.map((e) => e.fullText).join(", ")}>`
         : "",
       arguments: parameters.length
-        ? format("<%s>", parameters.map(() => "never").join(", "))
+        ? `<${parameters.map(() => "never").join(", ")}>`
         : "",
       skipTest: comments.some((e) => e.includes("@skip-test")),
       comments,

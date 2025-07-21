@@ -10,23 +10,53 @@ import {
   type TypeParameterDeclaration,
 } from "ts-morph";
 
-import type { Next } from "./types";
+import type { Next, ResolvedType } from "./types";
 
 export const renderTypeParameter = (
   param: TypeParameterDeclaration,
   next: Next,
-) => {
+): ResolvedType["parameters"][number] => {
   const name = param.getName();
+
   const constraint = param.getConstraint();
+  const defaultParam = param.getDefault();
+
+  if (constraint && defaultParam) {
+    const text = next({ typeNode: defaultParam, type: defaultParam.getType() });
+    return {
+      name,
+      text,
+      fullText: format(
+        "%s extends %s = %s",
+        name,
+        next({ typeNode: constraint, type: constraint.getType() }),
+        text,
+      ),
+    };
+  }
+
+  if (constraint) {
+    const text = next({ typeNode: constraint, type: constraint.getType() });
+    return {
+      name,
+      text,
+      fullText: `${name} extends ${text}`,
+    };
+  }
+
+  if (defaultParam) {
+    const text = next({ typeNode: defaultParam, type: defaultParam.getType() });
+    return {
+      name,
+      text,
+      fullText: `${name} = ${text}`,
+    };
+  }
+
   return {
     name,
-    text: constraint
-      ? format(
-          "%s extends %s",
-          name,
-          next({ typeNode: constraint, type: constraint.getType() }),
-        )
-      : name,
+    text: name,
+    fullText: name,
   };
 };
 
@@ -37,7 +67,7 @@ export const renderCallSignatureAssets = (signature: Signature, next: Next) => {
 
   const generics = declaration
     .getTypeParameters()
-    .map((param) => renderTypeParameter(param, next).text);
+    .map((param) => renderTypeParameter(param, next).fullText);
 
   const parameters = declaration
     .getChildrenOfKind(SyntaxKind.Parameter)

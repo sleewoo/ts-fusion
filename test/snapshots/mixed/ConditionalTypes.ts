@@ -89,7 +89,7 @@ type ConditionalTypesCase9Flat<T> = ((T) extends ({
 type ConditionalTypesCase10Flat<T> = ((T) extends (`on${infer Event}`) ? (Lowercase<Event>) : (never));
 
 // Similar to type-safe builders
-type ConditionalTypesCase11Flat<T, U> = ((T) extends (object) ? ({ [K in keyof (T)]: ConditionalTypesCase11<(T)[K /** unresolved */], ((U) & ({ [P in K /** unresolved */]: (T)[K /** unresolved */] }))> }) : (U));
+type ConditionalTypesCase11Flat<T, U = object> = ((T) extends (object) ? ({ [K in keyof (T)]: ConditionalTypesCase11<(T)[K /** unresolved */], ((U) & ({ [P in K /** unresolved */]: (T)[K /** unresolved */] }))> }) : (U));
 
 // Pattern from astronomy coordinate checks
 type ConditionalTypesCase12Flat<T> = ((T) extends ((({
@@ -171,7 +171,7 @@ type ConditionalTypesCase19Flat<T> = ((T) extends (object) ? ({ [K in keyof (T)]
 }) : ((T)[K /** unresolved */])) }) : (never));
 
 // Similar to recursive type limits
-type ConditionalTypesCase20Flat<T, D extends number> = ((T) extends (Array<infer U>) ? (((D) extends (3) ? (T) : (ConditionalTypesCase20<U /** unresolved */, ((D) extends (number) ? (D) : (never))>))) : (T));
+type ConditionalTypesCase20Flat<T, D extends number = 0> = ((T) extends (Array<infer U>) ? (((D) extends (3) ? (T) : (ConditionalTypesCase20<U /** unresolved */, ((D) extends (number) ? (D) : (never))>))) : (T));
 
 // Pattern from financial instrument checks
 type ConditionalTypesCase21Flat<T> = ((T) extends ({

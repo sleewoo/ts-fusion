@@ -161,7 +161,7 @@ type GenericsStressCase16Flat<T extends (([
 };
 
 // Similar to type-safe builders
-type GenericsStressCase17Flat<T, U> = {
+type GenericsStressCase17Flat<T, U = object> = {
   with<K extends string, V>(key: K /** unresolved */, value: V /** unresolved */): GenericsStressCase17<T, ((U) & (Record<K /** unresolved */, V /** unresolved */>))>;
   build(): ((U) & (T))
 };

@@ -175,7 +175,7 @@ type InferArraysCase23Flat<T> = Array<((T) extends ({
 }) ? (V /** unresolved */) : (never))>;
 
 // Pattern from recursive array depth detection
-type InferArraysCase24Flat<T, D extends number> = Array<((T) extends (Array<infer U>) ? (InferArraysCase24<U /** unresolved */, ((D) extends (number) ? (D) : (never))>) : (D))>;
+type InferArraysCase24Flat<T, D extends number = 0> = Array<((T) extends (Array<infer U>) ? (InferArraysCase24<U /** unresolved */, ((D) extends (number) ? (D) : (never))>) : (D))>;
 
 // Inspired by complex type relationship inference
 type InferArraysCase25Flat = Array<(({
