@@ -117,6 +117,16 @@ export const flattener = (
 
     const typeName = typeAlias.getName();
 
+    if (overrides[typeName]) {
+      return {
+        name: typeName,
+        parameters: [],
+        comments: [],
+        text: overrides[typeName],
+        fullText: overrides[typeName],
+      };
+    }
+
     const type = typeAlias.getType();
 
     const opts = {
