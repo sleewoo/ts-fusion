@@ -67,7 +67,6 @@ export type UserOptions = {
   /**
    * By default, backticks are not escaped, assuming the result will be written
    * to a file as a standalone type definition.
-   *
    * However, if the resulting text is intended to be used within a string,
    * especially one wrapped in backticks, it's safer to escape internal backticks
    * to avoid syntax issues.

@@ -137,7 +137,7 @@ export const flattener = (
     });
 
     if (!typesFilter || typesFilter(typeName)) {
-      const text = traverse(
+      const _text = traverse(
         {
           typeNode,
           type,
@@ -152,27 +152,27 @@ export const flattener = (
         opts,
       );
 
+      const text = escapeBackticks //
+        ? _text.replace(/`/g, "\\`")
+        : _text;
+
+      const fullText = format(
+        "%s\nexport type %s%s = %s",
+        comments.join("\n"),
+        typeName,
+        typeParameters.length
+          ? `<${typeParameters.map((e) => e.fullText).join(", ")}>`
+          : "",
+        text,
+      ).trim();
+
       return [
         {
           name: typeName,
           parameters: typeParameters,
           comments,
-          get text() {
-            return escapeBackticks //
-              ? text.replace(/`/g, "\\`")
-              : text;
-          },
-          get fullText() {
-            return format(
-              "%s\nexport type %s%s = %s",
-              comments.join("\n"),
-              typeName,
-              typeParameters.length
-                ? `<${typeParameters.map((e) => e.fullText).join(", ")}>`
-                : "",
-              this.text,
-            ).trim();
-          },
+          text,
+          fullText,
         },
       ];
     }
