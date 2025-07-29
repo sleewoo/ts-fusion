@@ -82,8 +82,8 @@ export const flattener = (
     callSignatureQualifier,
   ];
 
-  const traverse: CycleSignature = (data, opts, depthLevel = 1) => {
-    if (depthLevel > maxDepth) {
+  const traverse: CycleSignature = (data, opts, step = 1) => {
+    if (step > maxDepth) {
       return "never /** maxDepth exceeded */";
     }
 
@@ -91,8 +91,8 @@ export const flattener = (
       const handler = qualifier(data, opts);
       if (handler) {
         return handler((next) => {
-          return traverse(next, opts, depthLevel + 1);
-        }, opts);
+          return traverse(next, opts, step + 1);
+        });
       }
     }
 
@@ -129,7 +129,11 @@ export const flattener = (
 
     const type = typeAlias.getType();
 
-    const opts = {
+    const comments = stripComments
+      ? []
+      : typeAlias.getLeadingCommentRanges().map((e) => e.getText());
+
+    const opts: UserOptions = {
       stripComments,
       overrides: {
         ...overrides,
@@ -137,10 +141,6 @@ export const flattener = (
         [typeName]: typeName,
       },
     };
-
-    const comments = opts?.stripComments
-      ? []
-      : typeAlias.getLeadingCommentRanges().map((e) => e.getText());
 
     const typeParameters = typeAlias.getTypeParameters().map((param) => {
       return renderTypeParameter(param, (data) => traverse(data, opts));

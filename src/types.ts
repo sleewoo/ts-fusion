@@ -8,23 +8,19 @@ export type CycleData = {
   typeParameters?: CycleParameters | undefined;
 };
 
-export type CycleOptions = {
-  overrides: Record<string, string>;
-};
-
 export type CycleSignature = (
   data: CycleData,
-  opts: CycleOptions,
-  depthLevel?: number,
+  opts: UserOptions,
+  step?: number,
 ) => string;
 
 export type Next = (data: CycleData) => string;
 
-export type Handler = (next: Next, opts: CycleOptions) => string;
+export type Handler = (next: Next) => string;
 
 export type HandlerQualifier = (
   data: CycleData,
-  opts?: UserOptions,
+  opts: UserOptions,
 ) => Handler | undefined;
 
 export type UserOptions = {

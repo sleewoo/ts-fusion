@@ -2,15 +2,18 @@ import { SyntaxKind, type TypeNode } from "ts-morph";
 
 import type { HandlerQualifier } from "@/types";
 
-export const handlerQualifier: HandlerQualifier = ({ typeNode }) => {
+export const handlerQualifier: HandlerQualifier = (
+  { typeNode },
+  { overrides },
+) => {
   return typeNode.isKind(SyntaxKind.TypeQuery)
-    ? (next, { overrides }) => {
+    ? (next) => {
         /**
          * getExprName().getText() always returns only the name, without parameters.
          * if exprName is a builtin/override, return it as is.
          * otherwise get first child and pass it down the chain.
          * */
-        if (overrides[typeNode.getExprName().getText()]) {
+        if (overrides?.[typeNode.getExprName().getText()]) {
           return typeNode.getText();
         }
 

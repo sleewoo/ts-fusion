@@ -25,7 +25,7 @@ const project = new Project({
 
 export const handlerQualifier: HandlerQualifier = (
   { typeNode, typeParameters },
-  opts,
+  { stripComments },
 ) => {
   return typeNode.isKind(SyntaxKind.IndexedAccessType)
     ? (next) => {
@@ -80,7 +80,7 @@ export const handlerQualifier: HandlerQualifier = (
           originTypeNode,
         );
 
-        return opts?.stripComments
+        return stripComments
           ? targetTypeNode?.getText() || text
           : targetTypeNode?.getFullText() || text;
       }

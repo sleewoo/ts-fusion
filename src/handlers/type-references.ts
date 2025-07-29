@@ -5,12 +5,12 @@ import { SyntaxKind } from "ts-morph";
 import type { CycleParameters, HandlerQualifier } from "@/types";
 import { renderTypeParameter } from "@/utils";
 
-export const handlerQualifier: HandlerQualifier = ({
-  typeNode,
-  typeParameters,
-}) => {
+export const handlerQualifier: HandlerQualifier = (
+  { typeNode, typeParameters },
+  { overrides },
+) => {
   return typeNode.isKind(SyntaxKind.TypeReference)
-    ? (next, { overrides }) => {
+    ? (next) => {
         const nameNode = typeNode.getTypeName();
         const typeName = nameNode.getText();
 
@@ -26,7 +26,7 @@ export const handlerQualifier: HandlerQualifier = ({
           });
         });
 
-        if (overrides[typeName]) {
+        if (overrides?.[typeName]) {
           return typeArguments.length
             ? format("%s<%s>", overrides[typeName], typeArguments.join(", "))
             : overrides[typeName];

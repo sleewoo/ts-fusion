@@ -7,7 +7,7 @@ import { indent, renderCallSignatureAssets } from "@/utils";
 
 export const handlerQualifier: HandlerQualifier = (
   { typeNode, type, typeParameters },
-  opts,
+  { stripComments },
 ) => {
   return typeNode.isKind(SyntaxKind.TypeLiteral)
     ? (next) => {
@@ -64,7 +64,7 @@ export const handlerQualifier: HandlerQualifier = (
           .getChildrenOfKind(SyntaxKind.MethodSignature)
           .flatMap((methodSignature) => {
             const name = methodSignature.getName();
-            const comments = opts?.stripComments
+            const comments = stripComments
               ? []
               : methodSignature
                   .getLeadingCommentRanges()
@@ -108,7 +108,7 @@ export const handlerQualifier: HandlerQualifier = (
                     typeParameters,
                   })
                 : "unknown /** unknown property signature */",
-              comments: opts?.stripComments
+              comments: stripComments
                 ? []
                 : propertySignature
                     .getLeadingCommentRanges()
