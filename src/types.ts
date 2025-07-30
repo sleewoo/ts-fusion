@@ -1,4 +1,4 @@
-import type { Type, TypeNode } from "ts-morph";
+import type { SyntaxKind, Type, TypeNode } from "ts-morph";
 
 export type CycleParameters = Record<string, string | undefined>;
 
@@ -71,6 +71,8 @@ export type UserOptions = {
 };
 
 export type ResolvedType = {
+  kind: keyof typeof SyntaxKind;
+
   /**
    * The name of the type, identical to the exported alias in the original file.
    * */
@@ -105,4 +107,10 @@ export type ResolvedType = {
    * that immediately precede the original type declaration.
    * */
   comments: Array<string>;
+
+  /**
+   * Returns the list of direct property names defined in a type literal.
+   * Does not recurse into nested types — only includes top-level properties.
+   * */
+  getPropertyNames: () => Array<string>;
 };

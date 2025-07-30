@@ -190,6 +190,8 @@ Each flattened literal represents an expanded, serializable version of a TypeScr
 
 ```ts
 export type ResolvedType = {
+  kind: keyof typeof SyntaxKind;
+
   /**
    * The name of the type, identical to the exported alias in the original file.
    * */
@@ -206,7 +208,7 @@ export type ResolvedType = {
    *     { name: "R", text: "R = string" }
    *   ]
    * */
-  parameters: Array<{ name: string; text: string }>;
+  parameters: Array<{ name: string; text: string; fullText: string }>;
 
   /**
    * The flattened type body (object literal only), without name or parameters.
@@ -224,6 +226,12 @@ export type ResolvedType = {
    * that immediately precede the original type declaration.
    * */
   comments: Array<string>;
+
+  /**
+   * Returns the list of direct property names defined in a type literal.
+   * Does not recurse into nested types — only includes top-level properties.
+   * */
+  getPropertyNames: () => Array<string>;
 };
 ```
 

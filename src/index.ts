@@ -24,7 +24,11 @@ import { handlerQualifier as typeReferenceQualifier } from "./handlers/type-refe
 import { handlerQualifier as unionQualifier } from "./handlers/unions";
 import { handlerQualifier as voidQualifier } from "./handlers/void-keyword";
 import type { CycleSignature, ResolvedType, UserOptions } from "./types";
-import { isPrimitive, renderTypeParameter } from "./utils";
+import {
+  extractObjectProperties,
+  isPrimitive,
+  renderTypeParameter,
+} from "./utils";
 
 export type { ResolvedType };
 
@@ -119,11 +123,13 @@ export const flattener = (
 
     if (overrides[typeName]) {
       return {
+        kind: "Unknown",
         name: typeName,
         parameters: [],
         comments: [],
         text: overrides[typeName],
         fullText: overrides[typeName],
+        getPropertyNames: () => [],
       };
     }
 
@@ -178,11 +184,32 @@ export const flattener = (
 
       return [
         {
+          kind: typeNode.getKindName() as ResolvedType["kind"],
           name: typeName,
           parameters: typeParameters,
           comments,
           text,
           fullText,
+          // Extract shallow property names
+          getPropertyNames() {
+            // Create a virtual source file with fully resolved type definition.
+            // This is pretty lightweight — no file system access, no program update.
+            const sourceFile = project.createSourceFile(
+              `${typeName}.ts`,
+              fullText,
+              { overwrite: true },
+            );
+
+            const typeNode = sourceFile.getTypeAlias(typeName)?.getTypeNode();
+
+            const props = typeNode //
+              ? extractObjectProperties(typeNode)
+              : [];
+
+            project.removeSourceFile(sourceFile);
+
+            return props;
+          },
         },
       ];
     }
