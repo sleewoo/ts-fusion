@@ -23,10 +23,7 @@ export type MappedArraysCase3 = Array<{
 // Inspired by permission masks
 // biome-ignore format: testing `+ readonly`
 export type MappedArraysCase4 = Array<{
-  + readonly [K in keyof UtilityArraysCase5[number] as `can${Capitalize<
-    // @ts-ignore
-    K
-  >}`]: boolean;
+  + readonly [K in keyof UtilityArraysCase5[number] as `can${Capitalize<K>}`]: boolean;
 }>;
 
 // Similar to type-safe translations

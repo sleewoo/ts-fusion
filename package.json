@@ -3,12 +3,17 @@
   "name": "ts-fusion",
   "description": "Flatten complex TypeScript types into readable, inspectable plaintext structures",
   "version": "0.0.14",
-  "engines": {
-    "node": "^22"
+  "packageManager": "pnpm@10.14.0",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^22.18.0",
+      "onFail": "download"
+    }
   },
-  "packageManager": "pnpm@10.12.0",
   "author": "Slee Woo",
   "license": "MIT",
+  "repository": "https://github.com/sleewoo/ts-fusion",
   "publishConfig": {
     "access": "public"
   },
@@ -37,19 +42,19 @@
     "ts-morph": "^26.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.2",
-    "@changesets/cli": "^2.29.5",
-    "@libconfig/biome": "^0.0.6",
-    "@libconfig/typescript": "^0.0.4",
+    "@biomejs/biome": "^2.2.2",
+    "@changesets/cli": "^2.29.6",
+    "@libconfig/biome": "^0.0.7",
+    "@libconfig/typescript": "^0.0.6",
     "@libutil/esbuilder": "^0.0.7",
     "@libutil/render": "^0.0.6",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^24.1.0",
+    "@types/node": "^24.3.0",
     "fast-glob": "^3.3.3",
-    "fs-extra": "^11.3.0",
+    "fs-extra": "^11.3.1",
     "resolve-tspaths": "^0.8.23",
     "rimraf": "^6.0.1",
     "tsafe": "^1.8.5",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   }
 }
