@@ -1,8 +1,8 @@
 import { resolve } from "node:path";
 
 import { renderToFile } from "@libutil/render";
-import glob from "fast-glob";
 import fsx from "fs-extra";
+import { glob } from "tinyglobby";
 import { Project } from "ts-morph";
 
 import { flattener } from "@/index";
