@@ -22,7 +22,7 @@
   ],
   "exports": {
     ".": {
-      "types": "./pkg/index.d.ts",
+      "types": "./pkg/src/index.d.ts",
       "default": "./pkg/index.js"
     }
   },
