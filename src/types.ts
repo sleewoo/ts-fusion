@@ -57,7 +57,7 @@ export type UserOptions = {
    * If enabled, removes all comments from the generated output.
    * Useful for producing clean, minimal artifacts.
    * @default false
-   */
+   * */
   stripComments?: boolean;
 
   /**

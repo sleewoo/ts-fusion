@@ -2,37 +2,7 @@
 
 _"Understand your types. Flatten the complexity."_
 
-> Flatten any TypeScript type — no matter how deep, generic, or entangled — into a clean, inspectable, text-based structure.
-
-## 💡 What is it?
-
-`ts-fusion` is a **TypeScript type flattener** that flattens exported types
-into readable, structured definitions — designed with runtime validation in mind.
-
-Instead of maintaining parallel schemas (like Zod, TypeBox, or JSON Schema),
-`ts-fusion` lets you use your existing TypeScript types as the source of truth,
-both during development and in production.
-
-It's especially helpful when you're building tools, validators, or runtime contracts and want to speak one language — TypeScript — everywhere.
-
-## 💡 What it is not!
-
-`ts-fusion` is NOT a replacement for schema libraries like Zod, TypeBox, or JSON Schema generators.
-
-Instead, it acts as a **bridge layer**: it transforms complex TypeScript types into plain,
-fully-resolved structures, making them easier to **feed into existing schema generation tools** like
-[@sinclair/typemap](https://github.com/sinclairzx81/typemap) or
-[ts-to-zod](https://github.com/fabien0102/ts-to-zod).
-
-Most TS-to-schema tools only handle simple, shallow types — and often choke on generics, intersections, aliases, or deep references.
-That's where `ts-fusion` comes in: it **flattens your types first**, so those tools can operate on clean, unfolded definitions.
-
-## 🎯 Working Schema
-
-> 🧠 Write your TypeScript types once —
-> 🛠 Let `ts-fusion` prepare them —
-> 📦 Generate Zod/TypeBox/JSON schemas with confidence.
-
+> Flatten any TypeScript type — no matter how deep, generic or entangled — into a clean, inspectable, plain-text structure.
 
 ## ⚡ Example
 
@@ -288,7 +258,7 @@ export type UserOptions = {
    * If enabled, removes all comments from the generated output.
    * Useful for producing clean, minimal artifacts.
    * @default false
-   */
+   * */
   stripComments?: boolean;
 
   /**
@@ -323,7 +293,6 @@ This is ideal when you're flattening multiple files in one session and want to a
 ## 🔍 Notes
 
 - **Performance:** This tool prioritizes type correctness over raw speed.
-It relies on the TypeScript compiler, which seems inherently slow for deep analysis.
 
 - **Reliability:** `ts-fusion` is thoroughly tested, with over **40 test suites** and **1000+ individual tests**,
 covering most use-cases (but not all; some edge cases are printed as is).
