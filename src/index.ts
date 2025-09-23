@@ -50,7 +50,7 @@ export const flattener = (
 
   const {
     typesFilter,
-    escapeBackticks,
+    escapeTemplateChars,
     maxDepth = 16,
     stripComments = false,
   } = { ...opts };
@@ -168,8 +168,8 @@ export const flattener = (
         opts,
       );
 
-      const text = escapeBackticks //
-        ? _text.replace(/`/g, "\\`")
+      const text = escapeTemplateChars //
+        ? _text.replace(/(?<!\\)`/g, "\\`").replace(/(?<!\\)\$\{/g, "\\${")
         : _text;
 
       const fullText = format(
