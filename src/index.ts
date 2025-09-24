@@ -83,7 +83,9 @@ export const flattener = (
 
   const traverse: CycleSignature = (data, opts, step = 1) => {
     if (step > maxDepth) {
-      return "never /** maxDepth exceeded */";
+      return stripComments //
+        ? "never"
+        : "never /** maxDepth exceeded */";
     }
 
     for (const qualifier of handlerStack) {
@@ -100,7 +102,9 @@ export const flattener = (
       return data.type.getText(data.typeNode);
     }
 
-    return "unknown /** unresolved */";
+    return stripComments //
+      ? "unknown"
+      : "unknown /** unresolved */";
   };
 
   return sourceFile.getTypeAliases().flatMap((typeAlias) => {

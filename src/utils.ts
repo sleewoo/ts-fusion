@@ -26,7 +26,7 @@ import type { Next, ResolvedType } from "./types";
  *
  * @param typeNode - A TypeNode to extract property names from.
  * @returns A list of deduplicated property names.
- **/
+ * */
 export const extractObjectProperties = (typeNode: TypeNode): Array<string> => {
   const props = new Set<string>();
   const kind = typeNode.getKind();
@@ -155,7 +155,7 @@ export const renderCallSignatureAssets = (signature: Signature, next: Next) => {
 
   const returnTypeNode = declaration.getReturnTypeNode();
 
-  let returnType = "unknown /** unknown return type */";
+  let returnType = "unknown";
 
   if (returnTypeNode?.isKind(SyntaxKind.TypePredicate)) {
     const predicateTypeNode = returnTypeNode.getTypeNode();
@@ -169,7 +169,7 @@ export const renderCallSignatureAssets = (signature: Signature, next: Next) => {
             typeNode: predicateTypeNode,
             type: predicateTypeNode.getType(),
           })
-        : "unknown /** unresolved predicate type */",
+        : "unknown",
     );
   } else if (returnTypeNode) {
     returnType = next({
@@ -196,7 +196,7 @@ export const renderCallSignatureParameter = (
         typeNode: paramTypeNode,
         type: paramTypeNode.getType(),
       })
-    : "unknown /** unknown param node */";
+    : "unknown";
 
   return param.isRestParameter()
     ? format("...%s: %s", param.getName(), value)

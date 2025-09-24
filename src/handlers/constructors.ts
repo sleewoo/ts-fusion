@@ -5,7 +5,10 @@ import { SyntaxKind } from "ts-morph";
 import type { HandlerQualifier } from "@/types";
 import { renderCallSignatureParameter, renderTypeParameter } from "@/utils";
 
-export const handlerQualifier: HandlerQualifier = ({ typeNode }) => {
+export const handlerQualifier: HandlerQualifier = (
+  { typeNode },
+  { stripComments },
+) => {
   return typeNode.isKind(SyntaxKind.ConstructorType)
     ? (next) => {
         const generics = typeNode
@@ -27,7 +30,9 @@ export const handlerQualifier: HandlerQualifier = ({ typeNode }) => {
                 typeNode: returnTypeNode,
                 type: returnTypeNode.getType(),
               })
-            : "unknown /** unknown return type */",
+            : stripComments
+              ? "unknown"
+              : "unknown /** unknown return type */",
         );
       }
     : undefined;

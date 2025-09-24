@@ -7,7 +7,7 @@ import { renderTypeParameter } from "@/utils";
 
 export const handlerQualifier: HandlerQualifier = (
   { typeNode, typeParameters },
-  { overrides },
+  { overrides, stripComments },
 ) => {
   return typeNode.isKind(SyntaxKind.TypeReference)
     ? (next) => {
@@ -96,7 +96,9 @@ export const handlerQualifier: HandlerQualifier = (
               }, {}),
           });
         } else {
-          text = format("%s /** unresolved */", typeNode.getText());
+          text = stripComments
+            ? typeNode.getText()
+            : `${typeNode.getText()} /** unresolved */`;
         }
 
         return text;

@@ -4,10 +4,10 @@ import { type ArrayTypeNode, SyntaxKind, type TypeNode } from "ts-morph";
 
 import type { HandlerQualifier } from "@/types";
 
-export const handlerQualifier: HandlerQualifier = ({
-  typeNode,
-  typeParameters,
-}) => {
+export const handlerQualifier: HandlerQualifier = (
+  { typeNode, typeParameters },
+  { stripComments },
+) => {
   return typeNode.isKind(SyntaxKind.ArrayType)
     ? (next) => {
         /**
@@ -35,7 +35,9 @@ export const handlerQualifier: HandlerQualifier = ({
         }
 
         if (!arrayTypeNode) {
-          return "unknown /** unknown array signature */";
+          return stripComments
+            ? "unknown"
+            : "unknown /** unknown array signature */";
         }
 
         const arrayType = arrayTypeNode.getType();

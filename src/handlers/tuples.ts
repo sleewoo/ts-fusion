@@ -5,10 +5,10 @@ import { SyntaxKind } from "ts-morph";
 import type { HandlerQualifier } from "@/types";
 import { indent } from "@/utils";
 
-export const handlerQualifier: HandlerQualifier = ({
-  typeNode,
-  typeParameters,
-}) => {
+export const handlerQualifier: HandlerQualifier = (
+  { typeNode, typeParameters },
+  { stripComments },
+) => {
   return typeNode.isKind(SyntaxKind.TupleType)
     ? (next) => {
         const elements = typeNode.getElements().map((element) => {
@@ -65,7 +65,9 @@ export const handlerQualifier: HandlerQualifier = ({
           }
 
           if (!text) {
-            text = "unknown /** unknown tuple element signature */";
+            text = stripComments
+              ? "unknown"
+              : "unknown /** unknown tuple element signature */";
           }
 
           if (isRest) {

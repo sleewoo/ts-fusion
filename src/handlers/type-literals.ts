@@ -35,7 +35,9 @@ export const handlerQualifier: HandlerQualifier = (
                       type: returnTypeNode.getType(),
                       typeParameters,
                     })
-                  : "unknown /** unresolved */",
+                  : stripComments
+                    ? "unknown"
+                    : "unknown /** unresolved */",
               },
             ];
           });
@@ -107,7 +109,9 @@ export const handlerQualifier: HandlerQualifier = (
                     type: propertyTypeNode.getType(),
                     typeParameters,
                   })
-                : "unknown /** unknown property signature */",
+                : stripComments
+                  ? "unknown"
+                  : "unknown /** unknown property signature */",
               comments: stripComments
                 ? []
                 : propertySignature
