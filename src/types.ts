@@ -98,12 +98,6 @@ export type ResolvedType = {
   text: string;
 
   /**
-   * The full flattened type declaration,
-   * including name, type parameters, and leading comments.
-   * */
-  fullText: string;
-
-  /**
    * Any single-line or multi-line comments
    * that immediately precede the original type declaration.
    * */

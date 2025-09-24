@@ -160,16 +160,6 @@ export const flattener = (
         ? _text.replace(/(?<!\\)`/g, "\\`").replace(/(?<!\\)\$\{/g, "\\${")
         : _text;
 
-      const fullText = format(
-        "%s\nexport type %s%s = %s",
-        comments.join("\n"),
-        typeName,
-        typeParameters.length
-          ? `<${typeParameters.map((e) => e.fullText).join(", ")}>`
-          : "",
-        text,
-      ).trim();
-
       return [
         {
           kind: typeNode.getKindName() as ResolvedType["kind"],
@@ -177,14 +167,21 @@ export const flattener = (
           parameters: typeParameters,
           comments,
           text,
-          fullText,
           // Extract shallow property names
           getPropertyNames() {
             // Create a virtual source file with fully resolved type definition.
             // This is pretty lightweight — no file system access, no program update.
             const sourceFile = project.createSourceFile(
               `${typeName}.ts`,
-              fullText,
+              format(
+                "%s\nexport type %s%s = %s",
+                comments.join("\n"),
+                typeName,
+                typeParameters.length
+                  ? `<${typeParameters.map((e) => e.fullText).join(", ")}>`
+                  : "",
+                text,
+              ).trim(),
               { overwrite: true },
             );
 
