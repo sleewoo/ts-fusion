@@ -48,12 +48,7 @@ export const flattener = (
       ? project.getSourceFile(file) || project.addSourceFileAtPath(file)
       : file;
 
-  const {
-    typesFilter,
-    escapeTemplateChars,
-    maxDepth = 16,
-    stripComments = false,
-  } = { ...opts };
+  const { typesFilter, maxDepth = 16, stripComments = false } = { ...opts };
 
   const overrides: Record<string, string> = {
     ...builtins,
@@ -141,7 +136,7 @@ export const flattener = (
     });
 
     if (!typesFilter || typesFilter(typeName)) {
-      const _text = traverse(
+      const text = traverse(
         {
           typeNode,
           type,
@@ -156,9 +151,9 @@ export const flattener = (
         opts,
       );
 
-      const text = escapeTemplateChars //
-        ? _text.replace(/(?<!\\)`/g, "\\`").replace(/(?<!\\)\$\{/g, "\\${")
-        : _text;
+      const textEscaped = text
+        .replace(/(?<!\\)`/g, "\\`")
+        .replace(/(?<!\\)\$\{/g, "\\${");
 
       return [
         {
@@ -167,6 +162,7 @@ export const flattener = (
           parameters: typeParameters,
           comments,
           text,
+          textEscaped,
           // Extract shallow property names
           getPropertyNames() {
             // Create a virtual source file with fully resolved type definition.

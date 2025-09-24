@@ -59,16 +59,6 @@ export type UserOptions = {
    * @default false
    * */
   stripComments?: boolean;
-
-  /**
-   * By default, backticks and $ chars are not escaped, assuming the result will be written
-   * to a file as a standalone type definition.
-   *
-   * However, if the resulting text is intended to be used within a string,
-   * especially one wrapped in backticks, it's safer to escape these chars
-   * to avoid syntax issues.
-   * */
-  escapeTemplateChars?: boolean;
 };
 
 export type ResolvedType = {
@@ -96,6 +86,16 @@ export type ResolvedType = {
    * The flattened type body (object literal only), without name or parameters.
    * */
   text: string;
+
+  /**
+   * By default, backticks and $ chars are not escaped, assuming the result will be written
+   * to a file as a standalone type definition.
+   *
+   * However, if the resulting text is intended to be used within a string,
+   * especially one wrapped in backticks, it's safer to use textEscaped
+   * to avoid syntax issues.
+   * */
+  textEscaped: string;
 
   /**
    * Any single-line or multi-line comments
