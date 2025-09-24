@@ -121,18 +121,6 @@ export const flattener = (
 
     const typeName = typeAlias.getName();
 
-    if (overrides[typeName]) {
-      return {
-        kind: "Unknown",
-        name: typeName,
-        parameters: [],
-        comments: [],
-        text: overrides[typeName],
-        fullText: overrides[typeName],
-        getPropertyNames: () => [],
-      };
-    }
-
     const type = typeAlias.getType();
 
     const comments = stripComments
